@@ -1,0 +1,32 @@
+extends layout.pug
+
+block content
+  include common/head.pug
+
+  div(class="tbl-header")
+    table
+      thread
+        tr
+          th Album
+          th Song 
+          th Artist 
+          th Spotify Link
+  div(class="tbl-content")
+    tbody
+      table
+        each r in recents
+          tr 
+            - var track_name = r.track.name
+            - var artist_name = r.track.artists[0].name
+            - var track_preview = r.track.preview_url
+            - var artist_id = r.track.artists[0].id
+            - var track_id = r.track.id
+
+            td: img(src=r.track.album.images[0].url width="120px" height="120px")
+            td: a(href='/recommendations?artist=' + artist_id+'&track='+track_id) #{track_name}
+            td #{artist_name}
+            td: a(href=r.track.external_urls.spotify) Spotify
+  include common/footer.pug
+
+
+

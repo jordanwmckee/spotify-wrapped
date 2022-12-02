@@ -1,0 +1,11 @@
+extends layout.pug
+   
+block content
+    div(id="content")
+        div(id="login")
+            h1 Storify
+            p View and collect your spotify analytics, extended listening history, and more..
+            a.btn(href='/authorize' class="glow-on-hover" style="left:850px;") Log In
+
+        div(id="disclaimer")
+            h3 *By Logging in you are aggreeing to having your spotify listening history stored to be reaccessed by you at a later date
