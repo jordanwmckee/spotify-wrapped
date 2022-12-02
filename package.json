@@ -9,13 +9,9 @@
   "type": "module",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql2": "^2.3.3",
-    "node-cron": "^3.0.2",
     "node-fetch": "^3.2.0",
-    "node-schedule": "^2.1.0",
     "nodemon": "^2.0.15",
-    "pug": "^3.0.0",
-    "request": "^2.88.2",
-    "spotify-cover-art-api": "^0.2.1"
-  }
+    "pug": "^3.0.0"
+  },
+  "license": "MIT"
 }

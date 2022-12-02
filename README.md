@@ -1,1 +1,1 @@
-# storify
+# spotify-api-workshop
