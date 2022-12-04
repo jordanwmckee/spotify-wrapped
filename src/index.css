@@ -1,9 +1,7 @@
-@import url('https://fonts.adobe.com/fonts/proxima-nova?ref=tk.com');
-
 /* base styles */
 * {
   margin: 0;
-  font-family: proxima_nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
   color: #333;
 }
 button {
