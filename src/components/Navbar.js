@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Navbar = ({setToken}) => {
 
@@ -9,7 +9,7 @@ const Navbar = ({setToken}) => {
 
 	return ( 
 		<nav className="navbar">
-			<h1>Spotify React</h1>
+			<h1>Wrapped Monthly</h1>
 			<div className="links">
 				<Link to="/dashboard">Dashboard</Link>
 				<Link to="/analytics">Analytics</Link>

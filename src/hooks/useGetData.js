@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (endpoint) => {
+const useGetData = (endpoint) => {
 	const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -43,4 +43,4 @@ const useFetch = (endpoint) => {
 	return { data, isPending, error };
 }
  
-export default useFetch;
+export default useGetData;
