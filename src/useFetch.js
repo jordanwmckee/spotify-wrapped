@@ -27,10 +27,9 @@ const useFetch = (endpoint) => {
 		  setData(data);
 		  setIsPending(false);
 		  setError(null);
-			console.log(data);
 	  })
 	  .catch(err => {
-		  if (err.name === 'AbortErrorRR') {
+		  if (err.name === 'AbortError') {
 		    console.log('fetch aborted');
 		  } else {
 	      setIsPending(false);
@@ -39,7 +38,7 @@ const useFetch = (endpoint) => {
     })
 
     return () => abortCont.abort();
-  }, [endpoint]);
+  }, [endpoint, token]);
 
 	return { data, isPending, error };
 }

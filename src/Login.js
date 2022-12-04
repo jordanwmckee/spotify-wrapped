@@ -32,7 +32,8 @@ const Login = () => {
 
 	return ( 
 		<div className="login">
-			<img src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg" alt="Spotify React" />
+      <img src="spotify-logo.svg" height="350px" width="830px" alt="Spotify" />
+      <br /> <br />
 			{!token && 
 				<a 
           href={AUTH_ENDPOINT + "?" + auth_query_params.toString()}
