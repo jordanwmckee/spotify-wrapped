@@ -12,7 +12,17 @@ const Login = () => {
     show_dialog: true,
     response_type: RESPONSE_TYPE,
     client_id: CLIENT_ID,
-    scope: ["user-library-read", "user-read-recently-played", "playlist-read-collaborative", "playlist-read-private", "user-read-currently-playing", "playlist-modify-public", "user-top-read", "user-read-private", "playlist-modify-private"],
+    scope: [
+      "user-library-read", 
+      "user-read-recently-played", 
+      "playlist-read-collaborative", 
+      "playlist-read-private", 
+      "user-read-currently-playing", 
+      "playlist-modify-public", 
+      "user-top-read", 
+      "user-read-private", 
+      "playlist-modify-private"
+    ],
     redirect_uri: REDIRECT_URI,
   });
 
@@ -32,16 +42,18 @@ const Login = () => {
 
 	return ( 
 		<div className="login">
-      <img src="spotify-logo.svg" height="350px" width="830px" alt="Spotify" />
+      <img id="spotify-logo" src="spotify-logo.svg" alt="Spotify" />
       <br /> <br />
-			{!token && 
-				<a 
-          href={AUTH_ENDPOINT + "?" + auth_query_params.toString()}
-          className="button"
-        >
-					LOGIN
-				</a>
-			}
+      {!token &&
+        <div className="buttons">
+          <a 
+            href={AUTH_ENDPOINT + "?" + auth_query_params.toString()}
+            className="button"
+          >
+            LOGIN
+          </a>
+        </div>
+      }
 		</div>
 	 );
 }

@@ -80,6 +80,9 @@ button:hover {
 }
 
 /* login page */
+#spotify-logo {
+  width: 65vw;
+}
 .login {
   background-color: white;
   min-height: 100vh;

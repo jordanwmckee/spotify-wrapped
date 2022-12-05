@@ -15,7 +15,7 @@ const Dashboard = () => {
 			<h1>Dashboard</h1>
 			{ error && <div>{ error }</div> }
 			{ isPending && <div className="loader" /> }
-			{ user && <p> Hello, { user && user.display_name }</p> }
+			{ user && <p> Hello, { user && user.display_name }. Here are some of your monthly stats..</p> }
 			<br /> <br />
 			{ artists && tracks && 
 				<div className="info">
