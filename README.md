@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Spotify Wrapped Monthly
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+
+*Note: this project will not work for all public users until fully published*
+
+This react project has many uses: playlist generation based on top listened songs, a monthly report of listening statistics, a custom self-managing "current" playlist, and much more to come...
 
 ## Available Scripts
 
