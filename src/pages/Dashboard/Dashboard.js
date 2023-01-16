@@ -3,7 +3,7 @@ import useGetData from "../../hooks/useGetData";
 const Dashboard = () => {
 	const params = new URLSearchParams({
 		time_range: "short_term",
-		limit: "10",
+		limit: "20",
 	})
 
 	const { data: user, isPending, error } = useGetData('/me');
