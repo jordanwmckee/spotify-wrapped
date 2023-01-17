@@ -5,7 +5,7 @@ import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Analytics from './pages/Analytics/Analytics';
 import Footer from './components/Footer';
-import NotFound from './pages/NotFound.js/NotFound';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   const [token, setToken] = useState("");
