@@ -30,7 +30,7 @@
   <p align="center">
     project_description
     <br />
-    *Note: this project will not work for all public users until fully published*
+    Note: this project will not work for all public users until fully published
     <br />
     This web-app offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
     Some features include: playlist generation based on top listened songs, a monthly report of listening 
