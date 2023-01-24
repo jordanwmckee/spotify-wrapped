@@ -38,10 +38,10 @@
 
   <p align="center">
     project_description
+    <br />
     *Note: this project will not work for all public users until fully published*
-
+    <br />
     This react project has many uses: playlist generation based on top listened songs, a monthly report of listening statistics, a custom self-managing "current" playlist, and much more to come...
-    
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
