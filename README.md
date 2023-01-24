@@ -41,7 +41,9 @@
     <br />
     *Note: this project will not work for all public users until fully published*
     <br />
-    This react project has many uses: playlist generation based on top listened songs, a monthly report of listening statistics, a custom self-managing "current" playlist, and much more to come...
+    This web-app offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
+    Some features include: playlist generation based on top listened songs, a monthly report of listening 
+    statistics, a custom self-managing "current" playlist, and much more ...
     <br />
     <a href="https://github.com/jordanwmckee/spotify-wrapped"><strong>Explore the docs »</strong></a>
     <br />
