@@ -1,36 +1,30 @@
-import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import Reset from './pages/Reset/Reset';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Analytics from './pages/Analytics/Analytics';
-import Footer from './components/Footer';
 import NotFound from './pages/NotFound/NotFound';
+import Callback from './pages/Callback/Callback';
 
 function App() {
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-      setToken(window.localStorage.getItem("token"));
-  }, [token])
-
-  return ( 
-    <Router>
-      { token ?
-        <div className="App">
-          <Navbar setToken={setToken}/>
-          <div className="content">
-            <Routes>
-              <Route exact path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes> 
-          </div> 
-          <Footer />
-        </div>
-      : <Login /> }
-    </Router>
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/reset" element={<Reset />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/analytics" element={<Analytics />} />
+          {/* test for linking spotify rn */}
+          <Route exact path="/callback" element={<Callback />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes> 
+      </Router>
+    </div> 
   );
 }
 

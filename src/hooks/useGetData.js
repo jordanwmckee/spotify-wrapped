@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
-const useGetData = (endpoint) => {
+const useGetData = (endpoint, token) => {
 	const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
-	const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -19,7 +18,7 @@ const useGetData = (endpoint) => {
 	  })
 	  .then(res => {
 		  if (!res.ok) {
-			 throw Error('Unable to retrieve user information from Spotify at this time.');
+			 throw Error('');//Unable to retrieve user information from Spotify at this time.');
 		  }
 		  return res.json();
 	  })

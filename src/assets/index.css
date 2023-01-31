@@ -11,42 +11,6 @@ button {
 button:hover {
   filter: brightness(1.1);
 }
-.navbar {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  max-width: 1080px;
-  margin: 0 auto;
-  border-bottom: 1px solid #f2f2f2;
-}
-.navbar h1 {
-  color: #1DB954;
-  font-size: 40px;
-}
-.navbar .links {
-  margin-left: auto;
-}
-.navbar a, button {
-  margin-left: 16px;
-  text-decoration: none;
-  padding: 6px;
-}
-.navbar button {
-  background-color: #1DB954;
-  border-radius: 20px;
-  font-weight: bold;
-  width: 125px;
-  padding: 10px, 20px;
-  cursor: pointer;
-  letter-spacing: .1em;
-  color: black;
-}
-.navbar button:active {
-  filter: brightness(.75);
-}
-.navbar a:hover {
-  color: #1DB954;
-}
 .content {
   max-width: 800px;
   margin: 40px auto;
@@ -78,65 +42,3 @@ button:hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
-/* login page */
-#spotify-logo {
-  width: 65vw;
-}
-.login {
-  background-color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-.button {
-  text-decoration: none;
-  color: black;
-  display: block;
-  width: 350px;
-  height: 25px;
-  font-size: 15px;
-  letter-spacing: .1em;
-  background: #1DB954;
-  padding: 10px;
-  text-align: center;
-  border-radius: 20px;
-  line-height: 25px;
-  font-weight: bold;
-}
-.button:hover {
-  filter: brightness(1.1);
-}
-.button:active {
-  filter: brightness(.75);
-}
-
-/* dashboard page */
-.info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  min-width: 600px;
-  justify-content: space-between;
-}
-.info h2 {
-  border-bottom: 1px solid #f2f2f2;
-}
-.info table {
-  width: 100%;
-}
-.top-artists, .top-tracks {
-  width: 45%;
-}
-.top-artists img {
-  float: right;
-}
-.top-tracks img {
-  float: left;
-}
-
-/* footer */

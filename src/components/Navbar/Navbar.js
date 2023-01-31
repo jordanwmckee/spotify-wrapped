@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
+import { logout } from '../../Firebase';
+import './Navbar.css';
 
-const Navbar = ({setToken}) => {
-
-	const logout = () => {
-    setToken("");
-    window.localStorage.removeItem("token");
-  }
-
+const Navbar = () => {
 	return ( 
 		<nav className="navbar">
 			<h1>Wrapped Monthly</h1>
