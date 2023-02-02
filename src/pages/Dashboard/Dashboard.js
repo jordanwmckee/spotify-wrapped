@@ -65,7 +65,7 @@ const Dashboard = () => {
         <Navbar />
       </div>
       <div className="dashboard content">
-        <h1>Dashboard</h1>
+        <div className="color_grad" ><h1 className="header">Dashboard</h1></div>
         {loading && <div className="loader" />}
         {account && (
           <p>
