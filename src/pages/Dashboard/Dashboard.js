@@ -72,7 +72,7 @@ const Dashboard = () => {
 				<Navbar />
 			</div>
 			<div className="dashboard content">
-				<h1>Dashboard</h1>
+				<div className="color_grad" ><h1 className="header">Dashboard</h1></div>
 				{ accountError && <div>{ accountError }</div> }
 				{ accountPending && <div className="loader" /> }
 				{ account && <p> Hello, { name }. Here are some of your monthly stats..</p> }

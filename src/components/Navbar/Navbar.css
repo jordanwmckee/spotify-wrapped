@@ -34,3 +34,8 @@
 .navbar a:hover {
   color: #1DB954;
 }
+.logo{
+  max-width: 10%;
+  height: auto;
+  text-align: left;
+}
