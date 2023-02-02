@@ -6,7 +6,6 @@ import Reset from './pages/Reset/Reset';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Analytics from './pages/Analytics/Analytics';
 import NotFound from './pages/NotFound/NotFound';
-import Callback from './pages/Callback/Callback';
 
 function App() {
   return (
@@ -19,8 +18,6 @@ function App() {
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/analytics" element={<Analytics />} />
-          {/* test for linking spotify rn */}
-          <Route exact path="/callback" element={<Callback />} />
           <Route path="*" element={<NotFound />} />
         </Routes> 
       </Router>

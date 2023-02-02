@@ -14,10 +14,13 @@ import {
   getDocs,
   collection,
   where,
-  addDoc,
+  getDoc,
   setDoc,
+  updateDoc,
   doc,
+  SnapshotMetadata,
 } from "firebase/firestore";
+import { spotifyApi } from "./spotify";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -48,7 +51,6 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
-				authToken: "",
 				refreshToken: "",
       });
     }
@@ -76,7 +78,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
-	  	authToken: "",
 	  	refreshToken: "",
     });
   } catch (err) {
@@ -96,8 +97,52 @@ const sendPasswordReset = async (email) => {
 };
 
 const logout = () => {
+  spotifyApi.setAccessToken(null);
   signOut(auth);
 };
+
+const getUserDoc = async (user) => {
+  try {
+    const docRef = doc(db, "users", user?.uid);
+    const snapshot = await getDoc(docRef);
+    return snapshot.data();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const checkForToken = async (user) => {
+  try {
+    const docRef = doc(db, "users", user?.uid);
+    const snapshot = await getDoc(docRef);
+    if (snapshot.data().refreshToken === "") return false;
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+const getRefreshToken = async (user) => {
+  try {
+    const docRef = doc(db, "users", user?.uid);
+    const res = await getDoc(docRef);
+    return res.data().refreshToken;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const addTokenToDb = async (data, user) => {
+  if (!data || !user) return;
+  await updateDoc(doc(db, "users", user?.uid), { refreshToken: data })
+    .then(() => { 
+      console.log("user tokens updated") 
+    })
+    .catch(err => { 
+      console.error("error updating user tokens: ", err);
+    });
+}
 
 export {
   auth,
@@ -107,4 +152,8 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  getUserDoc,
+  checkForToken,
+  getRefreshToken,
+  addTokenToDb,
 };

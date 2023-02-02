@@ -5,22 +5,26 @@ import {
   auth,
   registerWithEmailAndPassword,
   signInWithGoogle,
-} from "../../Firebase";
+} from "../../firebase";
 import "./Register.css";
-function Register() {
+
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
-  const history = useNavigate();
+  const navigate = useNavigate();
+
   const register = () => {
     if (!name) alert("Please enter name");
     registerWithEmailAndPassword(name, email, password);
   };
+
   useEffect(() => {
     if (loading) return;
-    if (user) history('/dashboard', { replace: true });
+    if (user) navigate("/dashboard", { replace: true });
   }, [user, loading]);
+
   return (
     <div className="register">
       <div className="register__container">
@@ -60,5 +64,6 @@ function Register() {
       </div>
     </div>
   );
-}
+};
+
 export default Register;
