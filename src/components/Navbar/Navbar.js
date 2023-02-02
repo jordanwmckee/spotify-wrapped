@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { logout } from '../../Firebase';
+import { logout } from '../../firebase';
 import './Navbar.css';
 
 const Navbar = () => {
