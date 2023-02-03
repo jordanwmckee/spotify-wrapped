@@ -20,10 +20,10 @@ const Dashboard = () => {
   const [artists, setArtists] = useState(null);
   const navigate = useNavigate();
 
-  const params = new URLSearchParams({
+  const params = {
     time_range: "short_term",
     limit: "20",
-  });
+  };
 
   // fetch new access token using refresh token & get user data for return
   const getData = async () => {
