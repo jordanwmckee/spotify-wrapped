@@ -25,6 +25,7 @@ const Dashboard = () => {
     limit: "20",
   });
 
+  // fetch new access token using refresh token & get user data for return
   const getData = async () => {
     await refreshAuthToken(user).catch((err) => {
       console.error("error: ", err);
@@ -65,7 +66,9 @@ const Dashboard = () => {
         <Navbar />
       </div>
       <div className="dashboard content">
-        <div className="color_grad" ><h1 className="header">Dashboard</h1></div>
+        <div className="color_grad">
+          <h1 className="header">Dashboard</h1>
+        </div>
         {loading && <div className="loader" />}
         {account && (
           <p>
