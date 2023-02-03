@@ -2,6 +2,17 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
 
+var timeTokenCreated = null;
+
+/**
+ * Sets the value for timeTokenCreated variable in files where imported
+ *
+ * @param {Date} time
+ */
+const setTimeCreated = (time) => {
+  timeTokenCreated = time;
+};
+
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/dashboard";
@@ -33,12 +44,25 @@ const auth_query_params = new URLSearchParams({
 const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
 
 /**
+ * Check tokenStore to verify validity of spotify access token
+ *
+ * @returns {bool} True if access token is still valid, False if not
+ */
+const isValidAccessToken = () => {
+  if (timeTokenCreated === null) return false;
+  const now = Date.now();
+  const timeDiff = (Math.abs(now - timeTokenCreated) / 1000) % 60;
+  if (timeDiff > 3550) return false;
+  return true;
+};
+
+/**
  * Assumes the code from Spotify's callback is in the url
  * Use code from url to request an access_token and refresh_token from web api
  *
  * @param {Object} user Returned from useAuthState
  */
-const fetchTokens = async (user) => {
+const fetchTokensFromCode = async (user) => {
   // get response code from url
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
@@ -61,13 +85,14 @@ const fetchTokens = async (user) => {
   })
     .then(async (res) => {
       const data = await res.json();
+      timeTokenCreated = Date.now();
       spotifyApi.setAccessToken(data.access_token);
       await addTokenToDb(data.refresh_token, user);
     })
     .catch((err) => {
       console.error("Error: ", err);
     });
-  // window.location.search = "";
+  window.location.search = "";
 };
 
 /**
@@ -76,9 +101,11 @@ const fetchTokens = async (user) => {
  * @param {Object} user Returned from useAuthState
  */
 const refreshAuthToken = async (user) => {
-  //if (spotifyApi.getAccessToken()) return;
+  // check if access token is still valid first
+  if (isValidAccessToken() === true) return;
 
   const refToken = await getRefreshToken(user);
+  if (!refToken) return;
 
   var body = new URLSearchParams({
     grant_type: "refresh_token",
@@ -98,6 +125,7 @@ const refreshAuthToken = async (user) => {
     .then(async (res) => {
       const data = await res.json();
       console.log("new access token generated.");
+      timeTokenCreated = Date.now();
       spotifyApi.setAccessToken(data.access_token);
     })
     .catch((err) => {
@@ -109,4 +137,11 @@ const refreshCycle = (user) => {
   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
 };
 
-export { spotifyApi, loginUrl, fetchTokens, refreshAuthToken, refreshCycle };
+export {
+  setTimeCreated,
+  spotifyApi,
+  loginUrl,
+  fetchTokensFromCode,
+  refreshAuthToken,
+  refreshCycle,
+};
