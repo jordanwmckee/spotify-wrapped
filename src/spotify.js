@@ -2,17 +2,6 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
 
-var timeTokenCreated = null;
-
-/**
- * Sets the value for timeTokenCreated variable in files where imported
- *
- * @param {Date} time
- */
-const setTimeCreated = (time) => {
-  timeTokenCreated = time;
-};
-
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/dashboard";
@@ -44,14 +33,39 @@ const auth_query_params = new URLSearchParams({
 const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
 
 /**
+ * Adds a token and the time it was created to session storage in browser
+ *
+ * @param {string} token The access token for the logged in user
+ * @param {Date} timeCreated The time the token was requested
+ */
+const addTokenToSession = (token, timeCreated) => {
+  const currentToken = {
+    access_token: token,
+    time_created: timeCreated,
+  };
+  sessionStorage.setItem("currentToken", JSON.stringify(currentToken));
+};
+
+/**
+ * Get currentToken object from session storage
+ *
+ * @returns {Object}
+ */
+const getTokenFromSession = () => {
+  const token = sessionStorage.currentToken;
+  if (!token) return null;
+  else return JSON.parse(token);
+};
+
+/**
  * Check tokenStore to verify validity of spotify access token
  *
  * @returns {bool} True if access token is still valid, False if not
  */
 const isValidAccessToken = () => {
-  if (timeTokenCreated === null) return false;
-  const now = Date.now();
-  const timeDiff = (Math.abs(now - timeTokenCreated) / 1000) % 60;
+  const token = getTokenFromSession();
+  if (!token) return false;
+  const timeDiff = (Math.abs(Date.now() - token.time_created) / 1000) % 60; // get seconds since time created
   if (timeDiff > 3550) return false;
   return true;
 };
@@ -73,7 +87,7 @@ const fetchTokensFromCode = async (user) => {
     redirect_uri: redirectUri,
     grant_type: "authorization_code",
   });
-  await fetch("https://accounts.spotify.com/api/token", {
+  const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "post",
     body: body,
     headers: {
@@ -82,16 +96,12 @@ const fetchTokensFromCode = async (user) => {
         "Basic " +
         Buffer.from(clientId + ":" + clientSecret).toString("base64"),
     },
-  })
-    .then(async (res) => {
-      const data = await res.json();
-      timeTokenCreated = Date.now();
-      spotifyApi.setAccessToken(data.access_token);
-      await addTokenToDb(data.refresh_token, user);
-    })
-    .catch((err) => {
-      console.error("Error: ", err);
-    });
+  });
+
+  const data = await response.json();
+  addTokenToSession(data.access_token, Date.now());
+  spotifyApi.setAccessToken(data.access_token);
+  await addTokenToDb(data.refresh_token, user);
   window.location.search = "";
 };
 
@@ -102,7 +112,11 @@ const fetchTokensFromCode = async (user) => {
  */
 const refreshAuthToken = async (user) => {
   // check if access token is still valid first
-  if (isValidAccessToken() === true) return;
+  if (isValidAccessToken() === true) {
+    const token = getTokenFromSession();
+    spotifyApi.setAccessToken(token.access_token);
+    return;
+  }
 
   const refToken = await getRefreshToken(user);
   if (!refToken) return;
@@ -111,7 +125,7 @@ const refreshAuthToken = async (user) => {
     grant_type: "refresh_token",
     refresh_token: refToken,
   });
-  await fetch("https://accounts.spotify.com/api/token", {
+  const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "post",
     body: body,
     headers: {
@@ -121,24 +135,24 @@ const refreshAuthToken = async (user) => {
         Buffer.from(clientId + ":" + clientSecret).toString("base64"),
     },
     json: true,
-  })
-    .then(async (res) => {
-      const data = await res.json();
-      console.log("new access token generated.");
-      timeTokenCreated = Date.now();
-      spotifyApi.setAccessToken(data.access_token);
-    })
-    .catch((err) => {
-      console.error("Error: ", err);
-    });
+  });
+
+  const data = await response.json();
+  console.log("New access token generated.");
+  addTokenToSession(data.access_token, Date.now());
+  spotifyApi.setAccessToken(data.access_token);
 };
 
+/**
+ * Run refreshAuthToken every hour to generate new token
+ *
+ * @param {Object} user Returned from useAuthState
+ */
 const refreshCycle = (user) => {
   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
 };
 
 export {
-  setTimeCreated,
   spotifyApi,
   loginUrl,
   fetchTokensFromCode,

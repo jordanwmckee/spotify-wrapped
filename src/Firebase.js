@@ -20,7 +20,7 @@ import {
   doc,
   SnapshotMetadata,
 } from "firebase/firestore";
-import { setTimeCreated, spotifyApi, timeTokenCreated } from "./spotify";
+import { spotifyApi } from "./spotify";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -124,7 +124,7 @@ const sendPasswordReset = async (email) => {
  */
 const logout = () => {
   spotifyApi.setAccessToken(null);
-  setTimeCreated(null);
+  sessionStorage.clear();
   signOut(auth);
 };
 

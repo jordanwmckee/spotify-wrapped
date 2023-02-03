@@ -49,8 +49,7 @@ const Dashboard = () => {
           spotifyLinked === false &&
           window.location.search.includes("code=")
         ) {
-          fetchTokensFromCode(user);
-          setSpotifyLinked(true);
+          fetchTokensFromCode(user).then(() => setSpotifyLinked(true));
         } else if (spotifyLinked === false) window.location = loginUrl;
       })
       .then(() => {
