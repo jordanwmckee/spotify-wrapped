@@ -2,6 +2,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
 
+// Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/dashboard";
 const clientId = "155ce0eabe804923855dd85cbd23329e";
@@ -9,6 +10,7 @@ const clientSecret = "40498951b9224388b01a2a0920b5289e";
 
 var spotifyApi = new SpotifyWebApi();
 
+// query parameters for spotify auth
 const auth_query_params = new URLSearchParams({
   show_dialog: true,
   response_type: "code",
@@ -30,6 +32,12 @@ const auth_query_params = new URLSearchParams({
 
 const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
 
+/**
+ * Assumes the code from Spotify's callback is in the url
+ * Use code from url to request an access_token and refresh_token from web api
+ *
+ * @param {Object} user Returned from useAuthState
+ */
 const fetchTokens = async (user) => {
   // get response code from url
   const urlParams = new URLSearchParams(window.location.search);
@@ -62,6 +70,11 @@ const fetchTokens = async (user) => {
   // window.location.search = "";
 };
 
+/**
+ * Get refresh token from firebase, and use it to generate a new access token
+ *
+ * @param {Object} user Returned from useAuthState
+ */
 const refreshAuthToken = async (user) => {
   //if (spotifyApi.getAccessToken()) return;
 

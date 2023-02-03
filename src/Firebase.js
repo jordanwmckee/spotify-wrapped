@@ -31,14 +31,17 @@ const firebaseConfig = {
   storageBucket: "wrapped-monthly.appspot.com",
   messagingSenderId: "942348827229",
   appId: "1:942348827229:web:50ea06f23ef961ca4b6bb4",
-  measurementId: "G-LEGN65BPPK"
+  measurementId: "G-LEGN65BPPK",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const googleProvider = new GoogleAuthProvider();
+
+/**
+ * Authenticate user through google and grab info for Firebase
+ */
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
@@ -51,7 +54,7 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
-				refreshToken: "",
+        refreshToken: "",
       });
     }
   } catch (err) {
@@ -60,6 +63,13 @@ const signInWithGoogle = async () => {
   }
 };
 
+/**
+ * Authorize user given email & password credentials
+ *
+ * @param {string} email
+ * @param {string} password
+ * Values from Login form
+ */
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -69,6 +79,14 @@ const logInWithEmailAndPassword = async (email, password) => {
   }
 };
 
+/**
+ * Create an account and add information to Firebase
+ *
+ * @param {string} name
+ * @param {string} email
+ * @param {string} password
+ * Values from Register form
+ */
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -78,7 +96,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
-	  	refreshToken: "",
+      refreshToken: "",
     });
   } catch (err) {
     console.error(err);
@@ -86,6 +104,11 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   }
 };
 
+/**
+ * Send a password reset link to email address
+ *
+ * @param {string} email Retrieved from Reset form
+ */
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -96,11 +119,20 @@ const sendPasswordReset = async (email) => {
   }
 };
 
+/**
+ * Logout and unauthenticate user from app
+ */
 const logout = () => {
   spotifyApi.setAccessToken(null);
   signOut(auth);
 };
 
+/**
+ * Get the firebase doc containing this user's info
+ *
+ * @param {Object} user Returned from useAuthState
+ * @returns {Object} A reference to the users doc
+ */
 const getUserDoc = async (user) => {
   try {
     const docRef = doc(db, "users", user?.uid);
@@ -109,8 +141,14 @@ const getUserDoc = async (user) => {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
+/**
+ * Check for existing refresh token in user db
+ *
+ * @param {Object} user Returned from useAuthState
+ * @returns {bool} True if token exists, False if it is unset
+ */
 const checkForToken = async (user) => {
   try {
     const docRef = doc(db, "users", user?.uid);
@@ -121,8 +159,14 @@ const checkForToken = async (user) => {
     console.error(err);
     return false;
   }
-}
+};
 
+/**
+ * Fetch Refresh Token from user db
+ *
+ * @param {Object} user Returned from useAuthState
+ * @returns {string} Refresh token value
+ */
 const getRefreshToken = async (user) => {
   try {
     const docRef = doc(db, "users", user?.uid);
@@ -131,18 +175,24 @@ const getRefreshToken = async (user) => {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
+/**
+ * Sets value of refresh token (stored in data var) in user db
+ *
+ * @param {string} data The refresh token
+ * @param {Object} user Returned from useAuthState
+ */
 const addTokenToDb = async (data, user) => {
   if (!data || !user) return;
   await updateDoc(doc(db, "users", user?.uid), { refreshToken: data })
-    .then(() => { 
-      console.log("user tokens updated") 
+    .then(() => {
+      console.log("user tokens updated");
     })
-    .catch(err => { 
+    .catch((err) => {
       console.error("error updating user tokens: ", err);
     });
-}
+};
 
 export {
   auth,
