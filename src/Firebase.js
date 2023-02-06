@@ -124,6 +124,7 @@ const sendPasswordReset = async (email) => {
  */
 const logout = () => {
   spotifyApi.setAccessToken(null);
+  sessionStorage.clear();
   signOut(auth);
 };
 
@@ -153,12 +154,12 @@ const checkForToken = async (user) => {
   try {
     const docRef = doc(db, "users", user?.uid);
     const snapshot = await getDoc(docRef);
-    if (snapshot.data().refreshToken === "") return false;
-    return true;
+    if (snapshot.data().refreshToken !== "") return true;
+    else if (snapshot.data().refreshToken === "") return false;
   } catch (err) {
     console.error(err);
-    return false;
   }
+  return false;
 };
 
 /**
@@ -187,10 +188,10 @@ const addTokenToDb = async (data, user) => {
   if (!data || !user) return;
   await updateDoc(doc(db, "users", user?.uid), { refreshToken: data })
     .then(() => {
-      console.log("user tokens updated");
+      console.log("Refresh token added to user store");
     })
     .catch((err) => {
-      console.error("error updating user tokens: ", err);
+      console.error("Error storing user refresh token: ", err);
     });
 };
 

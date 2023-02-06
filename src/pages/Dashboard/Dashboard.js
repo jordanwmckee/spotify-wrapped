@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, checkForToken } from "../../firebase";
 import {
-  fetchTokens,
+  fetchTokensFromCode,
   loginUrl,
   refreshCycle,
   refreshAuthToken,
@@ -20,16 +20,14 @@ const Dashboard = () => {
   const [artists, setArtists] = useState(null);
   const navigate = useNavigate();
 
-  const params = new URLSearchParams({
+  const params = {
     time_range: "short_term",
     limit: "20",
-  });
+  };
 
   // fetch new access token using refresh token & get user data for return
   const getData = async () => {
-    await refreshAuthToken(user).catch((err) => {
-      console.error("error: ", err);
-    });
+    await refreshAuthToken(user);
     refreshCycle(user);
     // fetch spotify data
     setAccount(await spotifyApi.getMe(params));
@@ -47,10 +45,12 @@ const Dashboard = () => {
     if (!user) return navigate("/login");
     checkToken()
       .then(() => {
-        if (!spotifyLinked && window.location.search.includes("code=")) {
-          fetchTokens(user);
-          console.log("fetch tokens ran");
-        }
+        if (
+          spotifyLinked === false &&
+          window.location.search.includes("code=")
+        ) {
+          fetchTokensFromCode(user).then(() => setSpotifyLinked(true));
+        } else if (spotifyLinked === false) window.location = loginUrl;
       })
       .then(() => {
         if (spotifyLinked === true) getData();
@@ -58,7 +58,7 @@ const Dashboard = () => {
       .catch((err) => {
         console.error("error: ", err);
       });
-  }, [user, loading, window.location.search]);
+  }, [user, loading, spotifyLinked]);
 
   return (
     <div className="page">
@@ -76,16 +76,6 @@ const Dashboard = () => {
           </p>
         )}
         <br /> <br />
-        {!spotifyLinked && (
-          <div className="linked">
-            <p>
-              Please connect your Spotify account to view your monthly wrapped.
-            </p>
-            <a href={loginUrl} className="button">
-              CONNECT
-            </a>
-          </div>
-        )}
         {artists && tracks && (
           <div className="info">
             <div className="top-artists">
@@ -140,3 +130,16 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+/*
+        {!spotifyLinked && (
+          <div className="linked">
+            <p>
+              Please connect your Spotify account to view your monthly wrapped.
+            </p>
+            <a href={loginUrl} className="button">
+              CONNECT
+            </a>
+          </div>
+        )}
+*/
