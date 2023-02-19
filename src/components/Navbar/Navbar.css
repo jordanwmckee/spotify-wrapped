@@ -9,7 +9,7 @@
   height: 30px;
   width: 95vw;
   margin: 0;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 #navbar h1 {
   color: #1db954;
