@@ -159,8 +159,11 @@ To contribute, open a new branch or fork under the conventional commits specific
 Examples include
 
 > feat/update-readme  
-> fix/docker-timezone  
-> feat/cry-more-often
+> fix/invalid-login-consistency 
+
+All accepted commit titles include
+
+> build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test 
 
 All actions must pass in order for a PR to be merged, and code must be reviewed by at least one project maintainer.
 
