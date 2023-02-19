@@ -1,0 +1,16 @@
+.title-card {
+  width: 30%;
+  margin: 15px;
+  height: 120px;
+  background-color: #25282c;
+  border-radius: 25px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.title-card-heading h1 {
+  color: white;
+  font-size: auto;
+}
+.title-card-text h5 {
+  color: white;
+  font-size: auto;
+}

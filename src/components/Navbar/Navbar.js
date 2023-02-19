@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
 import "./Navbar.css";
-//import '../../pics&logos/SW_logo.png';
 
 const Navbar = () => {
   return (

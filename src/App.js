@@ -113,7 +113,7 @@ function App() {
                 />
               </div>
             )}
-            <div className="content">
+            <div className="page-space">
               <Routes>
                 <Route
                   exact
@@ -123,8 +123,6 @@ function App() {
                 <Route exact path="/analytics" element={<Analytics />} />
                 <Route path="*" element={<Dashboard />} />
               </Routes>
-            </div>
-            <div className="footer">
               <Footer />
             </div>
           </div>
