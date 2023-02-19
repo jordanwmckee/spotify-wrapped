@@ -25,16 +25,16 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
   const [accessToken, setAccessToken] = useState(null);
   const [spotifyLinked, setSpotifyLinked] = useState(true);
-  const [reccomendUris, setReccomendUris] = useState(null);
+  const [recommendUris, setrecommendUris] = useState(null);
 
   // fetch new access token using refresh token & get user data for return
   const getData = async () => {
     await refreshAuthToken(user);
     refreshCycle(user);
 
-    if (reccomendUris) return;
+    if (recommendUris) return;
 
-    // Get seed tracks for reccomendations
+    // Get seed tracks for recommendations
     const top5Tracks = await spotifyApi.getMyTopTracks({
       time_range: "short_term",
       limit: "5",
@@ -45,16 +45,16 @@ function App() {
     });
     seeds = seeds.slice(0, -1);
 
-    // Get reccomendations using seeds
+    // Get recommendations using seeds
     let tracksArr = [];
-    const reccomendations = await spotifyApi.getRecommendations({
+    const recommendations = await spotifyApi.getRecommendations({
       seed_tracks: seeds,
       limit: 100,
     });
-    reccomendations.tracks.forEach((track) => {
+    recommendations.tracks.forEach((track) => {
       tracksArr.push(track.uri);
     });
-    setReccomendUris(tracksArr);
+    setrecommendUris(tracksArr);
   };
 
   const checkToken = async () => {
@@ -87,7 +87,7 @@ function App() {
     loading,
     spotifyLinked,
     spotifyApi.getAccessToken(),
-    reccomendUris,
+    recommendUris,
   ]);
 
   return (
@@ -104,11 +104,11 @@ function App() {
             <div id="sidebar">
               <Sidebar />
             </div>
-            {spotifyLinked && accessToken && reccomendUris && (
+            {spotifyLinked && accessToken && recommendUris && (
               <div className="player">
                 <SpotifyPlayer
                   token={accessToken}
-                  uris={reccomendUris}
+                  uris={recommendUris}
                   className="player"
                 />
               </div>
