@@ -4,7 +4,7 @@ import { Buffer } from "buffer";
 
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
-const redirectUri = "http://localhost:3000/dashboard";
+const redirectUri = "http://localhost:3000/";
 const clientId = "155ce0eabe804923855dd85cbd23329e";
 const clientSecret = "40498951b9224388b01a2a0920b5289e";
 
