@@ -12,25 +12,33 @@ button:hover {
   filter: brightness(1.1);
 }
 .content {
-  padding: 20px;
   margin-left: 300px;
   margin-top: 140px;
+  margin-bottom: 80px;
+  padding: 30px 0;
   background-color: #f2f2f2;
 }
 .App {
   text-align: center;
 }
-.page {
-  position: relative;
-  margin-top: 60px;
-}
 .player {
   position: fixed;
-  top: 60px;
+  bottom: 0;
   width: calc(100% - 300px);
   margin-left: 300px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   height: auto;
+}
+.page-title {
+  position: absolute;
+  top: 60px;
+  width: calc(100% - 300px);
+  height: 80px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+.title-text {
+  padding: 10px 30px;
 }
 
 /* loading wheel */

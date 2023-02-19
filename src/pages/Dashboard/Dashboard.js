@@ -27,18 +27,17 @@ const Dashboard = (spotifyLinked) => {
 
   return (
     <>
-      {spotifyLinked && (
+      {spotifyLinked && account && (
         <div className="dashboard">
-          <div className="color_grad">
-            <h1 className="header">Dashboard</h1>
+          <div className="color_grad page-title">
+            <div className="title-text">
+              <h2>Dashboard</h2>
+              <p>
+                Hello, {account.display_name}. Here are some of your monthly
+                stats..
+              </p>
+            </div>
           </div>
-          {account && (
-            <p>
-              Hello, {account.display_name}. Here are some of your monthly
-              stats..
-            </p>
-          )}
-          <br /> <br />
           {artists && tracks && (
             <div className="info">
               <div className="top-artists">
