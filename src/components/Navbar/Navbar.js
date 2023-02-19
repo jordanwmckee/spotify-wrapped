@@ -5,18 +5,18 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <img
-        className="logo"
-        src={require("../../assets/logos/logo.png")}
-        alt="ber_logo"
-      />
-      <div className="links">
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/analytics">Analytics</Link>
+    <>
+      <Link to="/">
+        <img
+          className="logo"
+          src={require("../../assets/logos/logo.png")}
+          alt="ber_logo"
+        />
+      </Link>
+      <div className="profile">
         <button onClick={logout}>LOGOUT</button>
       </div>
-    </nav>
+    </>
   );
 };
 

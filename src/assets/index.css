@@ -1,30 +1,43 @@
 /* base styles */
 * {
   margin: 0;
-  font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
 }
 button {
   border-color: transparent;
-	border-style: solid;
+  border-style: solid;
 }
 button:hover {
   filter: brightness(1.1);
 }
 .content {
-  max-width: 800px;
-  margin: 40px auto;
   padding: 20px;
+  margin-left: 300px;
+  margin-top: 140px;
+  background-color: #f2f2f2;
 }
 .App {
   text-align: center;
+}
+.page {
+  position: relative;
+  margin-top: 60px;
+}
+.player {
+  position: fixed;
+  top: 60px;
+  width: calc(100% - 300px);
+  margin-left: 300px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  height: auto;
 }
 
 /* loading wheel */
 .loader {
   border: 7px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 7px solid #1DB954;
+  border-top: 7px solid #1db954;
   width: 30px;
   height: 30px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -34,11 +47,19 @@ button:hover {
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

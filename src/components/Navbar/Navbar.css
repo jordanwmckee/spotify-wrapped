@@ -1,41 +1,47 @@
-.navbar {
-  padding: 20px;
+#navbar {
+  padding: 15px 50px;
+  position: fixed;
+  top: 0;
   display: flex;
   align-items: center;
-  max-width: 1080px;
-  margin: 0 auto;
-  border-bottom: 1px solid #f2f2f2;
+  background-color: #25282c;
+  z-index: 1;
+  height: 30px;
+  width: 95vw;
+  margin: 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
-.navbar h1 {
-  color: #1DB954;
+#navbar h1 {
+  color: #1db954;
   font-size: 40px;
 }
-.navbar .links {
+#navbar .profile {
   margin-left: auto;
 }
-.navbar a, button {
+#navbar a,
+button {
   margin-left: 16px;
   text-decoration: none;
   padding: 6px;
 }
-.navbar button {
-  background-color: #1DB954;
+#navbar button {
+  background-color: #1db954;
   border-radius: 20px;
   font-weight: bold;
   width: 125px;
   padding: 10px, 20px;
   cursor: pointer;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   color: black;
 }
-.navbar button:active {
-  filter: brightness(.75);
+#navbar button:active {
+  filter: brightness(0.75);
 }
-.navbar a:hover {
-  color: #1DB954;
+#navbar a:hover {
+  color: #1db954;
 }
-.logo{
-  max-width: 10%;
+.logo {
+  width: 50px;
   height: auto;
   text-align: left;
 }
