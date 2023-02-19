@@ -13,11 +13,11 @@ button:hover {
 }
 .page-space {
   margin-left: 300px;
-  height: 100%;
   width: calc(100vw - 300px);
   margin-top: 140px;
   margin-bottom: 80px;
   background-color: #f2f2f2;
+  min-height: 100vh;
 }
 .content {
   padding: 20px;
