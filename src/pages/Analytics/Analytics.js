@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar/Navbar";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import "./Analytics.css";
 

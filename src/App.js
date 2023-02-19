@@ -31,7 +31,6 @@ function App() {
   const getData = async () => {
     await refreshAuthToken(user);
     refreshCycle(user);
-
     if (recommendUris) return;
 
     // Get seed tracks for recommendations
@@ -57,6 +56,7 @@ function App() {
     setrecommendUris(tracksArr);
   };
 
+  // check for valid access token and update spotifyLinked bool
   const checkToken = async () => {
     const linked = await checkForToken(user);
     setSpotifyLinked(linked);
@@ -66,6 +66,9 @@ function App() {
     if (loading || !user) return;
     checkToken()
       .then(() => {
+        /* if spotify is not linked & code from callback is in the url, 
+        then parse the code and use it to request access and refresh tokens. 
+        Else redirect to spotify authentication */
         if (
           spotifyLinked === false &&
           window.location.search.includes("code=")
@@ -74,6 +77,7 @@ function App() {
         } else if (spotifyLinked === false) window.location = loginUrl;
       })
       .then(() => {
+        // save access token and attempt to retrieve data from web api
         if (spotifyLinked === true) {
           setAccessToken(spotifyApi.getAccessToken());
           getData();
@@ -95,7 +99,7 @@ function App() {
       {loading ? (
         <div className="loader" />
       ) : user ? (
-        // Routes rendered if user login detected
+        // Routes rendered if user account detected
         <Router>
           <div id="navbar">
             <Navbar />
@@ -128,7 +132,7 @@ function App() {
           </div>
         </Router>
       ) : (
-        // Routes rendered if no user login detected (home page, login, etc)
+        // Routes rendered if no user account detected
         <Router>
           <Routes>
             <Route exact path="/" element={<Home />} />

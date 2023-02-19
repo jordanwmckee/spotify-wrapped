@@ -35,6 +35,7 @@ const auth_query_params = new URLSearchParams({
   redirect_uri: redirectUri,
 });
 
+// Spotify authenication portal
 const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
 
 /**

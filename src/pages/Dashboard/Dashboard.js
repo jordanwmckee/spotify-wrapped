@@ -10,6 +10,7 @@ const Dashboard = (spotifyLinked) => {
   const [tracks, setTracks] = useState(null);
   const [artists, setArtists] = useState(null);
 
+  // params for getting top tracks/artists
   const params = {
     time_range: "short_term",
     limit: "8",
@@ -47,6 +48,7 @@ const Dashboard = (spotifyLinked) => {
     }
   };
 
+  // if the status of spotify linked changes, get data
   useEffect(() => {
     getData();
   }, [spotifyLinked]);
@@ -65,60 +67,12 @@ const Dashboard = (spotifyLinked) => {
               <TitleCard heading="Other Title" text="testy here" />
               <TitleCard heading="Other Title" text="testy here" />
             </div>
-            {
-              artists && tracks && (
-                <>
-                  <TopCard list={artists} title="Your Top Artists" />
-                  <TopCard list={tracks} title="Your Top Tracks" />
-                </>
-              )
-              /* <div className="info">
-                <div className="top-artists">
-                  <h2>Your Top Artists</h2> <br />
-                  <table>
-                    <tbody>
-                      {artists.items.map((artist) => (
-                        <tr key={artist.id}>
-                          <td>
-                            <h3>{artist.name}</h3>
-                          </td>
-                          <td>
-                            <img
-                              src={artist.images[0].url}
-                              width="100px"
-                              height="100px"
-                              alt="unavailable."
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="top-tracks">
-                  <h2>Your Top Tracks</h2> <br />
-                  <table>
-                    <tbody>
-                      {tracks.items.map((track) => (
-                        <tr key={track.id}>
-                          <td>
-                            <img
-                              src={track.album.images[0].url}
-                              width="100px"
-                              height="100px"
-                              alt="unavailable."
-                            />
-                          </td>
-                          <td>
-                            <h3>{track.name}</h3>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div> */
-            }
+            {artists && tracks && (
+              <>
+                <TopCard list={artists} title="Your Top Artists" />
+                <TopCard list={tracks} title="Your Top Tracks" />
+              </>
+            )}
           </div>
         </>
       )}
@@ -127,16 +81,3 @@ const Dashboard = (spotifyLinked) => {
 };
 
 export default Dashboard;
-
-/*
-        {!spotifyLinked && (
-          <div className="linked">
-            <p>
-              Please connect your Spotify account to view your monthly wrapped.
-            </p>
-            <a href={loginUrl} className="button">
-              CONNECT
-            </a>
-          </div>
-        )}
-*/
