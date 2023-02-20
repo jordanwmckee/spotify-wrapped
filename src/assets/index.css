@@ -35,6 +35,12 @@ button:hover {
   z-index: 1;
 }
 
+/* Home page styling */
+#home-content {
+  width: 100vw;
+  height: 100vh;
+}
+
 /* loading wheel */
 .loader {
   border: 7px solid #f3f3f3;

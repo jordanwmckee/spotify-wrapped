@@ -1,0 +1,11 @@
+.home-title {
+  max-width: 800px;
+}
+.home-title h1 {
+  color: #ebf1f5;
+  font-size: 60px;
+}
+.home-title p {
+  color: #9ba9b4;
+  font-size: 25px;
+}

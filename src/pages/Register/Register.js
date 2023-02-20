@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import HomeTitle from "../../components/HomeTitle/HomeTitle";
 import {
   auth,
   registerWithEmailAndPassword,
@@ -27,6 +28,7 @@ const Register = () => {
 
   return (
     <div className="register">
+      <HomeTitle title="Welcome." />
       <div className="register__container">
         <input
           type="text"
@@ -58,7 +60,7 @@ const Register = () => {
         >
           Register with Google
         </button>
-        <div>
+        <div className="box-footer">
           Already have an account? <Link to="/">Login</Link> now.
         </div>
       </div>
