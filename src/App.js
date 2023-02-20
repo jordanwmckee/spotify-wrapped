@@ -141,7 +141,6 @@ function App() {
               <Route exact path="/reset" element={<Reset />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <HomeFooter />
           </Router>
         </div>
       )}

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import HomeFooter from "../../components/HomeFooter/HomeFooter";
 import HomeTitle from "../../components/HomeTitle/HomeTitle";
 import "./Home.css";
 
@@ -48,6 +49,7 @@ const Home = () => {
         <p>some info here</p>
         <br />
       </div>
+      <HomeFooter />
     </div>
   );
 };
