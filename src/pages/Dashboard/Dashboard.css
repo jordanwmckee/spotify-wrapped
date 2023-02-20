@@ -1,5 +1,10 @@
-.linked { 
-text-align: center;
+.heading-card-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.linked {
+  text-align: center;
 }
 .linked p {
   margin-bottom: 20px;
@@ -9,9 +14,9 @@ text-align: center;
   color: black;
   display: inline-block;
   width: 125px;
-  font-size: .7em;
-  letter-spacing: .1em;
-  background: #1DB954;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  background: #1db954;
   padding: 10px 20px;
   text-align: center;
   border-radius: 20px;
@@ -21,7 +26,7 @@ text-align: center;
   filter: brightness(1.1);
 }
 .button:active {
-  filter: brightness(.75);
+  filter: brightness(0.75);
 }
 .info {
   display: flex;
@@ -36,7 +41,8 @@ text-align: center;
 .info table {
   width: 100%;
 }
-.top-artists, .top-tracks {
+.top-artists,
+.top-tracks {
   width: 45%;
 }
 .top-artists img {
@@ -45,16 +51,3 @@ text-align: center;
 .top-tracks img {
   float: left;
 }
-
-.color_grad{
-  text-align: center !important;
-  margin:auto !important;
-  background-image: linear-gradient(45deg, #1000f7, #fb00ff) !important;
-  width: 200px !important;
-  background-clip: text !important;
-  }
-  
-  .header{
-  font-size: 40px;
-  color:transparent;
-  }

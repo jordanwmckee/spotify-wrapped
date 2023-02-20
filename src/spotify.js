@@ -4,7 +4,7 @@ import { Buffer } from "buffer";
 
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
-const redirectUri = "http://localhost:3000/dashboard";
+const redirectUri = "http://localhost:3000/";
 const clientId = "155ce0eabe804923855dd85cbd23329e";
 const clientSecret = "40498951b9224388b01a2a0920b5289e";
 
@@ -17,7 +17,12 @@ const auth_query_params = new URLSearchParams({
   grant_type: "authorization_code",
   client_id: clientId,
   scope: [
+    "streaming",
+    "user-read-email",
     "user-library-read",
+    "user-library-modify",
+    "user-read-playback-state",
+    "user-modify-playback-state",
     "user-read-recently-played",
     "playlist-read-collaborative",
     "playlist-read-private",
@@ -30,6 +35,7 @@ const auth_query_params = new URLSearchParams({
   redirect_uri: redirectUri,
 });
 
+// Spotify authenication portal
 const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
 
 /**
@@ -65,8 +71,8 @@ const getTokenFromSession = () => {
 const isValidAccessToken = () => {
   const token = getTokenFromSession();
   if (!token) return false;
-  const timeDiff = (Math.abs(Date.now() - token.time_created) / 1000) % 60; // get seconds since time created
-  if (timeDiff > 3550) return false;
+  const timeDiff = Date.now() - token.time_created;
+  if (timeDiff > 3550000) return false;
   return true;
 };
 
@@ -116,6 +122,8 @@ const refreshAuthToken = async (user) => {
     const token = getTokenFromSession();
     spotifyApi.setAccessToken(token.access_token);
     return;
+  } else {
+    console.log("Token expired.");
   }
 
   const refToken = await getRefreshToken(user);

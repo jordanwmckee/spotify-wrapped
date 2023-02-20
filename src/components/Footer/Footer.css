@@ -1,0 +1,23 @@
+.footer {
+  width: 100%;
+  margin-top: 50px;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* border-top: 1px solid lightgray; */
+}
+.footer ul {
+  text-decoration: none;
+  padding: 0;
+  margin: 10px 0;
+}
+.footer-left,
+.footer-right {
+  width: 30%;
+}
+.footer h4,
+p {
+  color: gray;
+}
