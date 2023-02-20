@@ -2,7 +2,7 @@
   background-color: #151719;
 }
 #home-navbar {
-  padding: 20px;
+  padding: 5px;
   display: flex;
   align-items: center;
   max-width: 1080px;
@@ -12,27 +12,24 @@
 #home-navbar .links {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 #home-navbar a {
   text-decoration: none;
-  font-size: 20px;
+  font-size: 17px;
   display: inline-block;
   color: #1db954;
 }
 #home-navbar a:hover {
   filter: brightness(0.9);
 }
-#home-navbar .register-button {
+#home-navbar .register-button a {
+  color: white;
+  padding: 8px 12px;
   background-color: #1db954;
   border-radius: 3px;
   margin-left: 30px;
-  width: 125px;
-  height: 30px;
-  padding: 50px, 25px;
   cursor: pointer;
-}
-#home-navbar .register-button a {
-  color: white;
 }
 #home-navbar img {
   width: 80px;
