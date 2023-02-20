@@ -1,5 +1,6 @@
 .App {
   background-color: #151719;
+  /* background-image: linear-gradient(to bottom right, #151719, #25282c); */
 }
 #home-navbar {
   padding: 5px;
@@ -25,11 +26,7 @@
 }
 #home-navbar .register-button a {
   color: white;
-  padding: 8px 12px;
-  background-color: #1db954;
-  border-radius: 3px;
   margin-left: 30px;
-  cursor: pointer;
 }
 #home-navbar img {
   width: 80px;

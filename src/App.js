@@ -21,6 +21,7 @@ import {
   refreshAuthToken,
   spotifyApi,
 } from "./spotify";
+import HomeFooter from "./components/HomeFooter/HomeFooter";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -140,6 +141,7 @@ function App() {
               <Route exact path="/reset" element={<Reset />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <HomeFooter />
           </Router>
         </div>
       )}

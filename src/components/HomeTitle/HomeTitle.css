@@ -1,11 +1,11 @@
 .home-title {
-  max-width: 800px;
+  width: calc(100%-200px);
+  margin: 40px 100px;
 }
 .home-title h1 {
   color: #ebf1f5;
-  font-size: 60px;
+  margin-bottom: 5px;
 }
 .home-title p {
   color: #9ba9b4;
-  font-size: 25px;
 }

@@ -1,3 +1,16 @@
+/**
+ * Gray Colors
+      100: '#EBF1F5',
+      200: '#D9E3EA',
+      300: '#C5D2DC',
+      400: '#9BA9B4',
+      500: '#707D86',
+      600: '#55595F',
+      700: '#33363A',
+      800: '#25282C',
+      900: '#151719',
+*/
+
 /* base styles */
 * {
   margin: 0;
@@ -37,8 +50,16 @@ button:hover {
 
 /* Home page styling */
 #home-content {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+}
+.home-button a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  background-color: #1db954;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 /* loading wheel */
