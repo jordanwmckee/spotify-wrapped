@@ -4,7 +4,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <>
+    <div id="navbar">
       <Link to="/">
         <img
           className="logo"
@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="profile">
         <button onClick={logout}>LOGOUT</button>
       </div>
-    </>
+    </div>
   );
 };
 

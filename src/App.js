@@ -101,13 +101,9 @@ function App() {
       ) : user ? (
         // Routes rendered if user account detected
         <Router>
-          <div id="navbar">
-            <Navbar />
-          </div>
+          <Navbar />
           <div className="page">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
+            <Sidebar />
             {spotifyLinked && accessToken && recommendUris && (
               <div className="player">
                 <SpotifyPlayer

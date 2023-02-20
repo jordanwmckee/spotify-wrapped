@@ -3,7 +3,7 @@ import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
-    <>
+    <div id="sidebar">
       <div className="sidebar-title">
         <h3>Navigation</h3>
       </div>
@@ -18,7 +18,7 @@ const Sidebar = () => {
         <br />
         <p className="link">Create (coming soon)</p>
       </div>
-    </>
+    </div>
   );
 };
 
