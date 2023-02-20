@@ -15,40 +15,78 @@ const Home = () => {
           <Link to="/register">Get Started</Link>
         </div>
         <img
-          src={require("../../assets/images/hero-image.jpg")}
+          src={require("../../assets/images/hero-image.jpeg")}
           alt="not found"
         />
       </div>
       <HomeTitle
         title="Listening analytics for every month."
-        description="Information is updated in real time."
+        description="Straight from your Spotify account."
         subheading={true}
       />
       <div className="homepage-section">
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
+        <div id="homepage-analytics">
+          <div className="all-projects">
+            <div className="analytic-item">
+              <div className="section-info">
+                <h1>Your top artists</h1>
+                <p>
+                  Gain insights on which artists you binged the most in the last
+                  month.
+                </p>
+              </div>
+              <div className="section-img">
+                <img
+                  src={require("../../assets/images/artists.jpg")}
+                  alt="img"
+                />
+              </div>
+            </div>
+            <div className="analytic-item">
+              <div className="section-info">
+                <h1>Your top tracks</h1>
+                <p>
+                  See your top songs and which ones you've had on repeat the
+                  longest.
+                </p>
+              </div>
+              <div className="section-img">
+                <img
+                  src={require("../../assets/images/tracks.jpeg")}
+                  alt="img"
+                />
+              </div>
+            </div>
+            <div className="analytic-item">
+              <div className="section-info">
+                <h1>Listening history</h1>
+                <p>
+                  Through the retrieval of your listening history, information
+                  about your listening habits, time, etc are retrieved for your
+                  viewing pleasure.
+                </p>
+              </div>
+              <div className="section-img">
+                <img
+                  src={require("../../assets/images/history.webp")}
+                  alt="img"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <HomeTitle
-        title="Delivered to you by email"
-        description="With the option to export and share with your friends."
+        title="Delivered to your email."
+        description="For you to save & share with your friends."
         subheading={true}
       />
       <div className="homepage-section">
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
-        <p>some info here</p>
-        <br />
+        <div className="home-button start-now">
+          <Link to="/register">Start Now</Link>
+        </div>
       </div>
+
       <HomeFooter />
     </div>
   );
