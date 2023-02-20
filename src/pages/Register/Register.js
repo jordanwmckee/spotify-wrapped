@@ -22,7 +22,7 @@ const Register = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (user) navigate("/dashboard", { replace: true });
+    if (user) navigate("/", { replace: true });
   }, [user, loading]);
 
   return (
