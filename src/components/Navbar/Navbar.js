@@ -10,16 +10,9 @@ const Navbar = (spotifyLinked) => {
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdown = () => {
-    const dropdown = document.querySelector(".profile-dropdown");
-    if (dropdown === true) {
-      // close dropdown
-      dropdown.classList.toggle("active-dropdown");
-      setDropdown(false);
-    } else {
-      // open dropdown
-      dropdown.classList.toggle("active-dropdown");
-      setDropdown(true);
-    }
+    const dropdownElement = document.querySelector(".profile-dropdown");
+    dropdownElement.classList.toggle("active-dropdown");
+    dropdown === true ? setDropdown(false) : setDropdown(true);
   };
 
   // close dropdown if clicking outside it
