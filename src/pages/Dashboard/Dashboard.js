@@ -6,7 +6,7 @@ import { spotifyApi } from "../../spotify";
 import "./Dashboard.css";
 
 const Dashboard = (spotifyLinked) => {
-  const [account, setAccount] = useState(null);
+  const [name, setName] = useState(null);
   const [tracks, setTracks] = useState(null);
   const [artists, setArtists] = useState(null);
 
@@ -18,8 +18,11 @@ const Dashboard = (spotifyLinked) => {
 
   const getData = async () => {
     // fetch spotify data
-    if (spotifyLinked && (!account || !tracks || !artists)) {
-      setAccount(await spotifyApi.getMe(params));
+    if (spotifyLinked && (!name || !tracks || !artists)) {
+      // get username
+      const account = await spotifyApi.getMe();
+      setName(account.display_name);
+      // get top items
       const topTracksRes = await spotifyApi.getMyTopTracks(params);
       const topArtistsRes = await spotifyApi.getMyTopArtists(params);
       // convert requests into objects for TopCard component
@@ -55,11 +58,11 @@ const Dashboard = (spotifyLinked) => {
 
   return (
     <>
-      {spotifyLinked && account && (
+      {spotifyLinked && name && (
         <>
           <PageTitle
             title="Dashboard"
-            description={"Welcome back " + account.display_name + "."}
+            description={"Welcome back " + name + "."}
           />
           <div className="content">
             <div className="heading-card-section">

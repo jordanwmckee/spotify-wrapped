@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { logout, unlinkSpotify } from "../../firebase";
+import { logout, removeUser, unlinkSpotify } from "../../firebase";
 import { spotifyApi } from "../../spotify";
 import "./Navbar.css";
 
-const Navbar = (spotifyLinked, user) => {
+const Navbar = (spotifyLinked) => {
   const [profilePic, setProfilePic] = useState(null);
   const [name, setName] = useState(null);
   const [dropdown, setDropdown] = useState(false);
@@ -29,16 +29,6 @@ const Navbar = (spotifyLinked, user) => {
       .querySelector(".profile-dropdown")
       .classList.toggle("active-dropdown");
     setDropdown(false);
-  };
-
-  // unlink user's spotify account
-  const unlink = async () => {
-    const response = window.confirm(
-      "Are you sure you want to unlink your current spotify account? You will have to re-login to access your Spotify account analytics."
-    );
-    if (!response) return;
-    await unlinkSpotify(user);
-    logout();
   };
 
   const getData = async () => {
@@ -85,8 +75,8 @@ const Navbar = (spotifyLinked, user) => {
                 {name && <h3>{name}</h3>}
               </div>
               <div className="options">
-                <h4 onClick={unlink}>Unlink Spotify</h4>
-                <h4>Delete Account</h4>
+                <h4>Some Option</h4>
+                <h4>Another Option</h4>
               </div>
               <div className="logout">
                 <h4 onClick={logout}>Logout</h4>
