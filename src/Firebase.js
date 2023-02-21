@@ -145,6 +145,21 @@ const getUserDoc = async (user) => {
 };
 
 /**
+ * Remove user's refresh token from firebase
+ *
+ * @param {Object} user Returned from useAuthState
+ */
+const unlinkSpotify = async (user) => {
+  try {
+    console.log("userid: ", user?.uid);
+    const userDoc = doc(db, "users", user?.uid);
+    const res = await updateDoc(userDoc, { refreshToken: "" });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
  * Check for existing refresh token in user db
  *
  * @param {Object} user Returned from useAuthState
@@ -204,6 +219,7 @@ export {
   sendPasswordReset,
   logout,
   getUserDoc,
+  unlinkSpotify,
   checkForToken,
   getRefreshToken,
   addTokenToDb,

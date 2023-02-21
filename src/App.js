@@ -21,7 +21,6 @@ import {
   refreshAuthToken,
   spotifyApi,
 } from "./spotify";
-import HomeFooter from "./components/HomeFooter/HomeFooter";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -103,7 +102,7 @@ function App() {
       ) : user ? (
         // Routes rendered if user account detected
         <Router>
-          <Navbar />
+          <Navbar spotifyLinked={spotifyLinked} user={user} />
           <div className="page">
             <Sidebar />
             {spotifyLinked && accessToken && recommendUris && (
