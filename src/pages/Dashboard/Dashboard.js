@@ -58,26 +58,24 @@ const Dashboard = (spotifyLinked) => {
 
   return (
     <>
+      <PageTitle
+        title="Dashboard"
+        description={name ? `Welcome back ${name}.` : ""}
+      />
       {spotifyLinked && name && (
-        <>
-          <PageTitle
-            title="Dashboard"
-            description={"Welcome back " + name + "."}
-          />
-          <div className="content">
-            <div className="heading-card-section">
-              <TitleCard heading="Title Card" text="test description" />
-              <TitleCard heading="Other Title" text="testy here" />
-              <TitleCard heading="Other Title" text="testy here" />
-            </div>
-            {artists && tracks && (
-              <>
-                <TopCard list={artists} title="Your Top Artists" />
-                <TopCard list={tracks} title="Your Top Tracks" />
-              </>
-            )}
+        <div className="content">
+          <div className="heading-card-section">
+            <TitleCard heading="Title Card" text="test description" />
+            <TitleCard heading="Other Title" text="testy here" />
+            <TitleCard heading="Other Title" text="testy here" />
           </div>
-        </>
+          {artists && tracks && (
+            <>
+              <TopCard list={artists} title="Your Top Artists" />
+              <TopCard list={tracks} title="Your Top Tracks" />
+            </>
+          )}
+        </div>
       )}
     </>
   );
