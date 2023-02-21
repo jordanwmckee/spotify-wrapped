@@ -1,3 +1,16 @@
+/**
+ * Gray Colors
+      100: '#EBF1F5',
+      200: '#D9E3EA',
+      300: '#C5D2DC',
+      400: '#9BA9B4',
+      500: '#707D86',
+      600: '#55595F',
+      700: '#33363A',
+      800: '#25282C',
+      900: '#151719',
+*/
+
 /* base styles */
 * {
   margin: 0;
@@ -13,8 +26,8 @@ button:hover {
 }
 .page-space {
   margin-left: 300px;
-  width: calc(100vw - 300px);
-  margin-top: 140px;
+  width: calc(100% - 300px);
+  margin-top: 155px;
   margin-bottom: 80px;
   background-color: #f2f2f2;
   min-height: 100vh;
@@ -33,6 +46,22 @@ button:hover {
   box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.2);
   height: auto;
   z-index: 1;
+}
+
+/* Home page styling */
+#home-content {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #151719;
+}
+.home-button a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  background-color: #1db954;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 /* loading wheel */

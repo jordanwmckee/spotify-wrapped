@@ -19,6 +19,7 @@ import {
   updateDoc,
   doc,
   SnapshotMetadata,
+  deleteDoc,
 } from "firebase/firestore";
 import { spotifyApi } from "./spotify";
 
@@ -145,6 +146,36 @@ const getUserDoc = async (user) => {
 };
 
 /**
+ * Remove user's refresh token from firebase
+ *
+ * @param {Object} user Returned from useAuthState
+ */
+const unlinkSpotify = async (user) => {
+  try {
+    const docRef = doc(db, "users", user?.uid);
+    await updateDoc(docRef, { refreshToken: "" });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
+ * Delete user account
+ *
+ * @param {Object} user Returned from useAuthState
+ */
+const removeUser = async (user) => {
+  try {
+    console.log("user: ", user);
+    console.log("id: ", user?.uid);
+    const docRef = doc(db, "users", user?.uid);
+    await deleteDoc(docRef);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
  * Check for existing refresh token in user db
  *
  * @param {Object} user Returned from useAuthState
@@ -204,6 +235,8 @@ export {
   sendPasswordReset,
   logout,
   getUserDoc,
+  unlinkSpotify,
+  removeUser,
   checkForToken,
   getRefreshToken,
   addTokenToDb,
