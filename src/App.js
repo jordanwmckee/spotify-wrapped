@@ -11,6 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
+import HomeNavbar from "./components/HomeNavbar/HomeNavbar";
 import { useEffect, useState } from "react";
 import { auth, checkForToken } from "./firebase";
 import {
@@ -20,6 +21,7 @@ import {
   refreshAuthToken,
   spotifyApi,
 } from "./spotify";
+import HomeFooter from "./components/HomeFooter/HomeFooter";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -129,15 +131,18 @@ function App() {
         </Router>
       ) : (
         // Routes rendered if no user account detected
-        <Router>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/reset" element={<Reset />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
+        <div id="home-content">
+          <Router>
+            <HomeNavbar />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/reset" element={<Reset />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+        </div>
       )}
     </div>
   );

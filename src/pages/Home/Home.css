@@ -1,0 +1,124 @@
+.home {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1080px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hero {
+  width: 100%;
+}
+.hero img {
+  width: 80%;
+  margin: 70px 0;
+  filter: brightness(0.7);
+  border-radius: 10px;
+}
+.homepage-section {
+  width: 100%;
+  border-bottom: 1px solid #33363a;
+}
+/* homepage analytics */
+#homepage-analytics {
+  flex-direction: column;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+#homepage-analytics .projects-header {
+  margin-bottom: 50px;
+}
+#homepage-analytics .all-projects {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#homepage-analytics .analytic-item {
+  display: flex;
+  background-color: #25282c;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+#homepage-analytics .section-info {
+  padding: 30px;
+  flex-basis: 50%;
+  height: 100%;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  flex-direction: column;
+}
+#homepage-analytics .section-info h1 {
+  font-size: 35px;
+  font-weight: 500;
+  color: #ebf1f5;
+  margin-bottom: 30px;
+}
+#homepage-analytics .section-info p {
+  color: #9ba9b4;
+  font-size: 20px;
+}
+#homepage-analytics .section-img {
+  flex-basis: 50%;
+  max-height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+#homepage-analytics .section-img::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  opacity: 0.7;
+}
+#homepage-analytics .section-img img {
+  height: 100%;
+  width: 100%;
+  transition: 0.2s ease transform;
+  text-align: center;
+}
+#homepage-analytics .analytic-item:hover .section-img img {
+  transform: scale(1.1);
+}
+/* end homepage analytics */
+.homepage-section .start-now {
+  margin-bottom: 40px;
+}
+
+/*Media Quality for Tablet*/
+@media only screen and (min-width: 960px) {
+  .hero img {
+    border-radius: 0;
+  }
+  #homepage-analytics .analytic-item {
+    flex-direction: row;
+    background-color: #151719;
+  }
+  #homepage-analytics .analytic-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  #homepage-analytics .analytic-item {
+    height: 400px;
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+  #homepage-analytics .all-projects .section-info {
+    height: 100%;
+    text-align: left;
+  }
+  #homepage-analytics .all-projects .section-img {
+    height: 100%;
+  }
+}

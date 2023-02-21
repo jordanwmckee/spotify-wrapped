@@ -40,7 +40,7 @@ button {
 #navbar a:hover {
   color: #1db954;
 }
-.logo {
+#navbar .logo {
   width: 50px;
   height: auto;
   text-align: left;
