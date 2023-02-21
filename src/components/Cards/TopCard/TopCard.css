@@ -2,13 +2,13 @@
   width: calc(100% - 30px);
   height: auto;
   background-color: #fff;
-  border-radius: 25px;
+  border-radius: 10px;
   margin: 30px 15px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 .top-card-title {
-  border-bottom-right-radius: 25px;
-  border-top-left-radius: 25px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
   top: 0;
   width: 50%;
   height: 40px;
