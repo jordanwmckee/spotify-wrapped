@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
-import { spotifyApi } from "../../spotify";
 import "./Navbar.css";
 
-const Navbar = (spotifyLinked) => {
-  const [profilePic, setProfilePic] = useState(null);
-  const [name, setName] = useState(null);
+const Navbar = () => {
+  const { account } = useSelector((state) => state.user);
   const [dropdown, setDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -23,22 +22,6 @@ const Navbar = (spotifyLinked) => {
       .classList.toggle("active-dropdown");
     setDropdown(false);
   };
-
-  const getData = async () => {
-    // get user's profile picture
-    if (!spotifyLinked || profilePic) return;
-    try {
-      const account = await spotifyApi.getMe();
-      setName(account.display_name);
-      setProfilePic(account.images[0].url);
-    } catch (err) {
-      //console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, [spotifyLinked]);
 
   return (
     <div id="navbar">
@@ -59,8 +42,8 @@ const Navbar = (spotifyLinked) => {
         <img
           className="profile-pic"
           src={
-            profilePic
-              ? profilePic
+            account && account.images[0].url
+              ? account.images[0].url
               : require("../../assets/images/default-pfp.png")
           }
           alt={require("../../assets/images/default-pfp.png")}
@@ -74,13 +57,13 @@ const Navbar = (spotifyLinked) => {
           <div className="dropdown-top">
             <img
               src={
-                profilePic
-                  ? profilePic
+                account && account.images[0].url
+                  ? account.images[0].url
                   : require("../../assets/images/default-pfp.png")
               }
               alt=""
             />
-            <h3>{name ? name : "User"}</h3>
+            <h3>{account ? account.display_name : "User"}</h3>
           </div>
           <div className="options">
             <h4>Some Option</h4>

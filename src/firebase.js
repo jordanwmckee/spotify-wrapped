@@ -186,7 +186,6 @@ const checkForToken = async (user) => {
     const docRef = doc(db, "users", user?.uid);
     const snapshot = await getDoc(docRef);
     if (snapshot.data().refreshToken !== "") return true;
-    else if (snapshot.data().refreshToken === "") return false;
   } catch (err) {
     console.error(err);
   }

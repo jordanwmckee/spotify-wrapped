@@ -9,7 +9,7 @@ const TopCard = ({ list, title }) => {
       <div className="top-card-list">
         {list.map((data) => (
           <ul className="top-list-item" key={data.name}>
-            <li key={data.name}>
+            <li>
               <img
                 src={data.image}
                 width="100px"

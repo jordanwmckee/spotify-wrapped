@@ -12,87 +12,99 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import HomeNavbar from "./components/HomeNavbar/HomeNavbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { auth, checkForToken } from "./firebase";
 import {
   fetchTokensFromCode,
   loginUrl,
-  refreshCycle,
   refreshAuthToken,
   spotifyApi,
+  getRecommendUris,
+  getTopItems,
 } from "./spotify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SET_ACCOUNT,
+  SET_ALL_TIME_ARTISTS,
+  SET_ALL_TIME_SONGS,
+  SET_LINKED,
+  SET_MONTHLY_ARTISTS,
+  SET_MONTHLY_SONGS,
+  SET_RECOMMEND_URIS,
+  SET_TOKEN,
+} from "./context/user";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
-  const [accessToken, setAccessToken] = useState(null);
-  const [spotifyLinked, setSpotifyLinked] = useState(true);
-  const [recommendUris, setrecommendUris] = useState(null);
-
-  // fetch new access token using refresh token & get user data for return
-  const getData = async () => {
-    await refreshAuthToken(user);
-    refreshCycle(user);
-    if (recommendUris) return;
-
-    // Get seed tracks for recommendations
-    const top5Tracks = await spotifyApi.getMyTopTracks({
-      time_range: "short_term",
-      limit: "5",
-    });
-    let seeds = "";
-    top5Tracks.items.forEach((track) => {
-      seeds += track.id + ",";
-    });
-    seeds = seeds.slice(0, -1);
-
-    // Get recommendations using seeds
-    let tracksArr = [];
-    const recommendations = await spotifyApi.getRecommendations({
-      seed_tracks: seeds,
-      limit: 100,
-    });
-    recommendations.tracks.forEach((track) => {
-      tracksArr.push(track.uri);
-    });
-    setrecommendUris(tracksArr);
-  };
-
-  // check for valid access token and update spotifyLinked bool
-  const checkToken = async () => {
-    const linked = await checkForToken(user);
-    setSpotifyLinked(linked);
-  };
+  const { token, linked, recommendUris } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (loading || !user) return;
-    checkToken()
-      .then(() => {
-        /* if spotify is not linked & code from callback is in the url, 
-        then parse the code and use it to request access and refresh tokens. 
-        Else redirect to spotify authentication */
-        if (
-          spotifyLinked === false &&
-          window.location.search.includes("code=")
-        ) {
-          fetchTokensFromCode(user).then(() => setSpotifyLinked(true));
-        } else if (spotifyLinked === false) window.location = loginUrl;
-      })
-      .then(() => {
-        // save access token and attempt to retrieve data from web api
-        if (spotifyLinked === true) {
-          setAccessToken(spotifyApi.getAccessToken());
-          getData();
+
+    // here, we need to get & update all spotify info to be store in the app
+    const getData = async () => {
+      // validate access token
+      await refreshAuthToken(user);
+      if (token) return;
+
+      // 1 - get recommended song uris
+      const uris = await getRecommendUris();
+      dispatch(SET_RECOMMEND_URIS(uris));
+      // 2 - get user spotify account
+      const account = await spotifyApi.getMe();
+      dispatch(SET_ACCOUNT(account));
+      // 3 - get top user items
+      // monthly
+      var params = {
+        time_range: "short_term",
+        limit: "8",
+      };
+      const { topTracks: monthlySongs, topArtists: monthlyArtists } =
+        await getTopItems(params);
+      dispatch(SET_MONTHLY_SONGS(monthlySongs));
+      dispatch(SET_MONTHLY_ARTISTS(monthlyArtists));
+      // all time
+      params = {
+        time_range: "long_term",
+        limit: "8",
+      };
+      const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
+        await getTopItems(params);
+      dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
+      dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
+    };
+
+    // check for valid access token and update linked bool
+    const checkToken = async () => {
+      try {
+        const isLinked = await checkForToken(user);
+        dispatch(SET_LINKED(isLinked));
+        // try to get tokens if spotify is not linked to user
+        if (isLinked === false && window.location.search.includes("code=")) {
+          await fetchTokensFromCode(user);
+          dispatch(SET_LINKED(true));
+        } else if (isLinked === false) window.location = loginUrl;
+        else {
+          // save access token and attempt to retrieve data from web api
+          dispatch(SET_TOKEN(spotifyApi.getAccessToken()));
+          await getData();
         }
-      })
-      .catch((err) => {
-        console.error("error: ", err);
-      });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    checkToken();
+    getData();
   }, [
     user,
     loading,
-    spotifyLinked,
+    linked,
     spotifyApi.getAccessToken(),
     recommendUris,
+    dispatch,
+    token,
   ]);
 
   return (
@@ -102,31 +114,31 @@ function App() {
       ) : user ? (
         // Routes rendered if user account detected
         <Router>
-          <Navbar spotifyLinked={spotifyLinked} />
-          <div className="page">
-            <Sidebar />
-            {spotifyLinked && accessToken && recommendUris && (
-              <div className="player">
-                <SpotifyPlayer
-                  token={accessToken}
-                  uris={recommendUris}
-                  className="player"
-                />
+          {linked && (
+            <>
+              <Navbar />
+              <div className="page">
+                <Sidebar />
+                {token && recommendUris && (
+                  <div className="player">
+                    <SpotifyPlayer
+                      token={token}
+                      uris={recommendUris}
+                      className="player"
+                    />
+                  </div>
+                )}
+                <div className="page-space">
+                  <Routes>
+                    <Route exact path="/" element={<Dashboard />} />
+                    <Route exact path="/analytics" element={<Analytics />} />
+                    <Route path="*" element={<Dashboard />} />
+                  </Routes>
+                  <Footer />
+                </div>
               </div>
-            )}
-            <div className="page-space">
-              <Routes>
-                <Route
-                  exact
-                  path="/"
-                  element={<Dashboard spotifyLinked={spotifyLinked} />}
-                />
-                <Route exact path="/analytics" element={<Analytics />} />
-                <Route path="*" element={<Dashboard />} />
-              </Routes>
-              <Footer />
-            </div>
-          </div>
+            </>
+          )}
         </Router>
       ) : (
         // Routes rendered if no user account detected
