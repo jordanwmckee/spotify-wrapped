@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  account: null,
+  monthlySongs: null,
+  monthlyArtists: null,
+  allTimeSongs: null,
+  allTimeArtists: null,
+  recommendUris: null,
+};
+
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    account: null,
-    monthlySongs: null,
-    monthlyArtists: null,
-    allTimeSongs: null,
-    allTimeArtists: null,
-    recommendUris: null,
-  },
+  initialState,
   reducers: {
     SET_ACCOUNT: (state, action) => {
       state.account = { ...action.payload };
@@ -29,6 +31,9 @@ export const userSlice = createSlice({
     SET_RECOMMEND_URIS: (state, action) => {
       state.recommendUris = action.payload;
     },
+    RESET: (state, action) => {
+      return { ...initialState };
+    },
   },
 });
 
@@ -40,6 +45,7 @@ export const {
   SET_ALL_TIME_SONGS,
   SET_ALL_TIME_ARTISTS,
   SET_RECOMMEND_URIS,
+  RESET,
 } = userSlice.actions;
 
 export default userSlice.reducer;

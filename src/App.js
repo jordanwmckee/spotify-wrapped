@@ -95,14 +95,7 @@ function App() {
 
     checkToken();
     getData();
-  }, [
-    user,
-    loading,
-    linked,
-    spotifyApi.getAccessToken(),
-    recommendUris,
-    dispatch,
-  ]);
+  }, [user, loading, recommendUris]);
 
   return (
     <div className="App">
