@@ -8,22 +8,15 @@ import { spotifyApi } from "../../spotify";
 
 const Navbar = () => {
   const { account } = useSelector((state) => state.user);
-  const [dropdown, setDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const toggleDropdown = () => {
-    const dropdownElement = document.querySelector(".profile-dropdown");
-    dropdownElement.classList.toggle("active-dropdown");
-    dropdown === true ? setDropdown(false) : setDropdown(true);
+    setOpen(!open);
   };
 
-  // close dropdown if clicking outside it
   const closeDropdown = () => {
-    if (dropdown === false) return;
-    document
-      .querySelector(".profile-dropdown")
-      .classList.toggle("active-dropdown");
-    setDropdown(false);
+    setOpen(false);
   };
 
   // clear state & sessionStorage before logout
@@ -68,26 +61,28 @@ const Navbar = () => {
           src={require("../../assets/images/dd-arrow.png")}
           alt=""
         />
-        <div className="profile-dropdown">
-          <div className="dropdown-top">
-            <img
-              src={
-                account && account.images[0].url
-                  ? account.images[0].url
-                  : require("../../assets/images/default-pfp.png")
-              }
-              alt=""
-            />
-            <h3>{account ? account.display_name : "User"}</h3>
+        {open ? (
+          <div className="profile-dropdown">
+            <div className="dropdown-top">
+              <img
+                src={
+                  account && account.images[0].url
+                    ? account.images[0].url
+                    : require("../../assets/images/default-pfp.png")
+                }
+                alt=""
+              />
+              <h3>{account ? account.display_name : "User"}</h3>
+            </div>
+            <div className="options">
+              <h4>Some Option</h4>
+              <h4>Another Option</h4>
+            </div>
+            <div className="logout">
+              <h4 onClick={logoutActions}>Logout</h4>
+            </div>
           </div>
-          <div className="options">
-            <h4>Some Option</h4>
-            <h4>Another Option</h4>
-          </div>
-          <div className="logout">
-            <h4 onClick={logoutActions}>Logout</h4>
-          </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
