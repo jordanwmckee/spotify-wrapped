@@ -35,43 +35,47 @@ import {
 function App() {
   const [user, loading, error] = useAuthState(auth);
   const [linked, setLinked] = useState(false);
-  const { recommendUris } = useSelector((state) => state.user);
+  const {
+    recommendUris,
+    account,
+    monthlySongs,
+    monthlyArtists,
+    allTimeSongs,
+    allTimeArtists,
+  } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (loading || !user) return;
 
-    // here, we need to get & update all spotify info to be store in the app
+    // get & update all spotify info to be store in the app
     const getData = async () => {
       // validate access token
       await refreshAuthToken(user);
-      if (recommendUris) return;
-
-      // 1 - get recommended song uris
-      const uris = await getRecommendUris();
-      dispatch(SET_RECOMMEND_URIS(uris));
-      // 2 - get user spotify account
-      const account = await spotifyApi.getMe();
-      dispatch(SET_ACCOUNT(account));
-      // 3 - get top user items
-      // monthly
-      var params = {
-        time_range: "short_term",
-        limit: "8",
-      };
-      const { topTracks: monthlySongs, topArtists: monthlyArtists } =
-        await getTopItems(params);
-      dispatch(SET_MONTHLY_SONGS(monthlySongs));
-      dispatch(SET_MONTHLY_ARTISTS(monthlyArtists));
-      // all time
-      params = {
-        time_range: "long_term",
-        limit: "8",
-      };
-      const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
-        await getTopItems(params);
-      dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
-      dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
+      if (!recommendUris) {
+        // get recommended song uris
+        const uris = await getRecommendUris();
+        dispatch(SET_RECOMMEND_URIS(uris));
+      }
+      if (!account) {
+        // get user spotify account
+        const account = await spotifyApi.getMe();
+        dispatch(SET_ACCOUNT(account));
+      }
+      if (!monthlySongs || !monthlyArtists) {
+        // get top monthly user items
+        const { topTracks: monthlySongs, topArtists: monthlyArtists } =
+          await getTopItems({ time_range: "short_term", limit: "8" });
+        dispatch(SET_MONTHLY_SONGS(monthlySongs));
+        dispatch(SET_MONTHLY_ARTISTS(monthlyArtists));
+      }
+      if (!allTimeSongs || !allTimeArtists) {
+        // get top all time items
+        const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
+          await getTopItems({ time_range: "long_term", limit: "8" });
+        dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
+        dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
+      }
     };
 
     // check for valid access token and update linked bool
