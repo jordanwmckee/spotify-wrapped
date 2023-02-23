@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    token: null,
-    linked: false,
     account: null,
     monthlySongs: null,
     monthlyArtists: null,
@@ -13,12 +11,6 @@ export const userSlice = createSlice({
     recommendUris: null,
   },
   reducers: {
-    SET_TOKEN: (state, action) => {
-      state.token = action.payload;
-    },
-    SET_LINKED: (state, action) => {
-      state.linked = action.payload;
-    },
     SET_ACCOUNT: (state, action) => {
       state.account = { ...action.payload };
     },
@@ -42,8 +34,6 @@ export const userSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  SET_TOKEN,
-  SET_LINKED,
   SET_ACCOUNT,
   SET_MONTHLY_SONGS,
   SET_MONTHLY_ARTISTS,

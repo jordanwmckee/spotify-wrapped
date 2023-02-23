@@ -12,7 +12,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import HomeNavbar from "./components/HomeNavbar/HomeNavbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { auth, checkForToken } from "./firebase";
 import {
   fetchTokensFromCode,
@@ -27,16 +27,15 @@ import {
   SET_ACCOUNT,
   SET_ALL_TIME_ARTISTS,
   SET_ALL_TIME_SONGS,
-  SET_LINKED,
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
   SET_RECOMMEND_URIS,
-  SET_TOKEN,
 } from "./context/user";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
-  const { token, linked, recommendUris } = useSelector((state) => state.user);
+  const [linked, setLinked] = useState(false);
+  const { recommendUris } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +45,7 @@ function App() {
     const getData = async () => {
       // validate access token
       await refreshAuthToken(user);
-      if (token) return;
+      if (recommendUris) return;
 
       // 1 - get recommended song uris
       const uris = await getRecommendUris();
@@ -79,15 +78,14 @@ function App() {
     const checkToken = async () => {
       try {
         const isLinked = await checkForToken(user);
-        dispatch(SET_LINKED(isLinked));
+        setLinked(isLinked);
         // try to get tokens if spotify is not linked to user
         if (isLinked === false && window.location.search.includes("code=")) {
           await fetchTokensFromCode(user);
-          dispatch(SET_LINKED(true));
+          setLinked(true);
         } else if (isLinked === false) window.location = loginUrl;
         else {
-          // save access token and attempt to retrieve data from web api
-          dispatch(SET_TOKEN(spotifyApi.getAccessToken()));
+          // attempt to retrieve data from web api
           await getData();
         }
       } catch (err) {
@@ -104,7 +102,6 @@ function App() {
     spotifyApi.getAccessToken(),
     recommendUris,
     dispatch,
-    token,
   ]);
 
   return (
@@ -119,10 +116,10 @@ function App() {
               <Navbar />
               <div className="page">
                 <Sidebar />
-                {token && recommendUris && (
+                {spotifyApi.getAccessToken() && recommendUris && (
                   <div className="player">
                     <SpotifyPlayer
-                      token={token}
+                      token={spotifyApi.getAccessToken()}
                       uris={recommendUris}
                       className="player"
                     />
