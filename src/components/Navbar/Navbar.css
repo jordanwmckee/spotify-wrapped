@@ -59,8 +59,8 @@
 .profile-dropdown {
   position: absolute;
   display: inline-block;
-  top: 0;
-  right: 0;
+  top: -5px;
+  right: -5px;
   background-color: white;
   width: 175px;
   border-radius: 10px;
