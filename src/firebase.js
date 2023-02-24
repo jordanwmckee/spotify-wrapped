@@ -18,10 +18,8 @@ import {
   setDoc,
   updateDoc,
   doc,
-  SnapshotMetadata,
   deleteDoc,
 } from "firebase/firestore";
-import { spotifyApi } from "./spotify";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -124,8 +122,6 @@ const sendPasswordReset = async (email) => {
  * Logout and unauthenticate user from app
  */
 const logout = () => {
-  spotifyApi.setAccessToken(null);
-  sessionStorage.clear();
   signOut(auth);
 };
 
@@ -186,7 +182,6 @@ const checkForToken = async (user) => {
     const docRef = doc(db, "users", user?.uid);
     const snapshot = await getDoc(docRef);
     if (snapshot.data().refreshToken !== "") return true;
-    else if (snapshot.data().refreshToken === "") return false;
   } catch (err) {
     console.error(err);
   }

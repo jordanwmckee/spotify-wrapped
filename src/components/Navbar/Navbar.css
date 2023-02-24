@@ -57,7 +57,10 @@
   width: 50px;
 }
 .profile-dropdown {
-  display: none;
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  right: 0;
   background-color: white;
   width: 175px;
   border-radius: 10px;
@@ -90,10 +93,4 @@
 .profile-dropdown h4:hover {
   background-color: #d9e3ea;
   cursor: pointer;
-}
-.active-dropdown {
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  right: 0;
 }

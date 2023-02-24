@@ -1,3 +1,8 @@
+/**
+ * This file contians the functionality for creating the Spotify Web API
+ * and for handling deconstruction of API request results
+ */
+
 import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
@@ -149,6 +154,7 @@ const refreshAuthToken = async (user) => {
   console.log("New access token generated.");
   addTokenToSession(data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
+  refreshCycle(user);
 };
 
 /**
@@ -160,10 +166,83 @@ const refreshCycle = (user) => {
   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
 };
 
+/**
+ * Get array of URIs to use for Spotify Playback SDK
+ *
+ * @returns {Array} The URIS for the Player to use
+ */
+const getRecommendUris = async () => {
+  var tracksArr = [];
+  try {
+    // Get seed tracks for recommendations
+    const top5Tracks = await spotifyApi.getMyTopTracks({
+      time_range: "short_term",
+      limit: "5",
+    });
+    let seeds = "";
+    top5Tracks.items.forEach((track) => {
+      seeds += track.id + ",";
+    });
+    seeds = seeds.slice(0, -1);
+
+    // Get recommendations using seeds
+    const recommendations = await spotifyApi.getRecommendations({
+      seed_tracks: seeds,
+      limit: 100,
+    });
+    recommendations.tracks.forEach((track) => {
+      tracksArr.push(track.uri);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+  return tracksArr;
+};
+
+/**
+ * Make api call to get top songs and artists based on parameters passed
+ *
+ * @param {Object} params The parameters to use in the api call
+ * @returns {Array, Array} Arrays for the top artists and songs based on given params
+ */
+const getTopItems = async (params) => {
+  var topTracksArr = [];
+  var topArtistsArr = [];
+  try {
+    // get top items
+    const topTracksRes = await spotifyApi.getMyTopTracks(params);
+    const topArtistsRes = await spotifyApi.getMyTopArtists(params);
+    // convert requests into objects for TopCard component
+    if (topTracksRes) {
+      topTracksRes.items.forEach((track) => {
+        let data = {
+          name: track.name,
+          image: track.album.images[0].url,
+        };
+        topTracksArr.push(data);
+      });
+    }
+    if (topArtistsRes) {
+      topArtistsRes.items.forEach((artist) => {
+        let data = {
+          name: artist.name,
+          image: artist.images[0].url,
+        };
+        topArtistsArr.push(data);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return { topTracks: topTracksArr, topArtists: topArtistsArr };
+};
+
 export {
   spotifyApi,
   loginUrl,
   fetchTokensFromCode,
   refreshAuthToken,
   refreshCycle,
+  getRecommendUris,
+  getTopItems,
 };

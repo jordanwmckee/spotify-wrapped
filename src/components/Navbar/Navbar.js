@@ -1,44 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
-import { spotifyApi } from "../../spotify";
+import { RESET } from "../../context/user";
 import "./Navbar.css";
+import { spotifyApi } from "../../spotify";
 
-const Navbar = (spotifyLinked) => {
-  const [profilePic, setProfilePic] = useState(null);
-  const [name, setName] = useState(null);
-  const [dropdown, setDropdown] = useState(false);
+const Navbar = () => {
+  const { account } = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
-    const dropdownElement = document.querySelector(".profile-dropdown");
-    dropdownElement.classList.toggle("active-dropdown");
-    dropdown === true ? setDropdown(false) : setDropdown(true);
+    setOpen(!open);
   };
 
-  // close dropdown if clicking outside it
   const closeDropdown = () => {
-    if (dropdown === false) return;
-    document
-      .querySelector(".profile-dropdown")
-      .classList.toggle("active-dropdown");
-    setDropdown(false);
+    setOpen(false);
   };
 
-  const getData = async () => {
-    // get user's profile picture
-    if (!spotifyLinked || profilePic) return;
-    try {
-      const account = await spotifyApi.getMe();
-      setName(account.display_name);
-      setProfilePic(account.images[0].url);
-    } catch (err) {
-      //console.log(err);
-    }
+  // clear state & sessionStorage before logout
+  const logoutActions = async () => {
+    // remove user access tokens
+    spotifyApi.setAccessToken(null);
+    // reset redux state
+    dispatch(RESET());
+    // logout user
+    logout();
+    sessionStorage.clear();
+    window.location.reload();
   };
-
-  useEffect(() => {
-    getData();
-  }, [spotifyLinked]);
 
   return (
     <div id="navbar">
@@ -59,8 +50,8 @@ const Navbar = (spotifyLinked) => {
         <img
           className="profile-pic"
           src={
-            profilePic
-              ? profilePic
+            account && account.images[0].url
+              ? account.images[0].url
               : require("../../assets/images/default-pfp.png")
           }
           alt={require("../../assets/images/default-pfp.png")}
@@ -70,26 +61,28 @@ const Navbar = (spotifyLinked) => {
           src={require("../../assets/images/dd-arrow.png")}
           alt=""
         />
-        <div className="profile-dropdown">
-          <div className="dropdown-top">
-            <img
-              src={
-                profilePic
-                  ? profilePic
-                  : require("../../assets/images/default-pfp.png")
-              }
-              alt=""
-            />
-            <h3>{name ? name : "User"}</h3>
+        {open ? (
+          <div className="profile-dropdown">
+            <div className="dropdown-top">
+              <img
+                src={
+                  account && account.images[0].url
+                    ? account.images[0].url
+                    : require("../../assets/images/default-pfp.png")
+                }
+                alt=""
+              />
+              <h3>{account ? account.display_name : "User"}</h3>
+            </div>
+            <div className="options">
+              <h4>Some Option</h4>
+              <h4>Another Option</h4>
+            </div>
+            <div className="logout">
+              <h4 onClick={logoutActions}>Logout</h4>
+            </div>
           </div>
-          <div className="options">
-            <h4>Some Option</h4>
-            <h4>Another Option</h4>
-          </div>
-          <div className="logout">
-            <h4 onClick={logout}>Logout</h4>
-          </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
