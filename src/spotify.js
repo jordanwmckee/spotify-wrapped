@@ -128,7 +128,7 @@ const refreshAuthToken = async (user) => {
     spotifyApi.setAccessToken(token.access_token);
     return;
   } else {
-    console.log("Token expired.");
+    console.log("No valid token detected.");
   }
 
   const refToken = await getRefreshToken(user);
