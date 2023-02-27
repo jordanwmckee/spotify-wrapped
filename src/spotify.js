@@ -218,6 +218,7 @@ const getTopItems = async (params) => {
         let data = {
           name: track.name,
           image: track.album.images[0].url,
+          uri: track.uri,
         };
         topTracksArr.push(data);
       });
