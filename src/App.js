@@ -29,6 +29,7 @@ import {
   SET_ALL_TIME_SONGS,
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
+  SET_PLAYER_URIS,
   SET_RECOMMEND_URIS,
 } from "./context/user";
 
@@ -42,6 +43,7 @@ function App() {
     monthlyArtists,
     allTimeSongs,
     allTimeArtists,
+    playerUris,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -99,6 +101,7 @@ function App() {
 
     checkToken();
     getData();
+    if (!playerUris && recommendUris) dispatch(SET_PLAYER_URIS(recommendUris));
   }, [user, loading, recommendUris]);
 
   return (
@@ -117,7 +120,7 @@ function App() {
                   <div className="player">
                     <SpotifyPlayer
                       token={spotifyApi.getAccessToken()}
-                      uris={recommendUris}
+                      uris={playerUris}
                       className="player"
                     />
                   </div>
