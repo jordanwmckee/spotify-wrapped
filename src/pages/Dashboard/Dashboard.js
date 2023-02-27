@@ -21,11 +21,6 @@ const Dashboard = () => {
       />
       {account && (
         <div className="content">
-          <div className="heading-card-section">
-            <TitleCard heading="Title Card" text="test description" />
-            <TitleCard heading="Other Title" text="testy here" />
-            <TitleCard heading="Other Title" text="testy here" />
-          </div>
           {monthlyArtists && monthlySongs && (
             <>
               <TopCard list={monthlyArtists} title="Top Artists this Month" />

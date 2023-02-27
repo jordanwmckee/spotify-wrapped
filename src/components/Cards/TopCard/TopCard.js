@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SET_PLAYER_URIS } from "../../../context/user";
 import "./TopCard.css";
 
 const TopCard = ({ list, title }) => {
   const [uri, setUri] = useState(null);
-  const { playerUris } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uri) return;
-    dispatch(SET_PLAYER_URIS([uri, ...playerUris]));
+    dispatch(SET_PLAYER_URIS([uri]));
   }, [uri]);
 
   return (
