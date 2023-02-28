@@ -78,7 +78,7 @@
 }
 #player .recommended p:hover,
 .playlists p:hover {
-  background-color: lightgray;
+  background-color: #d9e3ea;
 }
 .active-popup {
   transform: scaleY(-1);
