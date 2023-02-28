@@ -8,6 +8,7 @@ const initialState = {
   allTimeArtists: null,
   recommendUris: null,
   playerUris: null,
+  userPlaylists: null,
 };
 
 export const userSlice = createSlice({
@@ -35,6 +36,9 @@ export const userSlice = createSlice({
     SET_PLAYER_URIS: (state, action) => {
       state.playerUris = [...action.payload];
     },
+    SET_USER_PLAYLISTS: (state, action) => {
+      state.userPlaylists = [...action.payload];
+    },
     RESET: () => {
       return { ...initialState };
     },
@@ -50,6 +54,7 @@ export const {
   SET_ALL_TIME_ARTISTS,
   SET_RECOMMEND_URIS,
   SET_PLAYER_URIS,
+  SET_USER_PLAYLISTS,
   RESET,
 } = userSlice.actions;
 
