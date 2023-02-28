@@ -71,7 +71,11 @@ const Player = () => {
         </div>
       </div>
       <div className="player-box">
-        <SpotifyPlayer token={spotifyApi.getAccessToken()} uris={playerUris} />
+        <SpotifyPlayer
+          token={spotifyApi.getAccessToken()}
+          uris={playerUris}
+          showSaveIcon={true}
+        />
       </div>
     </div>
   );
