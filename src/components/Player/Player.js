@@ -26,7 +26,7 @@ const Player = () => {
         <div
           className="popup-button"
           onClick={togglePopup}
-          title="Toggle playback options"
+          title="show/hide playback sources"
         >
           <img
             src={require("../../assets/images/double-arrow.png")}
@@ -36,7 +36,7 @@ const Player = () => {
         </div>
         <div className="popup-content">
           <div className="title">
-            <h3>Playback Options</h3>
+            <h3>Playback Sources</h3>
           </div>
           <div className="playback-options">
             <div className="recommended">

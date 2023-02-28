@@ -47,9 +47,13 @@
 .popup-content .title {
   text-align: center;
 }
+/* .popup-content .title {
+  padding: 8px 0;
+} */
 .popup-content .title,
-.recommended {
-  margin-bottom: 15px;
+.recommended,
+.playlists {
+  padding: 8px 0;
 }
 .popup-content .recommended,
 .playlists {
@@ -58,7 +62,6 @@
 #player .playback-options {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
 }
 .playback-options p {
   border-radius: 3px;
@@ -69,7 +72,7 @@
   width: 100%;
 }
 #player .playlists .playlist-list {
-  max-height: 150px;
+  max-height: 194px;
   overflow-y: scroll;
 }
 #player .recommended,
