@@ -238,6 +238,11 @@ const getTopItems = async (params) => {
   return { topTracks: topTracksArr, topArtists: topArtistsArr };
 };
 
+/**
+ * Get user playlists with spotify web api
+ *
+ * @returns {Array} An array of objects for each user playlist
+ */
 const getUserPlaylists = async () => {
   var playlists = [];
   try {
