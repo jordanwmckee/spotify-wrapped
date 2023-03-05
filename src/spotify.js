@@ -113,7 +113,7 @@ const fetchTokensFromCode = async (user) => {
   addTokenToSession(data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
   await addTokenToDb(data.refresh_token, user);
-  window.location.search = "";
+  window.location.hash = "";
 };
 
 /**
@@ -238,6 +238,30 @@ const getTopItems = async (params) => {
   return { topTracks: topTracksArr, topArtists: topArtistsArr };
 };
 
+/**
+ * Get user playlists with spotify web api
+ *
+ * @returns {Array} An array of objects for each user playlist
+ */
+const getUserPlaylists = async () => {
+  var playlists = [];
+  try {
+    const res = await spotifyApi.getUserPlaylists();
+    if (playlists) {
+      res.items.forEach((playlist) => {
+        let data = {
+          name: playlist.name,
+          uri: playlist.uri,
+        };
+        playlists.push(data);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return playlists;
+};
+
 export {
   spotifyApi,
   loginUrl,
@@ -246,4 +270,5 @@ export {
   refreshCycle,
   getRecommendUris,
   getTopItems,
+  getUserPlaylists,
 };
