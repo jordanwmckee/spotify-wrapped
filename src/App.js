@@ -21,6 +21,7 @@ import {
   spotifyApi,
   getRecommendUris,
   getTopItems,
+  getRecentListens,
 } from "./spotify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,6 +30,7 @@ import {
   SET_ALL_TIME_SONGS,
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
+  SET_RECENT_LISTENES,
   SET_RECOMMEND_URIS,
 } from "./context/user";
 
@@ -42,6 +44,7 @@ function App() {
     monthlyArtists,
     allTimeSongs,
     allTimeArtists,
+    recentListens,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -75,6 +78,12 @@ function App() {
           await getTopItems({ time_range: "long_term", limit: "8" });
         dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
         dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
+      }
+      if (!recentListens){
+        //get listen history
+        const {listenHistory: recentListens, genresArr: genresList} =
+        await getRecentListens({ limit: 50});
+        dispatch(SET_RECENT_LISTENES(recentListens));
       }
     };
 
@@ -152,5 +161,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

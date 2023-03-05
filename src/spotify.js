@@ -6,6 +6,7 @@
 import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
+import { isEmpty } from "@firebase/util";
 
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
@@ -237,6 +238,51 @@ const getTopItems = async (params) => {
   return { topTracks: topTracksArr, topArtists: topArtistsArr };
 };
 
+/**
+ * make api call to get the last 50 listened to tracks
+ * 
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+*/
+const getRecentListens = async (params) =>{
+var listenHistoryArr = [];
+var genresList = [];
+var holder = [];
+try{
+  // get last 50 listened tracks
+  const recentListensRes = await spotifyApi.getMyRecentlyPlayedTracks(params);
+  if(recentListensRes){
+    recentListensRes.items.forEach((track) =>{
+      let data = {
+      id : track.track.id,
+      name : track.track.name,
+      artist : track.track.artists,
+      };
+      //console.log(data.artist) test output
+      listenHistoryArr.push(data);
+      });
+    listenHistoryArr.forEach((object)=>{
+      let junk = object.artist;
+      junk.forEach((artist)=>{
+        holder.push(artist.id);
+        });      
+      });
+      for (let index = 0; index < holder.length; index++) {
+      let junkVar = await spotifyApi.getArtist(holder[index]);
+      genresList.push(junkVar.genres);
+      }
+/*  
+    genresList.forEach((object) => { //test output
+    console.log(object);
+    });
+*/
+    }
+  } catch(err) {
+    console.log(err);
+    }
+  return {listenHistory: listenHistoryArr, genresArr: genresList};
+};
+
 export {
   spotifyApi,
   loginUrl,
@@ -245,4 +291,5 @@ export {
   refreshCycle,
   getRecommendUris,
   getTopItems,
+  getRecentListens,
 };

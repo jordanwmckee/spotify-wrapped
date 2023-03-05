@@ -11,6 +11,7 @@ const Dashboard = () => {
     monthlyArtists,
     allTimeSongs,
     allTimeArtists,
+    recentListens,
   } = useSelector((state) => state.user);
 
   return (
