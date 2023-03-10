@@ -1,11 +1,23 @@
 import PageTitle from "../../components/PageTitle/PageTitle";
+import { useSelector } from "react-redux";
 import "./Analytics.css";
 import{
-  load_recent_genres
+  sort_genres_and_rank,
+  test,
 } from "../../analytics_calc"
 
 const Analytics = () => {
-  //let rec_genres = load_recent_genres();
+  const{
+  recentListens,
+  recentGenres,
+  } = useSelector((state) => state.user);
+
+  //test(recentGenres);
+  if((recentGenres != 'undefined') && (recentGenres != null)){
+    let rec_genre_stats = sort_genres_and_rank({recentGenres});
+    console.log(rec_genre_stats);
+    }
+
   return (
     
     <>
