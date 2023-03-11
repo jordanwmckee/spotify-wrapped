@@ -30,13 +30,10 @@ import {
   SET_ALL_TIME_SONGS,
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
-  SET_RECENT_LISTENES,
   SET_RECENT_GENRES,
+  SET_RECENT_LISTENES,
   SET_RECOMMEND_URIS,
 } from "./context/user";
-import{
-test  
-}from "./analytics_calc";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -49,7 +46,6 @@ function App() {
     allTimeSongs,
     allTimeArtists,
     recentListens,
-    recentGenres,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -84,12 +80,12 @@ function App() {
         dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
         dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
       }
-      if (!recentListens || !recentGenres){
+      if (!recentListens){
         //get listen history
-        const {listenHistory: recentListens, genresArr: recentGenres} =
+        const {listenHistory: recentListens, genresArr: genresList} =
         await getRecentListens({ limit: 50});
         dispatch(SET_RECENT_LISTENES(recentListens));
-        dispatch(SET_RECENT_GENRES(recentGenres));
+        dispatch(SET_RECENT_GENRES(genresList));
       }
     };
 

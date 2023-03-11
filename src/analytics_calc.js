@@ -47,7 +47,7 @@ import store from "../src/context/store";
 
   function get_percentages(objArr, total){
     objArr.forEach((genre) => {
-      genre.percent = ((genre.count)/total);
+      genre.percent = (((genre.count)/total)*100).toFixed(2);
       });
     };
 
@@ -65,7 +65,11 @@ let ranked_recents = [];
 let is_found = false;
 let total = 0;
 
-  GenresArg.recentGenres.forEach((song) => { //this loop iterates through the array of string arrays
+if(GenresArg.length == 0){
+  return;
+  }
+
+  GenresArg.forEach((song) => { //this loop iterates through the array of string arrays
     song.forEach((genre) => { //this loop iterates through the string arrays themselves
       let data ={  //declairing the object used to rank
         name: genre,

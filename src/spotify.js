@@ -7,7 +7,10 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
 import { isEmpty } from "@firebase/util";
-
+import{
+  sort_genres_and_rank,
+  test,
+} from "./analytics_calc"
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/";
@@ -271,15 +274,11 @@ try{
       let junkVar = await spotifyApi.getArtist(holder[index]);
       genresList.push(junkVar.genres);
       }
-/*  
-    genresList.forEach((object) => { //test output
-    console.log(object);
-    });
-*/
     }
   } catch(err) {
     console.log(err);
     }
+    //console.log(genresList);
   return {listenHistory: listenHistoryArr, genresArr: genresList};
 };
 
