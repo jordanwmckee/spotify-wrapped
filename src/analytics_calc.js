@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import store from "../src/context/store";
 
   /* Test function, I edit this function as I need to test numbers, by default its basically just
    * a typedef- for console.log(), but I do change it to manipulate and display data as I need
@@ -44,7 +42,9 @@ import store from "../src/context/store";
 
     return merge_decending(left, right);
     };
-
+  /*get_pecentage()
+   * calculates percentage transforms percentage value
+   */
   function get_percentages(objArr, total){
     objArr.forEach((genre) => {
       genre.percent = (((genre.count)/total)*100).toFixed(2);
@@ -98,9 +98,46 @@ if(GenresArg.length == 0){
   return (ranked_recents);
   };
 
+function sort_artists_and_rank(artistArg){
+  let ranked = [];
+  let is_found = false;
+  let total = 0
 
+  if(artistArg.length == 0){
+    return(-1);
+    }
+  artistArg.forEach((object)=> {
+    object.artist.forEach((artist)=>{
+      let holder = artist.name;
+      let data ={
+        name: holder,
+        count: 1,
+        percent: -1,
+        };
+      if(data.name == null){
+        data.name = "other";
+        }
+      ranked.forEach((element)=> {
+        if((element != null) && (element.name == data.name)){
+          element.count += 1;
+          is_found = true;
+          }
+        });
+        if(is_found == false){
+          ranked.push(data);
+          }
+        is_found = false;
+        total += 1;
+      });
+    });
+
+  ranked = merge_sort_decending(ranked);
+  get_percentages(ranked, total);
+  return(ranked);
+  };
 
   export {
   test,
   sort_genres_and_rank,
+  sort_artists_and_rank,
   };

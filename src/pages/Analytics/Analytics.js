@@ -4,6 +4,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { useSelector } from "react-redux";
 import "./Analytics.css";
 import{
+  sort_artists_and_rank,
   sort_genres_and_rank,
   test,
 } from "../../analytics_calc";
@@ -20,7 +21,8 @@ const Analytics = () => {
   if((recentListens) && (recentGenres) ){
   const rec_genre_stats = sort_genres_and_rank(recentGenres);
   //console.log(rec_genre_stats);
-
+  const rec_artist_stats = sort_artists_and_rank(recentListens);
+  console.log(rec_artist_stats);
  
   return (
     <>
@@ -28,6 +30,7 @@ const Analytics = () => {
       title="Analytics"
       description="Find out your style"
     />
+    <FloatingCard data={rec_artist_stats} title="Recently Played Artists"/>
     <FloatingCard data={rec_genre_stats} title="Recently Played Genres"/>
     </>
   );

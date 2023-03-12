@@ -16,6 +16,10 @@ box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
     background-color: #1db954;
 }
 
+.recharts-wrapper {
+    margin : 0 auto;
+  }
+
 .floating-card-title h1{
 width: 100%;  
 }
