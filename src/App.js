@@ -22,6 +22,8 @@ import {
   getRecommendUris,
   getTopItems,
   getRecentListens,
+  getMonthlyListens,
+  getAlltimeListens,
 } from "./spotify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -32,6 +34,10 @@ import {
   SET_MONTHLY_SONGS,
   SET_RECENT_GENRES,
   SET_RECENT_LISTENES,
+  SET_MONTHLY_LISTENS,
+  SET_MONTHLY_GENRES,
+  SET_ALLTIME_LISTENS,
+  SET_ALLTIME_GENRES,
   SET_RECOMMEND_URIS,
 } from "./context/user";
 
@@ -46,6 +52,10 @@ function App() {
     allTimeSongs,
     allTimeArtists,
     recentListens,
+    monthlyListens,
+    monthlyGenres,
+    allTimeListens,
+    allTimeGenres,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -86,6 +96,20 @@ function App() {
         await getRecentListens({ limit: 50});
         dispatch(SET_RECENT_LISTENES(recentListens));
         dispatch(SET_RECENT_GENRES(genresList));
+      }
+      if (!monthlyListens){
+        //get top monthly tracks & genres
+        const {topMonthly: monthlyListens, TopMonthGenres: monthlyGenres} =
+        await getMonthlyListens({time_range:"short_term", limit: 50});
+        dispatch(SET_MONTHLY_LISTENS(monthlyListens));
+        dispatch(SET_MONTHLY_GENRES(monthlyGenres));
+      }
+      if (!allTimeListens){
+        //get top Alltime tracks & genres
+        const {allTListnes: allTimeListens, alltGenres: allTimeGenres} =
+        await getAlltimeListens({time_range:"long_term", limit: 50});
+        dispatch(SET_ALLTIME_LISTENS(allTimeListens));
+        dispatch(SET_ALLTIME_GENRES(allTimeGenres));
       }
     };
 

@@ -9,6 +9,10 @@ const initialState = {
   recommendUris: null,
   recentListens: null,
   recentGenres: null,
+  monthlyListens: null,
+  monthlyGenres: null,
+  allTimeListens: null,
+  allTimeGenres: null,
 };
 
 export const userSlice = createSlice({
@@ -36,6 +40,18 @@ export const userSlice = createSlice({
     SET_RECENT_GENRES: (state, action) => {
       state.recentGenres=[...action.payload];
     },
+    SET_MONTHLY_LISTENS: (state, action) => {
+      state.monthlyListens=[...action.payload];
+    },
+    SET_MONTHLY_GENRES: (state, action) => {
+      state.monthlyGenres=[...action.payload];
+    },
+    SET_ALLTIME_LISTENS: (state, action) => {
+      state.allTimeListens=[...action.payload];
+    },
+    SET_ALLTIME_GENRES: (state, action) => {
+      state.allTimeGenres=[...action.payload];
+    },
     SET_RECOMMEND_URIS: (state, action) => {
       state.recommendUris = action.payload;
     },
@@ -55,6 +71,10 @@ export const {
   SET_RECOMMEND_URIS,
   SET_RECENT_LISTENES,
   SET_RECENT_GENRES,
+  SET_MONTHLY_LISTENS,
+  SET_MONTHLY_GENRES,
+  SET_ALLTIME_LISTENS,
+  SET_ALLTIME_GENRES,
   SET_AUX_LISTEN_DATA,
   RESET,
 } = userSlice.actions;

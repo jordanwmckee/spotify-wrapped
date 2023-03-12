@@ -242,7 +242,7 @@ const getTopItems = async (params) => {
 };
 
 /**
- * make api call to get the last 50 listened to tracks
+ * make api call to get the last 50 listened to tracks and associate genres
  * 
  * @param {object} params
  * @returns {Array, Array} Arrays for the recently listened and song data
@@ -282,6 +282,90 @@ try{
   return {listenHistory: listenHistoryArr, genresArr: genresList};
 };
 
+/**
+ * make api call to get the top 50 listened to tracks in the last month
+ * and associate genres
+ * 
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+*/
+const getMonthlyListens = async (params) =>{
+  var monthlyListensArr = [];
+  var monthlyGenresList = [];
+  var holder = [];
+  try{
+    // get last 50 listened tracks
+    const monthlyListensRes = await spotifyApi.getMyTopTracks(params);
+    if(monthlyListensRes){
+      monthlyListensRes.items.forEach((track) =>{
+        let data = {
+        id : track.id,
+        name : track.name,
+        artist : track.artists,
+        };
+        //console.log(data.artist) test output
+        monthlyListensArr.push(data);
+        });
+        monthlyListensArr.forEach((object)=>{
+        let junk = object.artist;
+        junk.forEach((artist)=>{
+          holder.push(artist.id);
+          });      
+        });
+        for (let index = 0; index < holder.length; index++) {
+        let junkVar = await spotifyApi.getArtist(holder[index]);
+        monthlyGenresList.push(junkVar.genres);
+        }
+      }
+    } catch(err) {
+      console.log(err);
+      }
+      //console.log(genresList);
+    return {topMonthly: monthlyListensArr, TopMonthGenres: monthlyGenresList};
+  };
+
+/**
+ * make api call to get the top 50 listened to tracks in the last several years
+ * and associate genres
+ * 
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+*/
+const getAlltimeListens = async (params) =>{
+  var allTimeListensArr = [];
+  var allTimeGenresList = [];
+  var holder = [];
+  try{
+    // get last 50 listened tracks
+    const recentListensRes = await spotifyApi.getMyTopTracks(params);
+    if(recentListensRes){
+      recentListensRes.items.forEach((track) =>{
+        let data = {
+          id : track.id,
+          name : track.name,
+          artist : track.artists,
+        };
+        //console.log(data.artist) test output
+        allTimeListensArr.push(data);
+        });
+        allTimeListensArr.forEach((object)=>{
+        let junk = object.artist;
+        junk.forEach((artist)=>{
+          holder.push(artist.id);
+          });      
+        });
+        for (let index = 0; index < holder.length; index++) {
+        let junkVar = await spotifyApi.getArtist(holder[index]);
+        allTimeGenresList.push(junkVar.genres);
+        }
+      }
+    } catch(err) {
+      console.log(err);
+      }
+      //console.log(genresList);
+    return {allTListnes: allTimeListensArr, alltGenres: allTimeGenresList};
+  };
+
 export {
   spotifyApi,
   loginUrl,
@@ -291,4 +375,6 @@ export {
   getRecommendUris,
   getTopItems,
   getRecentListens,
+  getMonthlyListens,
+  getAlltimeListens,
 };
