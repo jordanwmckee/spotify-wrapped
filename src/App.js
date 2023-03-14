@@ -20,6 +20,9 @@ import {
   spotifyApi,
   getRecommendUris,
   getTopItems,
+  getRecentListens,
+  getMonthlyListens,
+  getAlltimeListens,
   getUserPlaylists,
 } from "./spotify";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +32,12 @@ import {
   SET_ALL_TIME_SONGS,
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
+  SET_RECENT_GENRES,
+  SET_RECENT_LISTENS,
+  SET_MONTHLY_LISTENS,
+  SET_MONTHLY_GENRES,
+  SET_ALLTIME_LISTENS,
+  SET_ALLTIME_GENRES,
   SET_PLAYER_URIS,
   SET_RECOMMEND_URIS,
   SET_USER_PLAYLISTS,
@@ -45,6 +54,11 @@ function App() {
     monthlyArtists,
     allTimeSongs,
     allTimeArtists,
+    recentListens,
+    monthlyListens,
+    monthlyGenres,
+    allTimeListens,
+    allTimeGenres,
     playerUris,
     userPlaylists,
   } = useSelector((state) => state.user);
@@ -80,6 +94,27 @@ function App() {
           await getTopItems({ time_range: "long_term", limit: "8" });
         dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
         dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
+      }
+      if (!recentListens) {
+        //get listen history
+        const { listenHistory: recentListens, genresArr: genresList } =
+          await getRecentListens({ limit: 50 });
+        dispatch(SET_RECENT_LISTENS(recentListens));
+        dispatch(SET_RECENT_GENRES(genresList));
+      }
+      if (!monthlyListens || !monthlyGenres) {
+        //get top monthly tracks & genres
+        const { topMonthly: monthlyListens, TopMonthGenres: monthlyGenres } =
+          await getMonthlyListens({ time_range: "short_term", limit: 50 });
+        dispatch(SET_MONTHLY_LISTENS(monthlyListens));
+        dispatch(SET_MONTHLY_GENRES(monthlyGenres));
+      }
+      if (!allTimeListens || !allTimeGenres) {
+        //get top Alltime tracks & genres
+        const { allTListnes: allTimeListens, alltGenres: allTimeGenres } =
+          await getAlltimeListens({ time_range: "long_term", limit: 50 });
+        dispatch(SET_ALLTIME_LISTENS(allTimeListens));
+        dispatch(SET_ALLTIME_GENRES(allTimeGenres));
       }
       if (!userPlaylists) {
         // get array of user playlists
@@ -152,5 +187,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

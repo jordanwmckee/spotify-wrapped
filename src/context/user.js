@@ -7,6 +7,12 @@ const initialState = {
   allTimeSongs: null,
   allTimeArtists: null,
   recommendUris: null,
+  recentListens: null,
+  recentGenres: null,
+  monthlyListens: null,
+  monthlyGenres: null,
+  allTimeListens: null,
+  allTimeGenres: null,
   playerUris: null,
   userPlaylists: null,
 };
@@ -29,6 +35,24 @@ export const userSlice = createSlice({
     },
     SET_ALL_TIME_ARTISTS: (state, action) => {
       state.allTimeArtists = [...action.payload];
+    },
+    SET_RECENT_LISTENS: (state, action) => {
+      state.recentListens = [...action.payload];
+    },
+    SET_RECENT_GENRES: (state, action) => {
+      state.recentGenres = [...action.payload];
+    },
+    SET_MONTHLY_LISTENS: (state, action) => {
+      state.monthlyListens = [...action.payload];
+    },
+    SET_MONTHLY_GENRES: (state, action) => {
+      state.monthlyGenres = [...action.payload];
+    },
+    SET_ALLTIME_LISTENS: (state, action) => {
+      state.allTimeListens = [...action.payload];
+    },
+    SET_ALLTIME_GENRES: (state, action) => {
+      state.allTimeGenres = [...action.payload];
     },
     SET_RECOMMEND_URIS: (state, action) => {
       state.recommendUris = [...action.payload];
@@ -53,6 +77,12 @@ export const {
   SET_ALL_TIME_SONGS,
   SET_ALL_TIME_ARTISTS,
   SET_RECOMMEND_URIS,
+  SET_RECENT_LISTENS,
+  SET_RECENT_GENRES,
+  SET_MONTHLY_LISTENS,
+  SET_MONTHLY_GENRES,
+  SET_ALLTIME_LISTENS,
+  SET_ALLTIME_GENRES,
   SET_PLAYER_URIS,
   SET_USER_PLAYLISTS,
   RESET,

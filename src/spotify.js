@@ -6,7 +6,8 @@
 import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
-
+import { isEmpty } from "@firebase/util";
+import { sort_genres_and_rank, test } from "./analytics_calc";
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/";
@@ -239,7 +240,126 @@ const getTopItems = async (params) => {
 };
 
 /**
- * Get user playlists with spotify web api
+ * make api call to get the last 50 listened to tracks and associate genres
+ *
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+ */
+const getRecentListens = async (params) => {
+  var listenHistoryArr = [];
+  var genresList = [];
+  var holder = [];
+  try {
+    // get last 50 listened tracks
+    const recentListensRes = await spotifyApi.getMyRecentlyPlayedTracks(params);
+    if (recentListensRes) {
+      recentListensRes.items.forEach((track) => {
+        let data = {
+          id: track.track.id,
+          name: track.track.name,
+          artist: track.track.artists,
+        };
+        listenHistoryArr.push(data);
+      });
+      listenHistoryArr.forEach((object) => {
+        let junk = object.artist;
+        junk.forEach((artist) => {
+          holder.push(artist.id);
+        });
+      });
+      for (let index = 0; index < holder.length; index++) {
+        let junkVar = await spotifyApi.getArtist(holder[index]);
+        genresList.push(junkVar.genres);
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return { listenHistory: listenHistoryArr, genresArr: genresList };
+};
+
+/**
+ * make api call to get the top 50 listened to tracks in the last month
+ * and associate genres
+ *
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+ */
+const getMonthlyListens = async (params) => {
+  var monthlyListensArr = [];
+  var monthlyGenresList = [];
+  var holder = [];
+  try {
+    // get last 50 listened tracks
+    const monthlyListensRes = await spotifyApi.getMyTopTracks(params);
+    if (monthlyListensRes) {
+      monthlyListensRes.items.forEach((track) => {
+        let data = {
+          id: track.id,
+          name: track.name,
+          artist: track.artists,
+        };
+        monthlyListensArr.push(data);
+      });
+      monthlyListensArr.forEach((object) => {
+        let junk = object.artist;
+        junk.forEach((artist) => {
+          holder.push(artist.id);
+        });
+      });
+      for (let index = 0; index < holder.length; index++) {
+        let junkVar = await spotifyApi.getArtist(holder[index]);
+        monthlyGenresList.push(junkVar.genres);
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return { topMonthly: monthlyListensArr, TopMonthGenres: monthlyGenresList };
+};
+
+/**
+ * make api call to get the top 50 listened to tracks in the last several years
+ * and associate genres
+ *
+ * @param {object} params
+ * @returns {Array, Array} Arrays for the recently listened and song data
+ */
+const getAlltimeListens = async (params) => {
+  var allTimeListensArr = [];
+  var allTimeGenresList = [];
+  var holder = [];
+  try {
+    // get last 50 listened tracks
+    const recentListensRes = await spotifyApi.getMyTopTracks(params);
+    if (recentListensRes) {
+      recentListensRes.items.forEach((track) => {
+        let data = {
+          id: track.id,
+          name: track.name,
+          artist: track.artists,
+        };
+        allTimeListensArr.push(data);
+      });
+      allTimeListensArr.forEach((object) => {
+        let junk = object.artist;
+        junk.forEach((artist) => {
+          holder.push(artist.id);
+        });
+      });
+      for (let index = 0; index < holder.length; index++) {
+        let junkVar = await spotifyApi.getArtist(holder[index]);
+        allTimeGenresList.push(junkVar.genres);
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return { allTListnes: allTimeListensArr, alltGenres: allTimeGenresList };
+};
+
+/**
+ *  Get user playlists with spotify web api
  *
  * @returns {Array} An array of objects for each user playlist
  */
@@ -270,5 +390,8 @@ export {
   refreshCycle,
   getRecommendUris,
   getTopItems,
+  getRecentListens,
+  getMonthlyListens,
+  getAlltimeListens,
   getUserPlaylists,
 };

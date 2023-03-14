@@ -1,0 +1,52 @@
+.floating-card {
+  width: calc(100% - 30px);
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 30px 15px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.floating-card-title {
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  top: 0;
+  width: 50%;
+  height: 40px;
+  background-color: #1db954;
+}
+
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+.floating-card-title h1 {
+  width: 100%;
+}
+.floating-card-graph {
+  width: 100%;
+}
+.floating-card-data-table {
+  text-align: center !important;
+  height: 120px;
+  width: 100%;
+
+  overflow: auto;
+}
+
+.table th {
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #1db954;
+  text-align: center !important;
+  width: 925px;
+  border: 1px solid black !important;
+}
+
+.table td {
+  border-radius: 3px;
+  background-color: #9af5ba;
+  text-align: left !important;
+  width: 925px;
+  border: 1px solid black !important;
+}
