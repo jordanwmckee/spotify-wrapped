@@ -22,18 +22,20 @@ const FloatingCard = ({ data, title }) => {
       </div>
       <div className="floating-card-data-table">
         <table className="table">
-          <tr>
-            <th>Name</th>
-            <th>percentage %</th>
-          </tr>
-          {data.map((val, key) => {
-            return (
-              <tr key={key}>
-                <td>{val.name}</td>
-                <td>{val.percent}%</td>
-              </tr>
-            );
-          })}
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>percentage %</th>
+            </tr>
+            {data.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.name}</td>
+                  <td>{val.percent}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>

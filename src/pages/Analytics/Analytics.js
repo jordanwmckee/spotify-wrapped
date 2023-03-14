@@ -1,5 +1,4 @@
 import { PieChart, Pie, Sector, Cell } from "recharts";
-import TitleCard from "../../components/Cards/TitleCard/TitleCard";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { useSelector } from "react-redux";
 import "./Analytics.css";
@@ -9,7 +8,6 @@ import {
   test,
 } from "../../analytics_calc";
 import FloatingCard from "../../components/Cards/FloatingCard/FloatingCard.js";
-import { Await } from "react-router-dom";
 
 const Analytics = () => {
   const {
@@ -40,8 +38,8 @@ const Analytics = () => {
 
     return (
       <>
+        <PageTitle title="Analytics" description="Find out your style" />
         <div className="content">
-          <PageTitle title="Analytics" description="Find out your style" />
           <FloatingCard data={monthly_genre_stats} title="Top Monthly Genres" />
           <FloatingCard
             data={monthly_artist_stats}
