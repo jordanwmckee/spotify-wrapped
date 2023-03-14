@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SpotifyPlayer from "react-spotify-web-playback";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -24,6 +23,7 @@ import {
   getRecentListens,
   getMonthlyListens,
   getAlltimeListens,
+  getUserPlaylists,
 } from "./spotify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -38,8 +38,11 @@ import {
   SET_MONTHLY_GENRES,
   SET_ALLTIME_LISTENS,
   SET_ALLTIME_GENRES,
+  SET_PLAYER_URIS,
   SET_RECOMMEND_URIS,
+  SET_USER_PLAYLISTS,
 } from "./context/user";
+import Player from "./components/Player/Player";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -56,6 +59,8 @@ function App() {
     monthlyGenres,
     allTimeListens,
     allTimeGenres,
+    playerUris,
+    userPlaylists,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -110,6 +115,10 @@ function App() {
           await getAlltimeListens({ time_range: "long_term", limit: 50 });
         dispatch(SET_ALLTIME_LISTENS(allTimeListens));
         dispatch(SET_ALLTIME_GENRES(allTimeGenres));
+      if (!userPlaylists) {
+        // get array of user playlists
+        const playlists = await getUserPlaylists();
+        dispatch(SET_USER_PLAYLISTS(playlists));
       }
     };
 
@@ -119,21 +128,19 @@ function App() {
         const isLinked = await checkForToken(user);
         setLinked(isLinked);
         // try to get tokens if spotify is not linked to user
-        if (isLinked === false && window.location.search.includes("code=")) {
+        if (isLinked === false && window.location.search.includes("code")) {
           await fetchTokensFromCode(user);
           setLinked(true);
         } else if (isLinked === false) window.location = loginUrl;
-        else {
-          // attempt to retrieve data from web api
-          await getData();
-        }
+        // attempt to retrieve data from web api
+        await getData();
       } catch (err) {
         console.error(err);
       }
     };
 
     checkToken();
-    getData();
+    if (!playerUris && recommendUris) dispatch(SET_PLAYER_URIS(recommendUris));
   }, [user, loading, recommendUris]);
 
   return (
@@ -148,15 +155,7 @@ function App() {
               <Navbar />
               <div className="page">
                 <Sidebar />
-                {spotifyApi.getAccessToken() && recommendUris && (
-                  <div className="player">
-                    <SpotifyPlayer
-                      token={spotifyApi.getAccessToken()}
-                      uris={recommendUris}
-                      className="player"
-                    />
-                  </div>
-                )}
+                {spotifyApi.getAccessToken() && recommendUris && <Player />}
                 <div className="page-space">
                   <Routes>
                     <Route exact path="/" element={<Dashboard />} />

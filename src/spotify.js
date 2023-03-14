@@ -114,7 +114,7 @@ const fetchTokensFromCode = async (user) => {
   addTokenToSession(data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
   await addTokenToDb(data.refresh_token, user);
-  window.location.search = "";
+  window.location.hash = "";
 };
 
 /**
@@ -129,7 +129,7 @@ const refreshAuthToken = async (user) => {
     spotifyApi.setAccessToken(token.access_token);
     return;
   } else {
-    console.log("Token expired.");
+    console.log("No valid token detected.");
   }
 
   const refToken = await getRefreshToken(user);
@@ -219,6 +219,7 @@ const getTopItems = async (params) => {
         let data = {
           name: track.name,
           image: track.album.images[0].url,
+          uri: track.uri,
         };
         topTracksArr.push(data);
       });
@@ -361,6 +362,28 @@ const getAlltimeListens = async (params) => {
   }
   //console.log(genresList);
   return { allTListnes: allTimeListensArr, alltGenres: allTimeGenresList };
+  
+ * Get user playlists with spotify web api
+ *
+ * @returns {Array} An array of objects for each user playlist
+ */
+const getUserPlaylists = async () => {
+  var playlists = [];
+  try {
+    const res = await spotifyApi.getUserPlaylists();
+    if (playlists) {
+      res.items.forEach((playlist) => {
+        let data = {
+          name: playlist.name,
+          uri: playlist.uri,
+        };
+        playlists.push(data);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return playlists;
 };
 
 export {
@@ -374,4 +397,5 @@ export {
   getRecentListens,
   getMonthlyListens,
   getAlltimeListens,
+  getUserPlaylists,
 };

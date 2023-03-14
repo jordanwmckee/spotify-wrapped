@@ -13,6 +13,8 @@ const initialState = {
   monthlyGenres: null,
   allTimeListens: null,
   allTimeGenres: null,
+  playerUris: null,
+  userPlaylists: null,
 };
 
 export const userSlice = createSlice({
@@ -53,9 +55,15 @@ export const userSlice = createSlice({
       state.allTimeGenres = [...action.payload];
     },
     SET_RECOMMEND_URIS: (state, action) => {
-      state.recommendUris = action.payload;
+      state.recommendUris = [...action.payload];
     },
-    RESET: (state, action) => {
+    SET_PLAYER_URIS: (state, action) => {
+      state.playerUris = [...action.payload];
+    },
+    SET_USER_PLAYLISTS: (state, action) => {
+      state.userPlaylists = [...action.payload];
+    },
+    RESET: () => {
       return { ...initialState };
     },
   },
@@ -75,7 +83,8 @@ export const {
   SET_MONTHLY_GENRES,
   SET_ALLTIME_LISTENS,
   SET_ALLTIME_GENRES,
-  //SET_AUX_LISTEN_DATA,
+  SET_PLAYER_URIS,
+  SET_USER_PLAYLISTS,
   RESET,
 } = userSlice.actions;
 

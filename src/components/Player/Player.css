@@ -1,0 +1,85 @@
+#player {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 300px);
+  margin-left: 300px;
+  box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  height: auto;
+  z-index: 1;
+  background-color: white;
+}
+/* popup styling */
+.popup {
+  text-align: left;
+  padding: 0 15px;
+  max-height: 0;
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  background-color: white;
+  width: 500px;
+  bottom: 80px;
+  border-top-right-radius: 10px;
+  z-index: -1;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+/* popup button */
+#player .popup-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 30px;
+  position: absolute;
+  top: -30px;
+  left: 8px;
+  z-index: 1;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: white;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+}
+#player .popup-button img {
+  height: 20px;
+}
+/* end popup button */
+/* popup content */
+.popup .title {
+  text-align: center;
+}
+.popup .title,
+.recommended,
+.playlists {
+  padding: 8px 0;
+}
+.popup .recommended,
+.playlists {
+  border-bottom: 1px solid lightgray;
+  width: 100%;
+}
+.popup .recommended,
+.playlists p {
+  cursor: pointer;
+}
+.popup .recommended p:hover,
+.playlists p:hover {
+  background-color: #d9e3ea;
+}
+.popup .playback-options {
+  display: flex;
+  flex-direction: column;
+}
+.playback-options p {
+  border-radius: 3px;
+  padding: 3px 5px;
+}
+.popup .playlists .playlist-list {
+  max-height: 194px;
+  overflow-y: scroll;
+}
+.active-popup {
+  transform: scaleY(-1);
+}
+/* end popup styling */
