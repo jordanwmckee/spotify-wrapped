@@ -33,7 +33,7 @@ import {
   SET_MONTHLY_ARTISTS,
   SET_MONTHLY_SONGS,
   SET_RECENT_GENRES,
-  SET_RECENT_LISTENES,
+  SET_RECENT_LISTENS,
   SET_MONTHLY_LISTENS,
   SET_MONTHLY_GENRES,
   SET_ALLTIME_LISTENS,
@@ -90,24 +90,24 @@ function App() {
         dispatch(SET_ALL_TIME_SONGS(allTimeSongs));
         dispatch(SET_ALL_TIME_ARTISTS(allTimeArtists));
       }
-      if (!recentListens){
+      if (!recentListens) {
         //get listen history
-        const {listenHistory: recentListens, genresArr: genresList} =
-        await getRecentListens({ limit: 50});
-        dispatch(SET_RECENT_LISTENES(recentListens));
+        const { listenHistory: recentListens, genresArr: genresList } =
+          await getRecentListens({ limit: 50 });
+        dispatch(SET_RECENT_LISTENS(recentListens));
         dispatch(SET_RECENT_GENRES(genresList));
       }
-      if (!monthlyListens){
+      if (!monthlyListens) {
         //get top monthly tracks & genres
-        const {topMonthly: monthlyListens, TopMonthGenres: monthlyGenres} =
-        await getMonthlyListens({time_range:"short_term", limit: 50});
+        const { topMonthly: monthlyListens, TopMonthGenres: monthlyGenres } =
+          await getMonthlyListens({ time_range: "short_term", limit: 50 });
         dispatch(SET_MONTHLY_LISTENS(monthlyListens));
         dispatch(SET_MONTHLY_GENRES(monthlyGenres));
       }
-      if (!allTimeListens){
+      if (!allTimeListens) {
         //get top Alltime tracks & genres
-        const {allTListnes: allTimeListens, alltGenres: allTimeGenres} =
-        await getAlltimeListens({time_range:"long_term", limit: 50});
+        const { allTListnes: allTimeListens, alltGenres: allTimeGenres } =
+          await getAlltimeListens({ time_range: "long_term", limit: 50 });
         dispatch(SET_ALLTIME_LISTENS(allTimeListens));
         dispatch(SET_ALLTIME_GENRES(allTimeGenres));
       }
