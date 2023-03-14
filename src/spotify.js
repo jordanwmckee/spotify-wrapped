@@ -259,7 +259,6 @@ const getRecentListens = async (params) => {
           name: track.track.name,
           artist: track.track.artists,
         };
-        //console.log(data.artist) test output
         listenHistoryArr.push(data);
       });
       listenHistoryArr.forEach((object) => {
@@ -276,7 +275,6 @@ const getRecentListens = async (params) => {
   } catch (err) {
     console.log(err);
   }
-  //console.log(genresList);
   return { listenHistory: listenHistoryArr, genresArr: genresList };
 };
 
@@ -301,7 +299,6 @@ const getMonthlyListens = async (params) => {
           name: track.name,
           artist: track.artists,
         };
-        //console.log(data.artist) test output
         monthlyListensArr.push(data);
       });
       monthlyListensArr.forEach((object) => {
@@ -318,7 +315,6 @@ const getMonthlyListens = async (params) => {
   } catch (err) {
     console.log(err);
   }
-  //console.log(genresList);
   return { topMonthly: monthlyListensArr, TopMonthGenres: monthlyGenresList };
 };
 
@@ -343,7 +339,6 @@ const getAlltimeListens = async (params) => {
           name: track.name,
           artist: track.artists,
         };
-        //console.log(data.artist) test output
         allTimeListensArr.push(data);
       });
       allTimeListensArr.forEach((object) => {
@@ -360,10 +355,11 @@ const getAlltimeListens = async (params) => {
   } catch (err) {
     console.log(err);
   }
-  //console.log(genresList);
   return { allTListnes: allTimeListensArr, alltGenres: allTimeGenresList };
-  
- * Get user playlists with spotify web api
+};
+
+/**
+ *  Get user playlists with spotify web api
  *
  * @returns {Array} An array of objects for each user playlist
  */

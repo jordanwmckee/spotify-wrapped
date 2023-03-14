@@ -102,19 +102,20 @@ function App() {
         dispatch(SET_RECENT_LISTENS(recentListens));
         dispatch(SET_RECENT_GENRES(genresList));
       }
-      if (!monthlyListens) {
+      if (!monthlyListens || !monthlyGenres) {
         //get top monthly tracks & genres
         const { topMonthly: monthlyListens, TopMonthGenres: monthlyGenres } =
           await getMonthlyListens({ time_range: "short_term", limit: 50 });
         dispatch(SET_MONTHLY_LISTENS(monthlyListens));
         dispatch(SET_MONTHLY_GENRES(monthlyGenres));
       }
-      if (!allTimeListens) {
+      if (!allTimeListens || !allTimeGenres) {
         //get top Alltime tracks & genres
         const { allTListnes: allTimeListens, alltGenres: allTimeGenres } =
           await getAlltimeListens({ time_range: "long_term", limit: 50 });
         dispatch(SET_ALLTIME_LISTENS(allTimeListens));
         dispatch(SET_ALLTIME_GENRES(allTimeGenres));
+      }
       if (!userPlaylists) {
         // get array of user playlists
         const playlists = await getUserPlaylists();
