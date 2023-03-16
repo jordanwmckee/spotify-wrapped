@@ -1,6 +1,5 @@
 import { PieChart, Pie, Sector, Cell } from "recharts";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import { useSelector } from "react-redux";
 import "./Analytics.css";
 import {
   sort_artists_and_rank,
@@ -9,7 +8,26 @@ import {
 } from "../../analytics_calc";
 import FloatingCard from "../../components/Cards/FloatingCard/FloatingCard.js";
 
-const Analytics = () => {
+const Analytics = (props: {
+  recentListens?: {
+    id: string;
+    name: string;
+    artist: SpotifyApi.ArtistObjectSimplified[];
+  }[];
+  recentGenres?: Object[];
+  monthlyListens?: {
+    id: string;
+    name: string;
+    artist: SpotifyApi.ArtistObjectSimplified[];
+  }[];
+  monthlyGenres?: Object[];
+  allTimeListens?: {
+    id: string;
+    name: string;
+    artist: SpotifyApi.ArtistObjectSimplified[];
+  }[];
+  allTimeGenres?: Object[];
+}) => {
   const {
     recentListens,
     recentGenres,
@@ -17,8 +35,7 @@ const Analytics = () => {
     monthlyGenres,
     allTimeListens,
     allTimeGenres,
-  } = useSelector((state) => state.user);
-
+  } = props;
   if (
     recentListens &&
     recentGenres &&
@@ -61,6 +78,8 @@ const Analytics = () => {
         </div>
       </>
     );
+  } else {
+    return <></>;
   }
 };
 

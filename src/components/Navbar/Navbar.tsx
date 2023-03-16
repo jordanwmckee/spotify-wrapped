@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
 import { RESET } from "../../context/user";
+import { RootState } from "../../context/store";
+import Logo from "../../assets/logos/logo.png";
+import DefaultPFP from "../../assets/images/default-pfp.png";
+import DdArrow from "../../assets/images/dd-arrow.png";
 import "./Navbar.css";
 import { spotifyApi } from "../../spotify";
 
-const Navbar = () => {
-  const { account } = useSelector((state) => state.user);
+const Navbar = (props: { displayName?: string; profilePic?: string }) => {
+  const { displayName, profilePic } = props;
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -35,11 +39,7 @@ const Navbar = () => {
     <div id="navbar">
       {/* Site Logo */}
       <Link to="/">
-        <img
-          className="logo"
-          src={require("../../assets/logos/logo.png")}
-          alt="ber_logo"
-        />
+        <img className="logo" src={Logo} alt="ber_logo" />
       </Link>
       {/* User Profile Dropdown */}
       <div
@@ -49,30 +49,15 @@ const Navbar = () => {
       >
         <img
           className="profile-pic"
-          src={
-            account && account.images[0].url
-              ? account.images[0].url
-              : require("../../assets/images/default-pfp.png")
-          }
-          alt={require("../../assets/images/default-pfp.png")}
+          src={profilePic ? profilePic : DefaultPFP}
+          alt={DefaultPFP}
         />
-        <img
-          className="dd-arrow"
-          src={require("../../assets/images/dd-arrow.png")}
-          alt=""
-        />
+        <img className="dd-arrow" src={DdArrow} alt="" />
         {open ? (
           <div className="profile-dropdown">
             <div className="dropdown-top">
-              <img
-                src={
-                  account && account.images[0].url
-                    ? account.images[0].url
-                    : require("../../assets/images/default-pfp.png")
-                }
-                alt=""
-              />
-              <h3>{account ? account.display_name : "User"}</h3>
+              <img src={profilePic ? profilePic : DefaultPFP} alt="" />
+              <h3>{displayName ? displayName : "User"}</h3>
             </div>
             <div className="options">
               <h4>Some Option</h4>

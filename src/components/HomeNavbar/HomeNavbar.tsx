@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Logo from "../../assets/logos/logo.png";
 import "./HomeNavbar.css";
 
 const Navbar = () => {
@@ -6,7 +7,7 @@ const Navbar = () => {
     <div id="home-navbar">
       <div className="logo">
         <Link to="/">
-          <img src={require("../../assets/logos/logo.png")} alt="ber_logo" />
+          <img src={Logo} alt="ber_logo" />
         </Link>
       </div>
       <div className="links">

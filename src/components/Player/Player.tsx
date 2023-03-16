@@ -2,22 +2,25 @@ import SpotifyPlayer from "react-spotify-web-playback";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { spotifyApi } from "../../spotify";
+import { RootState } from "../../context/store";
+import DoubleArrow from "../../assets/images/double-arrow.png";
 import "./Player.css";
 import { SET_PLAYER_URIS } from "../../context/user";
 
-const Player = () => {
+const Player = (props: { userPlaylists?: { name: string; uri: string }[] }) => {
+  const { userPlaylists } = props;
   const [open, setOpen] = useState(false);
-  const { playerUris, recommendUris, userPlaylists } = useSelector(
-    (state) => state.user
+  const { playerUris, recommendUris } = useSelector(
+    (state: RootState) => state.user
   );
   const dispatch = useDispatch();
 
   const togglePopup = () => {
-    const popupContent = document.querySelector(".popup");
-    if (!open) popupContent.style.maxHeight = "350px";
-    else popupContent.style.maxHeight = "0";
+    let popupContent = document.querySelector(".popup")!;
+    if (!open) popupContent.setAttribute("style", "max-height: 350px");
+    else popupContent.setAttribute("style", "max-height: 0");
     setOpen(!open);
-    document.querySelector(".popup-img").classList.toggle("active-popup");
+    document.querySelector(".popup-img")?.classList.toggle("active-popup");
   };
 
   return (
@@ -28,11 +31,7 @@ const Player = () => {
           onClick={togglePopup}
           title="show/hide playback sources"
         >
-          <img
-            src={require("../../assets/images/double-arrow.png")}
-            alt=""
-            className="popup-img"
-          />
+          <img src={DoubleArrow} alt="" className="popup-img" />
         </div>
         <div className="title">
           <h3>Playback Sources</h3>
@@ -43,7 +42,7 @@ const Player = () => {
             <div className="recommended-btn">
               <p
                 onClick={() => {
-                  dispatch(SET_PLAYER_URIS(recommendUris));
+                  dispatch(SET_PLAYER_URIS(recommendUris!));
                 }}
               >
                 Recommended Songs
@@ -70,8 +69,8 @@ const Player = () => {
       </div>
       <div className="player-box">
         <SpotifyPlayer
-          token={spotifyApi.getAccessToken()}
-          uris={playerUris}
+          token={spotifyApi.getAccessToken()!}
+          uris={playerUris!}
           showSaveIcon={true}
         />
       </div>

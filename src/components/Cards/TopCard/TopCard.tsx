@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { SET_PLAYER_URIS } from "../../../context/user";
+import { SET_PLAYER_URIS } from "context/user";
+import PlayButton from "assets/images/play-button.png";
 import "./TopCard.css";
 
-const TopCard = ({ list, title }) => {
-  const [uri, setUri] = useState(null);
+const TopCard = (props: {
+  list: { name: string; image: string; uri?: string }[];
+  title: string;
+}) => {
+  const { list, title } = props;
+  const [uri, setUri] = useState<string>();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,10 +38,7 @@ const TopCard = ({ list, title }) => {
                   >
                     <img src={data.image} alt="unavailable" />
                     <div className="img-button">
-                      <img
-                        src={require("../../../assets/images/play-button.png")}
-                        alt=""
-                      />
+                      <img src={PlayButton} alt="" />
                     </div>
                   </div>
                 </div>
