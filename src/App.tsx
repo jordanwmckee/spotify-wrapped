@@ -26,9 +26,9 @@ import {
   getUserPlaylists,
 } from "./spotify";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./context/store";
-import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from "./context/user";
-import Player from "./components/Player/Player";
+import { RootState } from "context/store";
+import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from "context/user";
+import Player from "components/Player/Player";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
