@@ -60,11 +60,8 @@ function App() {
     const getData = async () => {
       // validate access token
       await refreshAuthToken(user);
-      if (!recommendUris) {
-        // get recommended song uris
-        const uris = await getRecommendUris();
-        dispatch(SET_RECOMMEND_URIS(uris));
-      }
+      // get recommend uris for player
+      !recommendUris && dispatch(SET_RECOMMEND_URIS(await getRecommendUris()));
       if (!displayName || !profilePic) {
         // get user spotify account
         const userAccount = await spotifyApi.getMe();
@@ -106,11 +103,8 @@ function App() {
         setAllTimeListens(allTimeListens);
         setAllTimeGenres(allTimeGenres);
       }
-      if (!userPlaylists) {
-        // get array of user playlists
-        const playlists = await getUserPlaylists();
-        setUserPlaylists(playlists);
-      }
+      // get user playlists for sidebar popup
+      !userPlaylists && setUserPlaylists(await getUserPlaylists());
     };
 
     // check for valid access token and update linked bool
