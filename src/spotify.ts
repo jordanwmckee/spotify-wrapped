@@ -192,11 +192,11 @@ const getRecommendUris = async (): Promise<string[]> => {
 /**
  * Make api call to get top songs and artists based on parameters passed
  *
- * @param {Object} params The parameters to use in the api call
+ * @param {object} params The parameters to use in the api call
  * @returns {TopItems[], TopItems[]} Arrays for the top artists and songs based on given params
  */
 const getTopItems = async (
-  params: Object
+  params: object
 ): Promise<{
   topTracks: TopItems[];
   topArtists: TopItems[];
@@ -239,17 +239,17 @@ const getTopItems = async (
 /**
  * make api call to get the last 50 listened to tracks and associate genres
  *
- * @param {Object} params
- * @returns {Listens[], Object[]} Arrays for the recently listened and song data
+ * @param {object} params
+ * @returns {Listens[], object[]} Arrays for the recently listened and song data
  */
 const getRecentListens = async (
-  params: Object
+  params: object
 ): Promise<{
   listenHistory: Listens[];
-  genresArr: Object[];
+  genresArr: object[];
 }> => {
   var listenHistoryArr: Listens[] = [];
-  var genresList: Object[] = [];
+  var genresList: object[] = [];
   var holder: string[] = [];
   try {
     // get last 50 listened tracks
@@ -287,17 +287,17 @@ const getRecentListens = async (
  * make api call to get the top 50 listened to tracks in the last month
  * and associate genres
  *
- * @param {Object} params
- * @returns {Listens[], Object[]} Arrays for the recently listened and song data
+ * @param {object} params
+ * @returns {Listens[], object[]} Arrays for the recently listened and song data
  */
 const getMonthlyListens = async (
-  params: Object
+  params: object
 ): Promise<{
   topMonthly: Listens[];
-  TopMonthGenres: Object[];
+  TopMonthGenres: object[];
 }> => {
   var monthlyListensArr: Listens[] = [];
-  var monthlyGenresList: Object[] = [];
+  var monthlyGenresList: object[] = [];
   var holder: string[] = [];
   try {
     // get last 50 listened tracks
@@ -335,17 +335,17 @@ const getMonthlyListens = async (
  * make api call to get the top 50 listened to tracks in the last several years
  * and associate genres
  *
- * @param {Object} params
- * @returns {Listens[], Object[]} Arrays for the recently listened and song data
+ * @param {object} params
+ * @returns {Listens[], object[]} Arrays for the recently listened and song data
  */
 const getAlltimeListens = async (
-  params: Object
+  params: object
 ): Promise<{
   allTListens: Listens[];
-  allTGenres: Object[];
+  allTGenres: object[];
 }> => {
   var allTimeListensArr: Listens[] = [];
-  var allTimeGenresList: Object[] = [];
+  var allTimeGenresList: object[] = [];
   var holder: string[] = [];
   try {
     // get last 50 listened tracks

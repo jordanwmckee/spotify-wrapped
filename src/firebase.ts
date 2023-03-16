@@ -151,7 +151,7 @@ const getUserDoc = async (user: User): Promise<DocumentData | null> => {
 /**
  * Remove user's refresh token from firebase
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  */
 const unlinkSpotify = async (user: User) => {
   try {

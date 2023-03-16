@@ -40,11 +40,11 @@ function App() {
   const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
   const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
   const [recentListens, setRecentListens] = useState<Listens[]>();
-  const [recentGenres, setRecentGenres] = useState<Object[]>();
+  const [recentGenres, setRecentGenres] = useState<object[]>();
   const [monthlyListens, setMonthlyListens] = useState<Listens[]>();
-  const [monthlyGenres, setMonthlyGenres] = useState<Object[]>();
+  const [monthlyGenres, setMonthlyGenres] = useState<object[]>();
   const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
-  const [allTimeGenres, setAllTimeGenres] = useState<Object[]>();
+  const [allTimeGenres, setAllTimeGenres] = useState<object[]>();
   const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
 
   const [linked, setLinked] = useState(false);

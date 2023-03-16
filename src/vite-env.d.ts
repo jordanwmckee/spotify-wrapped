@@ -63,11 +63,11 @@ interface DashboardProps {
 
 interface AnalyticsProps {
   recentListens?: Listens[];
-  recentGenres?: Object[];
+  recentGenres?: object[];
   monthlyListens?: Listens[];
-  monthlyGenres?: Object[];
+  monthlyGenres?: object[];
   allTimeListens?: Listens[];
-  allTimeGenres?: Object[];
+  allTimeGenres?: object[];
 }
 
 interface PageTitleProps {
