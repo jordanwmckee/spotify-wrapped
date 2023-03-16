@@ -35,40 +35,17 @@ function App() {
   // vars collected from web api
   const [displayName, setDisplayName] = useState<string>();
   const [profilePic, setProfilePic] = useState<string>();
-  const [monthlyArtists, setMonthlyArtists] =
-    useState<{ name: string; image: string }[]>();
-  const [monthlySongs, setMonthlySongs] =
-    useState<{ name: string; image: string; uri: string }[]>();
-  const [allTimeSongs, setAllTimeSongs] =
-    useState<{ name: string; image: string; uri: string }[]>();
-  const [allTimeArtists, setAllTimeArtists] =
-    useState<{ name: string; image: string }[]>();
-  const [recentListens, setRecentListens] = useState<
-    {
-      id: string;
-      name: string;
-      artist: SpotifyApi.ArtistObjectSimplified[];
-    }[]
-  >();
+  const [monthlyArtists, setMonthlyArtists] = useState<TopItems[]>();
+  const [monthlySongs, setMonthlySongs] = useState<TopItems[]>();
+  const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
+  const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
+  const [recentListens, setRecentListens] = useState<Listens[]>();
   const [recentGenres, setRecentGenres] = useState<Object[]>();
-  const [monthlyListens, setMonthlyListens] = useState<
-    {
-      id: string;
-      name: string;
-      artist: SpotifyApi.ArtistObjectSimplified[];
-    }[]
-  >();
+  const [monthlyListens, setMonthlyListens] = useState<Listens[]>();
   const [monthlyGenres, setMonthlyGenres] = useState<Object[]>();
-  const [allTimeListens, setAllTimeListens] = useState<
-    {
-      id: string;
-      name: string;
-      artist: SpotifyApi.ArtistObjectSimplified[];
-    }[]
-  >();
+  const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
   const [allTimeGenres, setAllTimeGenres] = useState<Object[]>();
-  const [userPlaylists, setUserPlaylists] =
-    useState<{ name: string; uri: string }[]>();
+  const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
 
   const [linked, setLinked] = useState(false);
   const { recommendUris, playerUris } = useSelector(

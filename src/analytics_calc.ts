@@ -64,7 +64,7 @@ function prune(array: any, total: any) {
     }
   });
 
-  oth_obj.percent = parseFloat(oth_obj.percent.toString()); //.toFixed(2);
+  oth_obj.percent = +parseFloat(oth_obj.percent.toString()).toFixed(2);
 
   while ((array[array.length - 1].count / total) * 100 < 1) {
     array.pop();

@@ -2,13 +2,7 @@ import TopCard from "components/Cards/TopCard/TopCard";
 import PageTitle from "components/PageTitle/PageTitle";
 import "./Dashboard.css";
 
-const Dashboard = (props: {
-  displayName?: string;
-  monthlyArtists?: { name: string; image: string }[];
-  monthlySongs?: { name: string; image: string; uri: string }[];
-  allTimeArtists?: { name: string; image: string }[];
-  allTimeSongs?: { name: string; image: string; uri: string }[];
-}) => {
+const Dashboard = (props: DashboardProps) => {
   const {
     displayName,
     monthlyArtists,

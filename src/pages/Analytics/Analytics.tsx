@@ -8,26 +8,7 @@ import {
 } from "analytics_calc";
 import FloatingCard from "components/Cards/FloatingCard/FloatingCard.js";
 
-const Analytics = (props: {
-  recentListens?: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
-  recentGenres?: Object[];
-  monthlyListens?: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
-  monthlyGenres?: Object[];
-  allTimeListens?: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
-  allTimeGenres?: Object[];
-}) => {
+const Analytics = (props: AnalyticsProps) => {
   const {
     recentListens,
     recentGenres,

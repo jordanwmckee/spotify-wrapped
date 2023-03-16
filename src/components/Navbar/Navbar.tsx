@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
 import { RESET } from "../../context/user";
-import { RootState } from "../../context/store";
 import Logo from "../../assets/logos/logo.png";
 import DefaultPFP from "../../assets/images/default-pfp.png";
 import DdArrow from "../../assets/images/dd-arrow.png";
 import "./Navbar.css";
 import { spotifyApi } from "../../spotify";
 
-const Navbar = (props: { displayName?: string; profilePic?: string }) => {
+const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();

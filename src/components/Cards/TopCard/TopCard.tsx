@@ -4,10 +4,7 @@ import { SET_PLAYER_URIS } from "context/user";
 import PlayButton from "assets/images/play-button.png";
 import "./TopCard.css";
 
-const TopCard = (props: {
-  list: { name: string; image: string; uri?: string }[];
-  title: string;
-}) => {
+const TopCard = (props: TopCardProps) => {
   const { list, title } = props;
   const [uri, setUri] = useState<string>();
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import { PieChart, Pie, ResponsiveContainer } from "recharts";
 import "./FloatingCard.css";
 
-const FloatingCard = (props: { data: any; title: any }) => {
+const FloatingCard = (props: FloatingCardProps) => {
   const { data, title } = props;
   return (
     <div className="floating-card">

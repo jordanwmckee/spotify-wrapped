@@ -7,8 +7,6 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { addTokenToDb, getRefreshToken } from "./firebase";
 import { Buffer } from "buffer";
 import { User } from "firebase/auth";
-import { isEmpty } from "@firebase/util";
-import { sort_genres_and_rank, test } from "./analytics_calc";
 
 // Spotify App Config
 const authEndpoint = "https://accounts.spotify.com/authorize";
@@ -39,7 +37,7 @@ const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
  * @param {number} timeCreated The time the token was requested
  */
 const addTokenToSession = (token: string, timeCreated: number) => {
-  const currentToken = {
+  const currentToken: Token = {
     access_token: token,
     time_created: timeCreated,
   };
@@ -49,10 +47,10 @@ const addTokenToSession = (token: string, timeCreated: number) => {
 /**
  * Get currentToken object from session storage
  *
- * @returns {Object}
+ * @returns {Token | null}
  */
-const getTokenFromSession = () => {
-  const token = sessionStorage.currentToken;
+const getTokenFromSession = (): Token | null => {
+  const token: string = sessionStorage.currentToken;
   if (!token) return null;
   else return JSON.parse(token);
 };
@@ -60,12 +58,12 @@ const getTokenFromSession = () => {
 /**
  * Check tokenStore to verify validity of spotify access token
  *
- * @returns {bool} True if access token is still valid, False if not
+ * @returns {boolean} True if access token is still valid, False if not
  */
-const isValidAccessToken = () => {
+const isValidAccessToken = (): boolean => {
   const token = getTokenFromSession();
   if (!token) return false;
-  const timeDiff = Date.now() - token.time_created;
+  const timeDiff = Date.now() - token.time_created!;
   if (timeDiff > 3550000) return false;
   return true;
 };
@@ -116,7 +114,7 @@ const refreshAuthToken = async (user: User) => {
   // check if access token is still valid first
   if (isValidAccessToken() === true) {
     const token = getTokenFromSession();
-    spotifyApi.setAccessToken(token.access_token);
+    spotifyApi.setAccessToken(token!.access_token!);
     return;
   } else {
     console.log("No valid token detected.");
@@ -152,16 +150,16 @@ const refreshAuthToken = async (user: User) => {
 /**
  * Run refreshAuthToken every hour to generate new token
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  */
-const refreshCycle = (user: Object) => {
+const refreshCycle = (user: User) => {
   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
 };
 
 /**
  * Get array of URIs to use for Spotify Playback SDK
  *
- * @returns {Array} The URIS for the Player to use
+ * @returns {string[]} The URIS for the Player to use
  */
 const getRecommendUris = async (): Promise<string[]> => {
   var tracksArr: string[] = [];
@@ -195,16 +193,16 @@ const getRecommendUris = async (): Promise<string[]> => {
  * Make api call to get top songs and artists based on parameters passed
  *
  * @param {Object} params The parameters to use in the api call
- * @returns {Array, Array} Arrays for the top artists and songs based on given params
+ * @returns {TopItems[], TopItems[]} Arrays for the top artists and songs based on given params
  */
 const getTopItems = async (
   params: Object
 ): Promise<{
-  topTracks: { name: string; image: string; uri: string }[];
-  topArtists: { name: string; image: string }[];
+  topTracks: TopItems[];
+  topArtists: TopItems[];
 }> => {
-  var topTracksArr: { name: string; image: string; uri: string }[] = [];
-  var topArtistsArr: { name: string; image: string }[] = [];
+  var topTracksArr: TopItems[] = [];
+  var topArtistsArr: TopItems[] = [];
   try {
     // get top items
     const topTracksRes = await spotifyApi.getMyTopTracks(params);
@@ -242,23 +240,15 @@ const getTopItems = async (
  * make api call to get the last 50 listened to tracks and associate genres
  *
  * @param {Object} params
- * @returns {Array, Array} Arrays for the recently listened and song data
+ * @returns {Listens[], Object[]} Arrays for the recently listened and song data
  */
 const getRecentListens = async (
   params: Object
 ): Promise<{
-  listenHistory: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
+  listenHistory: Listens[];
   genresArr: Object[];
 }> => {
-  var listenHistoryArr: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[] = [];
+  var listenHistoryArr: Listens[] = [];
   var genresList: Object[] = [];
   var holder: string[] = [];
   try {
@@ -298,23 +288,15 @@ const getRecentListens = async (
  * and associate genres
  *
  * @param {Object} params
- * @returns {Array, Array} Arrays for the recently listened and song data
+ * @returns {Listens[], Object[]} Arrays for the recently listened and song data
  */
 const getMonthlyListens = async (
   params: Object
 ): Promise<{
-  topMonthly: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
+  topMonthly: Listens[];
   TopMonthGenres: Object[];
 }> => {
-  var monthlyListensArr: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[] = [];
+  var monthlyListensArr: Listens[] = [];
   var monthlyGenresList: Object[] = [];
   var holder: string[] = [];
   try {
@@ -354,23 +336,15 @@ const getMonthlyListens = async (
  * and associate genres
  *
  * @param {Object} params
- * @returns {Array, Array} Arrays for the recently listened and song data
+ * @returns {Listens[], Object[]} Arrays for the recently listened and song data
  */
 const getAlltimeListens = async (
   params: Object
 ): Promise<{
-  allTListens: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[];
+  allTListens: Listens[];
   allTGenres: Object[];
 }> => {
-  var allTimeListensArr: {
-    id: string;
-    name: string;
-    artist: SpotifyApi.ArtistObjectSimplified[];
-  }[] = [];
+  var allTimeListensArr: Listens[] = [];
   var allTimeGenresList: Object[] = [];
   var holder: string[] = [];
   try {
@@ -408,10 +382,10 @@ const getAlltimeListens = async (
 /**
  *  Get user playlists with spotify web api
  *
- * @returns {Array} An array of objects for each user playlist
+ * @returns {Playlists[]} An array of objects for each user playlist
  */
-const getUserPlaylists = async (): Promise<{ name: string; uri: string }[]> => {
-  var playlists: { name: string; uri: string }[] = [];
+const getUserPlaylists = async (): Promise<Playlists[]> => {
+  var playlists: Playlists[] = [];
   try {
     const res = await spotifyApi.getUserPlaylists();
     if (playlists) {

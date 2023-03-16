@@ -7,7 +7,7 @@ import DoubleArrow from "../../assets/images/double-arrow.png";
 import "./Player.css";
 import { SET_PLAYER_URIS } from "../../context/user";
 
-const Player = (props: { userPlaylists?: { name: string; uri: string }[] }) => {
+const Player = (props: PlayerProps) => {
   const { userPlaylists } = props;
   const [open, setOpen] = useState(false);
   const { playerUris, recommendUris } = useSelector(
