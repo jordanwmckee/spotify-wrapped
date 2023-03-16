@@ -1,12 +1,12 @@
 import { PieChart, Pie, Sector, Cell } from "recharts";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import PageTitle from "components/PageTitle/PageTitle";
 import "./Analytics.css";
 import {
   sort_artists_and_rank,
   sort_genres_and_rank,
   test,
-} from "../../analytics_calc";
-import FloatingCard from "../../components/Cards/FloatingCard/FloatingCard.js";
+} from "analytics_calc";
+import FloatingCard from "components/Cards/FloatingCard/FloatingCard.js";
 
 const Analytics = (props: {
   recentListens?: {

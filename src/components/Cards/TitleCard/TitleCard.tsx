@@ -1,6 +1,7 @@
 import "./TitleCard.css";
 
-const TitleCard = ({ heading, text }) => {
+const TitleCard = (props: { heading: string; text?: string }) => {
+  const { heading, text } = props;
   return (
     <div className="title-card">
       <div className="title-card-heading">

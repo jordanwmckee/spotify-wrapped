@@ -1,7 +1,8 @@
 import { PieChart, Pie, ResponsiveContainer } from "recharts";
 import "./FloatingCard.css";
 
-const FloatingCard = ({ data, title }) => {
+const FloatingCard = (props: { data: any; title: any }) => {
+  const { data, title } = props;
   return (
     <div className="floating-card">
       <div className="floating-card-title">
@@ -27,7 +28,7 @@ const FloatingCard = ({ data, title }) => {
               <th>Name</th>
               <th>percentage %</th>
             </tr>
-            {data.map((val, key) => {
+            {data.map((val: { name: string; percent: any }, key: any) => {
               return (
                 <tr key={key}>
                   <td>{val.name}</td>

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import HomeTitle from "../../components/HomeTitle/HomeTitle";
-import { auth, sendPasswordReset } from "../../firebase";
+import HomeTitle from "components/HomeTitle/HomeTitle";
+import { auth, sendPasswordReset } from "firebase";
 import "./Reset.css";
 
 const Reset = () => {
