@@ -37,13 +37,13 @@
   height: 20px;
   margin-right: 10px;
 }
-#sidebar .sidebar-item a {
+#sidebar .links h3 {
   font-size: 20px;
-  text-decoration: none;
-  color: black;
 }
 #sidebar .link {
   display: block;
+  text-decoration: none;
+  color: black;
 }
 
 @media only screen and (min-width: 960px) {

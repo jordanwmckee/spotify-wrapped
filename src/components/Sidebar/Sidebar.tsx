@@ -11,24 +11,24 @@ const Sidebar = () => {
         <h3>Navigation</h3>
       </div>
       <div className="links">
-        <div className="sidebar-item">
-          <img src={DashboardIcon} alt="" />
-          <Link to="/" className="link">
-            Dashboard
-          </Link>
-        </div>
-        <div className="sidebar-item">
-          <img src={AnalyticsIcon} alt="" />
-          <Link to="/analytics" className="link">
-            Analytics
-          </Link>
-        </div>
-        <div className="sidebar-item">
-          <img src={CreateIcon} alt="" />
-          <Link to="/" className="link">
-            Create
-          </Link>
-        </div>
+        <Link to="/" className="link">
+          <div className="sidebar-item">
+            <img src={DashboardIcon} alt="" />
+            <h3>Dashboard</h3>
+          </div>
+        </Link>
+        <Link to="/analytics" className="link">
+          <div className="sidebar-item">
+            <img src={AnalyticsIcon} alt="" />
+            <h3>Analytics</h3>
+          </div>
+        </Link>
+        <Link to="/" className="link">
+          <div className="sidebar-item">
+            <img src={CreateIcon} alt="" />
+            <h3>Create</h3>
+          </div>
+        </Link>
       </div>
     </div>
   );
