@@ -1,26 +1,29 @@
 import SpotifyPlayer from "react-spotify-web-playback";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { spotifyApi } from "../../spotify";
-import { RootState } from "../../context/store";
-import DoubleArrow from "../../assets/images/double-arrow.png";
+import { spotifyApi } from "spotify";
+import { RootState } from "context/store";
+import DoubleArrow from "assets/logos/double-arrow.png";
 import "./Player.css";
-import { SET_PLAYER_URIS } from "../../context/user";
+import { SET_PLAYER_URIS } from "context/user";
 
 const Player = (props: PlayerProps) => {
   const { userPlaylists } = props;
   const [open, setOpen] = useState(false);
+  const [playerState, setPlayerState] = useState();
   const { playerUris, recommendUris } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log("plstate: ", playerState);
+  }, [playerState]);
+
   const togglePopup = () => {
-    let popupContent = document.querySelector(".popup")!;
-    if (!open) popupContent.setAttribute("style", "max-height: 350px");
-    else popupContent.setAttribute("style", "max-height: 0");
-    setOpen(!open);
+    document.querySelector(".popup")!.classList.toggle("popup-open");
     document.querySelector(".popup-img")?.classList.toggle("active-popup");
+    setOpen(!open);
   };
 
   return (
@@ -72,6 +75,7 @@ const Player = (props: PlayerProps) => {
           token={spotifyApi.getAccessToken()!}
           uris={playerUris!}
           showSaveIcon={true}
+          callback={playerState}
         />
       </div>
     </div>

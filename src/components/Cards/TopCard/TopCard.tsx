@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SET_PLAYER_URIS } from "context/user";
-import PlayButton from "assets/images/play-button.png";
+import PlayButton from "assets/logos/play-button.png";
 import "./TopCard.css";
 
 const TopCard = (props: TopCardProps) => {

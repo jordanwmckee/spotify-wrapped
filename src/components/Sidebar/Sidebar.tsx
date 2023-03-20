@@ -16,7 +16,9 @@ const Sidebar = () => {
           Analytics
         </Link>
         <br />
-        <p className="link">Create (coming soon)</p>
+        <Link to="/" className="link">
+          Create
+        </Link>
       </div>
     </div>
   );

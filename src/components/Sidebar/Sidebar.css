@@ -1,6 +1,6 @@
 #sidebar {
   position: fixed;
-  width: 300px;
+  width: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,6 +10,7 @@
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.2);
   z-index: 2;
   top: 75px;
+  transition: width 0.3s ease;
 }
 #sidebar div {
   margin: 20px;
@@ -21,4 +22,10 @@
 #sidebar .link {
   display: block;
   margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 960px) {
+  #sidebar {
+    width: 300px !important;
+  }
 }

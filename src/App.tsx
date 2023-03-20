@@ -157,53 +157,51 @@ function App() {
           {linked && (
             <>
               <Navbar displayName={displayName} profilePic={profilePic} />
-              <div className="page">
-                <Sidebar />
-                {recommendUris && playerUris && (
-                  <Player userPlaylists={userPlaylists} />
-                )}
-                <div className="page-space">
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <Dashboard
-                          displayName={displayName}
-                          monthlyArtists={monthlyArtists}
-                          monthlySongs={monthlySongs}
-                          allTimeArtists={allTimeArtists}
-                          allTimeSongs={allTimeSongs}
-                        />
-                      }
-                    />
-                    <Route
-                      path="/analytics"
-                      element={
-                        <Analytics
-                          recentListens={recentListens}
-                          recentGenres={recentGenres}
-                          monthlyListens={monthlyListens}
-                          monthlyGenres={monthlyGenres}
-                          allTimeListens={allTimeListens}
-                          allTimeGenres={allTimeGenres}
-                        />
-                      }
-                    />
-                    <Route
-                      path="*"
-                      element={
-                        <Dashboard
-                          displayName={displayName}
-                          monthlyArtists={monthlyArtists}
-                          monthlySongs={monthlySongs}
-                          allTimeArtists={allTimeArtists}
-                          allTimeSongs={allTimeSongs}
-                        />
-                      }
-                    />
-                  </Routes>
-                  <Footer />
-                </div>
+              <Sidebar />
+              {recommendUris && playerUris && (
+                <Player userPlaylists={userPlaylists} />
+              )}
+              <div className="page-space">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <Dashboard
+                        displayName={displayName}
+                        monthlyArtists={monthlyArtists}
+                        monthlySongs={monthlySongs}
+                        allTimeArtists={allTimeArtists}
+                        allTimeSongs={allTimeSongs}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/analytics"
+                    element={
+                      <Analytics
+                        recentListens={recentListens}
+                        recentGenres={recentGenres}
+                        monthlyListens={monthlyListens}
+                        monthlyGenres={monthlyGenres}
+                        allTimeListens={allTimeListens}
+                        allTimeGenres={allTimeGenres}
+                      />
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <Dashboard
+                        displayName={displayName}
+                        monthlyArtists={monthlyArtists}
+                        monthlySongs={monthlySongs}
+                        allTimeArtists={allTimeArtists}
+                        allTimeSongs={allTimeSongs}
+                      />
+                    }
+                  />
+                </Routes>
+                <Footer />
               </div>
             </>
           )}
