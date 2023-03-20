@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
-import HomeFooter from "../../components/HomeFooter/HomeFooter";
-import HomeTitle from "../../components/HomeTitle/HomeTitle";
+import HomeFooter from "components/HomeFooter/HomeFooter";
+import HomeTitle from "components/HomeTitle/HomeTitle";
 import "./Home.css";
+import HeroImage from "assets/images/hero-image.jpeg";
+import ArtistsImage from "assets/images/artists.jpg";
+import TracksImage from "assets/images/tracks.jpeg";
+import HistoryImage from "assets/images/history.webp";
 
 const Home = () => {
   return (
@@ -14,10 +18,7 @@ const Home = () => {
         <div className="home-button">
           <Link to="/register">Get Started</Link>
         </div>
-        <img
-          src={require("../../assets/images/hero-image.jpeg")}
-          alt="not found"
-        />
+        <img src={HeroImage} alt="not found" />
       </div>
       <HomeTitle
         title="Listening analytics for every month."
@@ -36,10 +37,7 @@ const Home = () => {
                 </p>
               </div>
               <div className="section-img">
-                <img
-                  src={require("../../assets/images/artists.jpg")}
-                  alt="img"
-                />
+                <img src={ArtistsImage} alt="img" />
               </div>
             </div>
             <div className="analytic-item">
@@ -51,10 +49,7 @@ const Home = () => {
                 </p>
               </div>
               <div className="section-img">
-                <img
-                  src={require("../../assets/images/tracks.jpeg")}
-                  alt="img"
-                />
+                <img src={TracksImage} alt="img" />
               </div>
             </div>
             <div className="analytic-item">
@@ -67,10 +62,7 @@ const Home = () => {
                 </p>
               </div>
               <div className="section-img">
-                <img
-                  src={require("../../assets/images/history.webp")}
-                  alt="img"
-                />
+                <img src={HistoryImage} alt="img" />
               </div>
             </div>
           </div>

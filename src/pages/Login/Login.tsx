@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  logInWithEmailAndPassword,
-  signInWithGoogle,
-} from "../../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Login.css";
-import HomeTitle from "../../components/HomeTitle/HomeTitle";
+import HomeTitle from "components/HomeTitle/HomeTitle";
 
 const Login = () => {
   const [email, setEmail] = useState("");

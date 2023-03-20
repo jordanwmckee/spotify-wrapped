@@ -1,15 +1,14 @@
 import { PieChart, Pie, Sector, Cell } from "recharts";
-import PageTitle from "../../components/PageTitle/PageTitle";
-import { useSelector } from "react-redux";
+import PageTitle from "components/PageTitle/PageTitle";
 import "./Analytics.css";
 import {
   sort_artists_and_rank,
   sort_genres_and_rank,
   test,
-} from "../../analytics_calc";
-import FloatingCard from "../../components/Cards/FloatingCard/FloatingCard.js";
+} from "analytics_calc";
+import FloatingCard from "components/Cards/FloatingCard/FloatingCard.js";
 
-const Analytics = () => {
+const Analytics = (props: AnalyticsProps) => {
   const {
     recentListens,
     recentGenres,
@@ -17,8 +16,7 @@ const Analytics = () => {
     monthlyGenres,
     allTimeListens,
     allTimeGenres,
-  } = useSelector((state) => state.user);
-
+  } = props;
   if (
     recentListens &&
     recentGenres &&
@@ -61,6 +59,8 @@ const Analytics = () => {
         </div>
       </>
     );
+  } else {
+    return <></>;
   }
 };
 

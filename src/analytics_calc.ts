@@ -2,7 +2,7 @@
  * a typedef- for console.log(), but I do change it to manipulate and display data as I need
  * It may seem redundent to leave it in, but please don't change the location or delete it.
  */
-function test(arg) {
+function test(arg: any) {
   console.log(arg);
 }
 
@@ -11,7 +11,7 @@ function test(arg) {
  *
  * POST-> Objects are sorted in decending order into a larger array and returned via the larger array
  */
-function merge_decending(left, right) {
+function merge_decending(left: any, right: any) {
   let sorted = [];
   while (left.length && right.length) {
     if (left[0].count > right[0].count) {
@@ -31,40 +31,40 @@ function merge_decending(left, right) {
  * NOTE*** REFERENCE for how to implement merge-sort in Javascript:
  * "https://www.doabledanny.com/merge-sort-javascript" <<-- I pretty-well copied this so I'm citing it
  */
-function merge_sort_decending(object) {
+function merge_sort_decending(object: any) {
   if (object.length <= 1) {
     return object;
   }
   let mid = Math.floor(object.length / 2);
-  let left = merge_sort_decending(object.slice(0, mid));
-  let right = merge_sort_decending(object.slice(mid));
+  let left: any = merge_sort_decending(object.slice(0, mid));
+  let right: any = merge_sort_decending(object.slice(mid));
 
   return merge_decending(left, right);
 }
 /*get_pecentage()
  * calculates percentage transforms percentage value
  */
-function get_percentages(objArr, total) {
-  objArr.forEach((genre) => {
+function get_percentages(objArr: any, total: any) {
+  objArr.forEach((genre: any) => {
     genre.percent = ((genre.count / total) * 100).toFixed(2);
   });
 }
 
-function prune(array, total) {
+function prune(array: any, total: any) {
   let indexes = [];
   var oth_obj = {
     name: "other",
     count: 0,
     percent: 0.0,
   };
-  array.forEach((element) => {
+  array.forEach((element: any) => {
     if ((element.count / total) * 100 < 1) {
       oth_obj.count += element.count;
       oth_obj.percent += parseFloat(element.percent);
     }
   });
 
-  oth_obj.percent = parseFloat(oth_obj.percent).toFixed(2);
+  oth_obj.percent = +parseFloat(oth_obj.percent.toString()).toFixed(2);
 
   while ((array[array.length - 1].count / total) * 100 < 1) {
     array.pop();
@@ -85,9 +85,9 @@ function prune(array, total) {
  *  percentage representing the percent that genre was listend to. Then the array of objects are sorted by rank
  *  in decending order, percentages are calculated, then the array of objects is returned.
  */
-function sort_genres_and_rank(GenresArg) {
+function sort_genres_and_rank(GenresArg: any) {
   //var declerations
-  let ranked_recents = [];
+  let ranked_recents: any = [];
   let is_found = false;
   let total = 0;
 
@@ -95,9 +95,9 @@ function sort_genres_and_rank(GenresArg) {
     return;
   }
 
-  GenresArg.forEach((song) => {
+  GenresArg.forEach((song: any) => {
     //this loop iterates through the array of string arrays
-    song.forEach((genre) => {
+    song.forEach((genre: any) => {
       //this loop iterates through the string arrays themselves
       let data = {
         //declairing the object used to rank
@@ -109,7 +109,7 @@ function sort_genres_and_rank(GenresArg) {
         //checks if there is no name, if no name present, name is auto set to other
         data.name = "other";
       }
-      ranked_recents.forEach((element) => {
+      ranked_recents.forEach((element: any) => {
         if (element != null && element.name == data.name) {
           //checks if exists, if it does add to count var child
           element.count += 1;
@@ -132,16 +132,16 @@ function sort_genres_and_rank(GenresArg) {
   return ranked_recents;
 }
 
-function sort_artists_and_rank(artistArg) {
-  let ranked = [];
+function sort_artists_and_rank(artistArg: any) {
+  let ranked: any = [];
   let is_found = false;
   let total = 0;
 
   if (artistArg.length == 0) {
     return -1;
   }
-  artistArg.forEach((object) => {
-    object.artist.forEach((artist) => {
+  artistArg.forEach((object: any) => {
+    object.artist.forEach((artist: any) => {
       let holder = artist.name;
       let data = {
         name: holder,
@@ -151,7 +151,7 @@ function sort_artists_and_rank(artistArg) {
       if (data.name == null) {
         data.name = "other";
       }
-      ranked.forEach((element) => {
+      ranked.forEach((element: any) => {
         if (element != null && element.name == data.name) {
           element.count += 1;
           is_found = true;

@@ -1,14 +1,15 @@
 import "./TitleCard.css";
 
-const TitleCard = ({ heading, text }) => {
+const TitleCard = (props: TitleCardProps) => {
+  const { title, description } = props;
   return (
     <div className="title-card">
       <div className="title-card-heading">
-        <h1>{heading}</h1>
+        <h1>{title}</h1>
       </div>
-      {text && (
+      {description && (
         <div className="title-card-text">
-          <h5>{text}</h5>
+          <h5>{description}</h5>
         </div>
       )}
     </div>

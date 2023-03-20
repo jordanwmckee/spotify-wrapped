@@ -1,6 +1,8 @@
 import "./HomeTitle.css";
 
-const HomeTitle = ({ title, description, subheading }) => {
+const HomeTitle = (props: HomeTitleProps) => {
+  const { title, description, subheading } = props;
+
   var titleSize = "55px";
   var descSize = "25px";
   if (subheading === true) {

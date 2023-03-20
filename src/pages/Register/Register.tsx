@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import HomeTitle from "../../components/HomeTitle/HomeTitle";
-import {
-  auth,
-  registerWithEmailAndPassword,
-  signInWithGoogle,
-} from "../../firebase";
+import HomeTitle from "components/HomeTitle/HomeTitle";
+import { auth, registerWithEmailAndPassword, signInWithGoogle } from "firebase";
 import "./Register.css";
 
 const Register = () => {

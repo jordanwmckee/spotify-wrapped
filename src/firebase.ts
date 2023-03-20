@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  User,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -19,6 +20,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  DocumentData,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -56,7 +58,7 @@ const signInWithGoogle = async () => {
         refreshToken: "",
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -69,10 +71,10 @@ const signInWithGoogle = async () => {
  * @param {string} password
  * Values from Login form
  */
-const logInWithEmailAndPassword = async (email, password) => {
+const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -86,7 +88,11 @@ const logInWithEmailAndPassword = async (email, password) => {
  * @param {string} password
  * Values from Register form
  */
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (
+  name: string,
+  email: string,
+  password: string
+) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -97,7 +103,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       email,
       refreshToken: "",
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -108,11 +114,11 @@ const registerWithEmailAndPassword = async (name, email, password) => {
  *
  * @param {string} email Retrieved from Reset form
  */
-const sendPasswordReset = async (email) => {
+const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -128,29 +134,30 @@ const logout = () => {
 /**
  * Get the firebase doc containing this user's info
  *
- * @param {Object} user Returned from useAuthState
- * @returns {Object} A reference to the users doc
+ * @param {User} user Returned from useAuthState
+ * @returns {DocumentData} A reference to the users doc
  */
-const getUserDoc = async (user) => {
+const getUserDoc = async (user: User): Promise<DocumentData | null> => {
   try {
     const docRef = doc(db, "users", user?.uid);
     const snapshot = await getDoc(docRef);
-    return snapshot.data();
-  } catch (err) {
+    return Promise.resolve(snapshot.data()!);
+  } catch (err: any) {
     console.error(err);
   }
+  return Promise.resolve(null);
 };
 
 /**
  * Remove user's refresh token from firebase
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  */
-const unlinkSpotify = async (user) => {
+const unlinkSpotify = async (user: User) => {
   try {
     const docRef = doc(db, "users", user?.uid);
     await updateDoc(docRef, { refreshToken: "" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
   }
 };
@@ -158,15 +165,15 @@ const unlinkSpotify = async (user) => {
 /**
  * Delete user account
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  */
-const removeUser = async (user) => {
+const removeUser = async (user: User) => {
   try {
     console.log("user: ", user);
     console.log("id: ", user?.uid);
     const docRef = doc(db, "users", user?.uid);
     await deleteDoc(docRef);
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
   }
 };
@@ -174,43 +181,44 @@ const removeUser = async (user) => {
 /**
  * Check for existing refresh token in user db
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  * @returns {bool} True if token exists, False if it is unset
  */
-const checkForToken = async (user) => {
+const checkForToken = async (user: User): Promise<boolean> => {
   try {
     const docRef = doc(db, "users", user?.uid);
     const snapshot = await getDoc(docRef);
-    if (snapshot.data().refreshToken !== "") return true;
-  } catch (err) {
+    if (snapshot.data()?.refreshToken !== "") return Promise.resolve(true);
+  } catch (err: any) {
     console.error(err);
   }
-  return false;
+  return Promise.resolve(false);
 };
 
 /**
  * Fetch Refresh Token from user db
  *
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  * @returns {string} Refresh token value
  */
-const getRefreshToken = async (user) => {
+const getRefreshToken = async (user: User): Promise<string | null> => {
   try {
     const docRef = doc(db, "users", user?.uid);
     const res = await getDoc(docRef);
-    return res.data().refreshToken;
-  } catch (err) {
+    return Promise.resolve(res.data()?.refreshToken);
+  } catch (err: any) {
     console.error(err);
   }
+  return Promise.resolve(null);
 };
 
 /**
  * Sets value of refresh token (stored in data var) in user db
  *
  * @param {string} data The refresh token
- * @param {Object} user Returned from useAuthState
+ * @param {User} user Returned from useAuthState
  */
-const addTokenToDb = async (data, user) => {
+const addTokenToDb = async (data: string, user: User) => {
   if (!data || !user) return;
   await updateDoc(doc(db, "users", user?.uid), { refreshToken: data })
     .then(() => {

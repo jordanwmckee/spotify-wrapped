@@ -1,6 +1,8 @@
 import "./PageTitle.css";
 
-const PageTitle = ({ title, description }) => {
+const PageTitle = (props: PageTitleProps) => {
+  const { title, description } = props;
+
   return (
     <div className="page-title">
       <div className="title-text">
