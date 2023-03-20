@@ -13,15 +13,32 @@
   transition: width 0.3s ease;
 }
 #sidebar div {
-  margin: 20px;
   text-align: left;
 }
 #sidebar .sidebar-title {
   border-bottom: 2px solid #e2e2e2;
+  margin: 20px;
+}
+#sidebar .sidebar-title h3 {
+  font-size: 25px;
+}
+#sidebar .sidebar-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px;
+}
+#sidebar .sidebar-item img {
+  height: 20px;
+  margin-right: 10px;
+}
+#sidebar .sidebar-item a {
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
 }
 #sidebar .link {
   display: block;
-  margin-bottom: 15px;
 }
 
 @media only screen and (min-width: 960px) {
