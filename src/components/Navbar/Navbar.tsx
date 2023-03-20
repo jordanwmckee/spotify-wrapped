@@ -26,6 +26,7 @@ const Navbar = (props: NavBarProps) => {
   };
 
   const toggleSidebar = () => {
+    document.querySelector(".hamburger")!.classList.toggle("active");
     let sidebarMenu = document.getElementById("sidebar")!;
     if (!sidebar) sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
     else sidebarMenu.setAttribute("style", "width: 0");
@@ -82,11 +83,9 @@ const Navbar = (props: NavBarProps) => {
           ) : null}
         </div>
         <div className="sidebar-toggle">
-          {sidebar ? (
-            <img src={HamburgerActive} alt="" onClick={toggleSidebar} />
-          ) : (
-            <img src={HamburgerButton} alt="" onClick={toggleSidebar} />
-          )}
+          <div className="hamburger" onClick={toggleSidebar}>
+            <div className="bar"></div>
+          </div>
         </div>
       </div>
     </div>
