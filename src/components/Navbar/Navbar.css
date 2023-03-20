@@ -18,7 +18,7 @@
 }
 #navbar .profile {
   cursor: pointer;
-  padding: 8px 15px 3px;
+  padding: 8px 15px;
   border-radius: 4px;
   display: flex;
   justify-content: center;

@@ -27,6 +27,11 @@
   flex-direction: row;
   align-items: center;
   margin: 20px;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+#sidebar .sidebar-item:hover {
+  background-color: #d9e3ea;
 }
 #sidebar .sidebar-item img {
   height: 20px;

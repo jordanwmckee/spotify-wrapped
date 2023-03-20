@@ -47,9 +47,11 @@ const Navbar = (props: NavBarProps) => {
   return (
     <div id="navbar">
       {/* Site Logo */}
-      <Link to="/">
-        <img className="logo" src={Logo} alt="ber_logo" />
-      </Link>
+      <div className="navbar-lhs">
+        <Link to="/">
+          <img className="logo" src={Logo} alt="ber_logo" />
+        </Link>
+      </div>
       <div className="navbar-rhs">
         {/* User Profile Dropdown */}
         <div
