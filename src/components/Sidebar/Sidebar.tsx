@@ -8,8 +8,9 @@ const Sidebar = () => {
   return (
     <div id="sidebar">
       <div className="sidebar-title">
-        <h3>Navigation</h3>
+        <h3>Monthly Wrapped</h3>
       </div>
+      <h3 className="nav-menu-text">NAVIGATION MENU</h3>
       <div className="links">
         <Link to="/" className="link">
           <div className="sidebar-item">
