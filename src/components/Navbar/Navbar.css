@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #25282c;
-  z-index: 1;
+  z-index: 1000;
   height: 45px;
   width: calc(100% - 80px);
   margin: 0;
@@ -77,7 +77,7 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 1001;
 }
 .profile-dropdown .dropdown-top {
   border-bottom: 1px solid #d9e3ea;
