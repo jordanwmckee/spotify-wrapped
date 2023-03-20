@@ -1,5 +1,5 @@
 #navbar {
-  padding: 15px 40px;
+  padding: 15px 20px;
   position: fixed;
   top: 0;
   display: flex;
@@ -8,7 +8,7 @@
   background-color: #25282c;
   z-index: 1000;
   height: 45px;
-  width: calc(100% - 80px);
+  width: calc(100% - 40px);
   margin: 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
@@ -116,7 +116,6 @@
   z-index: 100;
   cursor: pointer;
   transform: scale(0.8);
-  margin-right: 20px;
 }
 #navbar .hamburger::after {
   position: absolute;
