@@ -19,7 +19,6 @@
 }
 #sidebar .sidebar-title {
   border-bottom: 1px solid lightgray;
-  /* background-color: #55595f; #1db954; #d9e3ea; */
   padding: 20px;
   height: 40px;
 }
@@ -34,7 +33,6 @@
 }
 #sidebar .sidebar-title h3 {
   font-size: 25px;
-  /* color: white; */
   color: #25282c;
 }
 #sidebar .sidebar-item {
