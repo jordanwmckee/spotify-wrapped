@@ -1,5 +1,5 @@
 import SpotifyPlayer from "react-spotify-web-playback";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { spotifyApi } from "spotify";
 import { RootState } from "context/store";
