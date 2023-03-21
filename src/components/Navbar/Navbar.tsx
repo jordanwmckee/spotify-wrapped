@@ -50,7 +50,7 @@ const Navbar = (props: NavBarProps) => {
       {/* Site Logo */}
       <div className="navbar-lhs">
         <Link to="/">
-          <img className="logo" src={Logo} alt="ber_logo" />
+          <img src={Logo} alt="ber_logo" />
         </Link>
       </div>
       <div className="navbar-rhs">
