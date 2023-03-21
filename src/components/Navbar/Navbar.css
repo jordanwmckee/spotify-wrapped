@@ -59,7 +59,7 @@
 #navbar a:hover {
   color: #1db954;
 }
-#navbar .logo {
+#navbar .navbar-lhs img {
   width: 50px;
 }
 .profile-dropdown {
