@@ -25,14 +25,22 @@ import {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const apiKey: string = import.meta.env.VITE_API_KEY!;
+const authDomain: string = import.meta.env.VITE_AUTH_DOMAIN!;
+const projectId: string = import.meta.env.VITE_PROJECT_ID!;
+const storageBucket: string = import.meta.env.VITE_STORAGE_BUCKET!;
+const messagingSenderId: string = import.meta.env.VITE_MESSAGING_SENDER_ID!;
+const appId: string = import.meta.env.VITE_APP_ID!;
+const measurementId: string = import.meta.env.VITE_MEASUREMENT_ID!;
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDuAWyQ46gU_8ni0eVXoJmFwRWkxpYaQ-w",
-  authDomain: "wrapped-monthly.firebaseapp.com",
-  projectId: "wrapped-monthly",
-  storageBucket: "wrapped-monthly.appspot.com",
-  messagingSenderId: "942348827229",
-  appId: "1:942348827229:web:50ea06f23ef961ca4b6bb4",
-  measurementId: "G-LEGN65BPPK",
+  apiKey: apiKey,
+  authDomain: authDomain,
+  projectId: projectId,
+  storageBucket: storageBucket,
+  messagingSenderId: messagingSenderId,
+  appId: appId,
+  measurementId: measurementId,
 };
 
 const app = initializeApp(firebaseConfig);
