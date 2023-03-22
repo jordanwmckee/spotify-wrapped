@@ -13,7 +13,7 @@
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 #body-overlay {
-  width: 100%;
+  width: 0;
   height: 100%;
   display: block;
   position: fixed;
@@ -188,6 +188,6 @@
     display: none;
   }
   #body-overlay {
-    opacity: 0 !important;
+    display: none !important;
   }
 }

@@ -31,10 +31,10 @@ const Navbar = (props: NavBarProps) => {
     let sidebarMenu = document.getElementById("sidebar")!;
     if (!sidebar) {
       sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
-      overlay.setAttribute("style", "opacity: 0.4; left: 300px");
+      overlay.setAttribute("style", "width: 100%; opacity: 0.4; left: 300px");
     } else {
       sidebarMenu.setAttribute("style", "width: 0");
-      overlay.setAttribute("style", "opacity: 0; left: 0");
+      overlay.setAttribute("style", "width: 0; opacity: 0; left: 0");
     }
     setSidebar(!sidebar);
   };
@@ -47,7 +47,7 @@ const Navbar = (props: NavBarProps) => {
     // remove overlay
     document
       .getElementById("body-overlay")!
-      .setAttribute("style", "opacity: 0; left 0");
+      .setAttribute("style", "width: 0; opacity: 0; left 0");
     setSidebar(false);
   };
 
