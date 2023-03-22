@@ -31,7 +31,7 @@ const Navbar = (props: NavBarProps) => {
     let sidebarMenu = document.getElementById("sidebar")!;
     if (!sidebar) {
       sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
-      overlay.setAttribute("style", "opacity: 0.5; left: 300px");
+      overlay.setAttribute("style", "opacity: 0.4; left: 300px");
     } else {
       sidebarMenu.setAttribute("style", "width: 0");
       overlay.setAttribute("style", "opacity: 0; left: 0");
