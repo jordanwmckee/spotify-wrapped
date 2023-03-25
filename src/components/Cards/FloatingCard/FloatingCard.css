@@ -1,26 +1,28 @@
 .floating-card {
-  width: calc(100% - 30px);
-  height: auto;
+  width: 100%;
   background-color: #fff;
   border-radius: 10px;
-  margin: 30px 15px;
+  margin: 30px 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
-
 .floating-card-title {
-  border-bottom-right-radius: 10px;
   border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   top: 0;
-  width: 50%;
+  width: 100%;
   height: 40px;
   background-color: #1db954;
+  transition: width 0.3s ease;
 }
-
 .recharts-wrapper {
   margin: 0 auto;
+  width: 100% !important;
 }
-
-.floating-card-title h1 {
+.recharts-surface {
+  width: 100% !important;
+}
+.floating-card-title h2 {
+  font-size: 20px;
   width: 100%;
 }
 .floating-card-graph {
@@ -28,12 +30,10 @@
 }
 .floating-card-data-table {
   text-align: center !important;
-  height: 120px;
+  height: 150px;
   width: 100%;
-
-  overflow: auto;
+  overflow-y: scroll;
 }
-
 .table th {
   font-weight: bold;
   border-radius: 5px;
@@ -42,11 +42,24 @@
   width: 925px;
   border: 1px solid black !important;
 }
-
 .table td {
   border-radius: 3px;
   background-color: #9af5ba;
   text-align: left !important;
   width: 925px;
   border: 1px solid black !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .floating-card-title h2 {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .floating-card-title {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 10px;
+    width: 50%;
+  }
 }

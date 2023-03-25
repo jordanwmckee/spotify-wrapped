@@ -25,18 +25,18 @@ button:hover {
   filter: brightness(1.1);
 }
 .page-space {
-  margin-left: 300px;
-  width: calc(100% - 300px);
+  width: 100%;
   margin-top: 155px;
   margin-bottom: 80px;
   background-color: #f2f2f2;
   min-height: 100vh;
-}
-.content {
-  padding: 20px;
+  transition: margin 0.3s ease;
 }
 .App {
   text-align: center;
+}
+.content {
+  padding: 1px 20px;
 }
 
 /* Home page styling */
@@ -83,5 +83,14 @@ button:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+}
+@media only screen and (min-width: 960px) {
+  .page-space {
+    margin-left: 300px;
+    width: calc(100% - 300px);
   }
 }

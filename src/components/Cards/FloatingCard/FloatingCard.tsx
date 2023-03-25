@@ -6,7 +6,7 @@ const FloatingCard = (props: FloatingCardProps) => {
   return (
     <div className="floating-card">
       <div className="floating-card-title">
-        <h1>{title}</h1>
+        <h2>{title}</h2>
       </div>
       <div className="floating-card-graph">
         <PieChart width={1000} height={250}>

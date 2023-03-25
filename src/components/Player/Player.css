@@ -1,25 +1,30 @@
 #player {
   position: fixed;
   bottom: 0;
-  width: calc(100% - 300px);
-  margin-left: 300px;
+  width: 100%;
   box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.2);
   height: auto;
   z-index: 1;
   background-color: white;
+  transition: margin-left 0.3s ease;
 }
 /* popup styling */
 .popup {
   text-align: left;
   padding: 0 15px;
-  max-height: 0;
-  transition: all 0.3s ease-in-out;
+  height: 350px;
+  transition-property: top, width;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
   position: absolute;
   background-color: white;
-  width: 500px;
-  bottom: 80px;
-  border-top-right-radius: 10px;
+  width: calc(100% - 30px);
+  top: 0;
+  /* bottom: 148px; */
   z-index: -1;
+}
+.popup-open {
+  top: -350px;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 /* popup button */
@@ -76,10 +81,24 @@
   padding: 3px 5px;
 }
 .popup .playlists .playlist-list {
-  max-height: 194px;
+  height: 190px;
   overflow-y: scroll;
 }
 .active-popup {
   transform: scaleY(-1);
 }
 /* end popup styling */
+
+@media only screen and (min-width: 768px) {
+  .popup {
+    width: 500px;
+    border-top-right-radius: 10px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  #player {
+    margin-left: 300px;
+    width: calc(100% - 300px);
+  }
+}

@@ -1,22 +1,35 @@
 import { Link } from "react-router-dom";
+import DashboardIcon from "assets/logos/dashboard.png";
+import AnalyticsIcon from "assets/logos/analytics.png";
+import CreateIcon from "assets/logos/forYou.png";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
     <div id="sidebar">
       <div className="sidebar-title">
-        <h3>Navigation</h3>
+        <h3>Monthly Wrapped</h3>
       </div>
+      <h3 className="nav-menu-text">NAVIGATION MENU</h3>
       <div className="links">
         <Link to="/" className="link">
-          Dashboard
+          <div className="sidebar-item">
+            <img src={DashboardIcon} alt="" />
+            <h3>Dashboard</h3>
+          </div>
         </Link>
-        <br />
         <Link to="/analytics" className="link">
-          Analytics
+          <div className="sidebar-item">
+            <img src={AnalyticsIcon} alt="" />
+            <h3>Analytics</h3>
+          </div>
         </Link>
-        <br />
-        <p className="link">Create (coming soon)</p>
+        <Link to="/" className="link">
+          <div className="sidebar-item">
+            <img src={CreateIcon} alt="" />
+            <h3>Create</h3>
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
 #navbar {
-  padding: 15px 40px;
+  padding: 15px 20px;
   position: fixed;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #25282c;
-  z-index: 1;
+  z-index: 1000;
   height: 45px;
-  width: calc(100% - 80px);
+  width: calc(100% - 40px);
   margin: 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
@@ -18,7 +18,7 @@
 }
 #navbar .profile {
   cursor: pointer;
-  padding: 8px 15px 3px;
+  padding: 8px 15px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -37,6 +37,12 @@
   cursor: pointer;
   letter-spacing: 0.1em;
   color: black;
+}
+#navbar .navbar-rhs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 #navbar .profile-pic {
   width: 40px;
@@ -60,12 +66,13 @@
   position: absolute;
   display: inline-block;
   top: 0;
-  right: -5px;
+  right: -30px;
   background-color: white;
   width: 175px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1001;
 }
 .profile-dropdown .dropdown-top {
   border-bottom: 1px solid #d9e3ea;
@@ -93,4 +100,77 @@
 .profile-dropdown h4:hover {
   background-color: #d9e3ea;
   cursor: pointer;
+}
+
+/* hamburger */
+#navbar .hamburger {
+  height: 45px;
+  width: 45px;
+  display: inline-block;
+  border: 2px solid #d9e3ea;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+  transform: scale(0.8);
+}
+#navbar .hamburger::after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: 2px solid #d9e3ea;
+  animation: hamburger_pulse 1.5s ease infinite;
+}
+#navbar .hamburger .bar {
+  height: 2px;
+  width: 30px;
+  position: relative;
+  background-color: white;
+  z-index: -1;
+}
+#navbar .hamburger .bar::after,
+#navbar .hamburger .bar::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  background-color: #d9e3ea;
+  transition: 0.3s ease;
+  transition-property: top, bottom;
+}
+#navbar .hamburger .bar::after {
+  top: 8px;
+}
+#navbar .hamburger .bar::before {
+  bottom: 8px;
+}
+#navbar .hamburger.active .bar::before {
+  bottom: 0;
+}
+#navbar .hamburger.active .bar::after {
+  top: 0;
+}
+
+@keyframes hamburger_pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+/* end hamburger */
+
+@media only screen and (min-width: 960px) {
+  #navbar .sidebar-toggle {
+    display: none;
+  }
 }
