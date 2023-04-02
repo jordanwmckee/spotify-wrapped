@@ -9,10 +9,10 @@ import { Buffer } from "buffer";
 import { User } from "firebase/auth";
 
 // Spotify App Config
-const authEndpoint = "https://accounts.spotify.com/authorize";
-const redirectUri = "http://localhost:5173/";
-const clientId = "155ce0eabe804923855dd85cbd23329e";
-const clientSecret = "40498951b9224388b01a2a0920b5289e";
+const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
+const redirectUri: string = import.meta.env.VITE_REDIRECT_URI!;
+const clientId: string = import.meta.env.VITE_CLIENT_ID!;
+const clientSecret: string = import.meta.env.VITE_CLIENT_SECRET!;
 
 var spotifyApi = new SpotifyWebApi();
 
