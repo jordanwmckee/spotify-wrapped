@@ -53,14 +53,12 @@ const Navbar = (props: NavBarProps) => {
 
   // clear state & sessionStorage before logout
   const logoutActions = async () => {
-    // remove user access tokens
     spotifyApi.setAccessToken(null);
     // reset redux state
     dispatch(RESET());
-    // logout user
-    logout();
-    sessionStorage.clear();
-    window.location.reload();
+    // remove tokens from store
+    localStorage.removeItem("SpotifyTokens");
+    window.location.replace(window.location.origin);
   };
 
   return (
