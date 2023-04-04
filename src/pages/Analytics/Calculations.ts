@@ -53,7 +53,7 @@ function get_percentages(objArr: any, total: any) {
 function prune(array: any, total: any) {
   let indexes = [];
   var oth_obj = {
-    name: "other",
+    name: 'other',
     count: 0,
     percent: 0.0,
   };
@@ -107,7 +107,7 @@ function sort_genres_and_rank(GenresArg: any) {
       };
       if (data.name == null) {
         //checks if there is no name, if no name present, name is auto set to other
-        data.name = "other";
+        data.name = 'other';
       }
       ranked_recents.forEach((element: any) => {
         if (element != null && element.name == data.name) {
@@ -149,7 +149,7 @@ function sort_artists_and_rank(artistArg: any) {
         percent: -1,
       };
       if (data.name == null) {
-        data.name = "other";
+        data.name = 'other';
       }
       ranked.forEach((element: any) => {
         if (element != null && element.name == data.name) {

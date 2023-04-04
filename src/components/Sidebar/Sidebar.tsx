@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import DashboardIcon from "assets/logos/dashboard.png";
-import AnalyticsIcon from "assets/logos/analytics.png";
-import CreateIcon from "assets/logos/forYou.png";
-import "./Sidebar.css";
+import { Link } from 'react-router-dom';
+import DashboardIcon from 'assets/logos/dashboard.png';
+import AnalyticsIcon from 'assets/logos/analytics.png';
+import CreateIcon from 'assets/logos/forYou.png';
+import './Sidebar.css';
 
 const Sidebar = () => {
   return (

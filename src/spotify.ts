@@ -3,8 +3,8 @@
  * and for handling deconstruction of API request results
  */
 
-import SpotifyWebApi from "spotify-web-api-js";
-import { Buffer } from "buffer";
+import SpotifyWebApi from 'spotify-web-api-js';
+import { Buffer } from 'buffer';
 
 // Spotify App Config
 const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
@@ -16,12 +16,12 @@ var spotifyApi = new SpotifyWebApi();
 
 // query parameters for spotify auth
 const auth_query_params = new URLSearchParams({
-  show_dialog: "true",
-  response_type: "code",
-  grant_type: "authorization_code",
+  show_dialog: 'true',
+  response_type: 'code',
+  grant_type: 'authorization_code',
   client_id: clientId,
   scope:
-    "streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private",
+    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private',
   redirect_uri: redirectUri,
 });
 
@@ -45,7 +45,7 @@ const addTokensToStore = (
     time_created: timeCreated,
   };
   if (refToken)
-    localStorage.setItem("SpotifyTokens", JSON.stringify(currentToken));
+    localStorage.setItem('SpotifyTokens', JSON.stringify(currentToken));
 };
 
 /**
@@ -54,7 +54,7 @@ const addTokensToStore = (
  * @returns {boolean} True if tokens are found in localStorage, false otherwise
  */
 const checkForTokens = (): boolean => {
-  const tokenStore = localStorage.getItem("SpotifyTokens");
+  const tokenStore = localStorage.getItem('SpotifyTokens');
   if (tokenStore) return true;
   else return false;
 };
@@ -65,7 +65,7 @@ const checkForTokens = (): boolean => {
  * @returns {Token | null}
  */
 const getTokensFromStore = (): Token | null => {
-  const auth: string = localStorage.getItem("SpotifyTokens")!;
+  const auth: string = localStorage.getItem('SpotifyTokens')!;
   if (!auth) return null;
   else return JSON.parse(auth);
 };
@@ -90,24 +90,24 @@ const isValidAccessToken = (): boolean => {
 const fetchTokensFromCode = async () => {
   // get response code from url
   const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get("code");
+  const code = urlParams.get('code');
 
   // execute fetch to get tokens from code
-  if (typeof code === "string") {
+  if (typeof code === 'string') {
     const body = new URLSearchParams({
       code: code,
       redirect_uri: redirectUri,
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
     });
 
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-      method: "post",
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'post',
       body: body,
       headers: {
-        "Content-type": "application/x-www-form-urlencoded",
+        'Content-type': 'application/x-www-form-urlencoded',
         Authorization:
-          "Basic " +
-          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+          'Basic ' +
+          Buffer.from(clientId + ':' + clientSecret).toString('base64'),
       },
     });
 
@@ -130,29 +130,29 @@ const refreshAuthToken = async () => {
     spotifyApi.setAccessToken(auth!.access_token!);
     return;
   } else {
-    console.log("No valid token detected.");
+    console.log('No valid token detected.');
   }
 
   if (!auth?.refresh_token) return;
 
   var body = new URLSearchParams({
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
     refresh_token: auth.refresh_token,
   });
 
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "post",
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'post',
     body: body,
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      'Content-type': 'application/x-www-form-urlencoded',
       Authorization:
-        "Basic " +
-        Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+        'Basic ' +
+        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
     },
   });
 
   const data = await response.json();
-  console.log("New access token generated.");
+  console.log('New access token generated.');
   addTokensToStore(auth.refresh_token, data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
   // refreshCycle(user);
@@ -177,12 +177,12 @@ const getRecommendUris = async (): Promise<string[]> => {
   try {
     // Get seed tracks for recommendations
     const top5Tracks = await spotifyApi.getMyTopTracks({
-      time_range: "short_term",
-      limit: "5",
+      time_range: 'short_term',
+      limit: '5',
     });
-    let seeds = "";
+    let seeds = '';
     top5Tracks.items.forEach((track) => {
-      seeds += track.id + ",";
+      seeds += track.id + ',';
     });
     seeds = seeds.slice(0, -1);
 

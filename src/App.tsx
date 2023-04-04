@@ -1,13 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "pages/Home/Home";
-import Dashboard from "pages/Dashboard/Dashboard";
-import Analytics from "pages/Analytics/Analytics";
-import NotFound from "pages/NotFound/NotFound";
-import Sidebar from "components/Sidebar/Sidebar";
-import Footer from "components/Footer/Footer";
-import Navbar from "components/Navbar/Navbar";
-import HomeNavbar from "components/HomeNavbar/HomeNavbar";
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from 'pages/Home/Home';
+import Dashboard from 'pages/Dashboard/Dashboard';
+import Analytics from 'pages/Analytics/Analytics';
+import NotFound from 'pages/NotFound/NotFound';
+import Sidebar from 'components/Sidebar/Sidebar';
+import Footer from 'components/Footer/Footer';
+import Navbar from 'components/Navbar/Navbar';
+import HomeNavbar from 'components/HomeNavbar/HomeNavbar';
+import { useEffect, useState } from 'react';
 import {
   fetchTokensFromCode,
   refreshAuthToken,
@@ -19,11 +19,11 @@ import {
   getAlltimeListens,
   getUserPlaylists,
   checkForTokens,
-} from "./spotify";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "context/store";
-import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from "context/user";
-import Player from "components/Player/Player";
+} from './spotify';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'context/store';
+import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from 'context/user';
+import Player from 'components/Player/Player';
 
 function App() {
   // used for auth
@@ -60,20 +60,20 @@ function App() {
       if (!displayName || !profilePic) {
         // get user spotify account
         const userAccount = await spotifyApi.getMe();
-        setDisplayName(userAccount.display_name || "");
-        setProfilePic(userAccount.images![0].url || "");
+        setDisplayName(userAccount.display_name || '');
+        setProfilePic(userAccount.images![0].url || '');
       }
       if (!monthlySongs || !monthlyArtists) {
         // get top monthly user items
         const { topTracks: monthlySongs, topArtists: monthlyArtists } =
-          await getTopItems({ time_range: "short_term", limit: "16" });
+          await getTopItems({ time_range: 'short_term', limit: '16' });
         setMonthlySongs(monthlySongs);
         setMonthlyArtists(monthlyArtists);
       }
       if (!allTimeSongs || !allTimeArtists) {
         // get top all time items
         const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
-          await getTopItems({ time_range: "long_term", limit: "16" });
+          await getTopItems({ time_range: 'long_term', limit: '16' });
         setAllTimeSongs(allTimeSongs);
         setAllTimeArtists(allTimeArtists);
       }
@@ -87,14 +87,14 @@ function App() {
       if (!monthlyListens || !monthlyGenres) {
         //get top monthly tracks & genres
         const { topMonthly: monthlyListens, TopMonthGenres: monthlyGenres } =
-          await getMonthlyListens({ time_range: "short_term", limit: 50 });
+          await getMonthlyListens({ time_range: 'short_term', limit: 50 });
         setMonthlyListens(monthlyListens);
         setMonthlyGenres(monthlyGenres);
       }
       if (!allTimeListens || !allTimeGenres) {
         //get top Alltime tracks & genres
         const { allTListens: allTimeListens, allTGenres: allTimeGenres } =
-          await getAlltimeListens({ time_range: "long_term", limit: 50 });
+          await getAlltimeListens({ time_range: 'long_term', limit: 50 });
         setAllTimeListens(allTimeListens);
         setAllTimeGenres(allTimeGenres);
       }
@@ -106,7 +106,7 @@ function App() {
     const checkToken = async () => {
       let isLinked: boolean = checkForTokens();
       // try to get tokens if spotify is not linked to user
-      if (isLinked === false && window.location.search.includes("code")) {
+      if (isLinked === false && window.location.search.includes('code')) {
         await fetchTokensFromCode();
         isLinked = true;
       }

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import Logo from "../../assets/logos/logo.png";
-import "./HomeNavbar.css";
-import { loginUrl } from "spotify";
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/logos/logo.png';
+import './HomeNavbar.css';
+import { loginUrl } from 'spotify';
 
 const Navbar = () => {
   return (

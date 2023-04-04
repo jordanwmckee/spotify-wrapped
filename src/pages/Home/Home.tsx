@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import HomeFooter from "components/HomeFooter/HomeFooter";
-import HomeTitle from "components/HomeTitle/HomeTitle";
-import "./Home.css";
-import HeroImage from "assets/images/hero-image.jpeg";
-import ArtistsImage from "assets/images/artists.jpg";
-import TracksImage from "assets/images/tracks.jpeg";
-import HistoryImage from "assets/images/history.webp";
-import { loginUrl } from "spotify";
+import { Link } from 'react-router-dom';
+import HomeFooter from 'components/HomeFooter/HomeFooter';
+import HomeTitle from 'components/HomeTitle/HomeTitle';
+import './Home.css';
+import HeroImage from 'assets/images/hero-image.jpeg';
+import ArtistsImage from 'assets/images/artists.jpg';
+import TracksImage from 'assets/images/tracks.jpeg';
+import HistoryImage from 'assets/images/history.webp';
+import { loginUrl } from 'spotify';
 
 const Home = () => {
   return (

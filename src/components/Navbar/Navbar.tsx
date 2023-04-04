@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "firebase";
-import { RESET } from "context/user";
-import Logo from "assets/logos/logo.png";
-import DefaultPFP from "assets/logos/default-pfp.png";
-import DdArrow from "assets/logos/dd-arrow.png";
-import "./Navbar.css";
-import { spotifyApi } from "spotify";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from 'firebase';
+import { RESET } from 'context/user';
+import Logo from 'assets/logos/logo.png';
+import DefaultPFP from 'assets/logos/default-pfp.png';
+import DdArrow from 'assets/logos/dd-arrow.png';
+import './Navbar.css';
+import { spotifyApi } from 'spotify';
 
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
@@ -25,29 +25,29 @@ const Navbar = (props: NavBarProps) => {
 
   const toggleSidebar = () => {
     // modify hambuger icon
-    document.querySelector(".hamburger")!.classList.toggle("active");
-    const overlay = document.getElementById("body-overlay")!;
+    document.querySelector('.hamburger')!.classList.toggle('active');
+    const overlay = document.getElementById('body-overlay')!;
     // resize sidebar & add/remove overlay
-    let sidebarMenu = document.getElementById("sidebar")!;
+    let sidebarMenu = document.getElementById('sidebar')!;
     if (!sidebar) {
-      sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
-      overlay.setAttribute("style", "width: 100%; opacity: 0.4; left: 300px");
+      sidebarMenu.setAttribute('style', 'width: min(300px, 100%)');
+      overlay.setAttribute('style', 'width: 100%; opacity: 0.4; left: 300px');
     } else {
-      sidebarMenu.setAttribute("style", "width: 0");
-      overlay.setAttribute("style", "width: 0; opacity: 0; left: 0");
+      sidebarMenu.setAttribute('style', 'width: 0');
+      overlay.setAttribute('style', 'width: 0; opacity: 0; left: 0');
     }
     setSidebar(!sidebar);
   };
 
   const closeSidebar = () => {
     // toggle hambuger active
-    document.querySelector(".hamburger")!.classList.toggle("active");
+    document.querySelector('.hamburger')!.classList.toggle('active');
     // close sidebar
-    document.getElementById("sidebar")!.setAttribute("style", "width: 0");
+    document.getElementById('sidebar')!.setAttribute('style', 'width: 0');
     // remove overlay
     document
-      .getElementById("body-overlay")!
-      .setAttribute("style", "width: 0; opacity: 0; left 0");
+      .getElementById('body-overlay')!
+      .setAttribute('style', 'width: 0; opacity: 0; left 0');
     setSidebar(false);
   };
 
@@ -57,7 +57,7 @@ const Navbar = (props: NavBarProps) => {
     // reset redux state
     dispatch(RESET());
     // remove tokens from store
-    localStorage.removeItem("SpotifyTokens");
+    localStorage.removeItem('SpotifyTokens');
     window.location.replace(window.location.origin);
   };
 
@@ -87,7 +87,7 @@ const Navbar = (props: NavBarProps) => {
             <div className="profile-dropdown">
               <div className="dropdown-top">
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
-                <h3>{displayName ? displayName : "User"}</h3>
+                <h3>{displayName ? displayName : 'User'}</h3>
               </div>
               <div className="options">
                 <h4>Some Option</h4>

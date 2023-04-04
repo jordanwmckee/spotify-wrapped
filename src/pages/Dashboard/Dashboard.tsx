@@ -1,6 +1,6 @@
-import TopCard from "components/Cards/TopCard/TopCard";
-import PageTitle from "components/PageTitle/PageTitle";
-import "./Dashboard.css";
+import TopCard from 'components/Cards/TopCard/TopCard';
+import PageTitle from 'components/PageTitle/PageTitle';
+import './Dashboard.css';
 
 const Dashboard = (props: DashboardProps) => {
   const {
@@ -15,7 +15,7 @@ const Dashboard = (props: DashboardProps) => {
     <>
       <PageTitle
         title="Dashboard"
-        description={displayName ? `Welcome back ${displayName}.` : ""}
+        description={displayName ? `Welcome back ${displayName}.` : ''}
       />
       <div className="content">
         {monthlyArtists && monthlySongs && (

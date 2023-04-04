@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // interface for initial state
 interface initState {
@@ -12,7 +12,7 @@ const initialState: initState = {
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     SET_RECOMMEND_URIS: (state, action: PayloadAction<string[]>) => {

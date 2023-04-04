@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   GoogleAuthProvider,
   getAuth,
@@ -8,7 +8,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   User,
-} from "firebase/auth";
+} from 'firebase/auth';
 import {
   getFirestore,
   query,
@@ -21,7 +21,7 @@ import {
   doc,
   deleteDoc,
   DocumentData,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -55,15 +55,15 @@ const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const q = query(collection(db, 'users'), where('uid', '==', user.uid));
     const docs = await getDocs(q);
     if (docs.docs.length === 0) {
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
         name: user.displayName,
-        authProvider: "google",
+        authProvider: 'google',
         email: user.email,
-        refreshToken: "",
+        refreshToken: '',
       });
     }
   } catch (err: any) {
@@ -104,12 +104,12 @@ const registerWithEmailAndPassword = async (
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await setDoc(doc(db, "users", user.uid), {
+    await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
       name,
-      authProvider: "local",
+      authProvider: 'local',
       email,
-      refreshToken: "",
+      refreshToken: '',
     });
   } catch (err: any) {
     console.error(err);
@@ -125,7 +125,7 @@ const registerWithEmailAndPassword = async (
 const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
+    alert('Password reset link sent!');
   } catch (err: any) {
     console.error(err);
     alert(err.message);
@@ -147,7 +147,7 @@ const logout = () => {
  */
 const getUserDoc = async (user: User): Promise<DocumentData | null> => {
   try {
-    const docRef = doc(db, "users", user?.uid);
+    const docRef = doc(db, 'users', user?.uid);
     const snapshot = await getDoc(docRef);
     return Promise.resolve(snapshot.data()!);
   } catch (err: any) {
@@ -163,8 +163,8 @@ const getUserDoc = async (user: User): Promise<DocumentData | null> => {
  */
 const unlinkSpotify = async (user: User) => {
   try {
-    const docRef = doc(db, "users", user?.uid);
-    await updateDoc(docRef, { refreshToken: "" });
+    const docRef = doc(db, 'users', user?.uid);
+    await updateDoc(docRef, { refreshToken: '' });
   } catch (err: any) {
     console.error(err);
   }
@@ -177,9 +177,9 @@ const unlinkSpotify = async (user: User) => {
  */
 const removeUser = async (user: User) => {
   try {
-    console.log("user: ", user);
-    console.log("id: ", user?.uid);
-    const docRef = doc(db, "users", user?.uid);
+    console.log('user: ', user);
+    console.log('id: ', user?.uid);
+    const docRef = doc(db, 'users', user?.uid);
     await deleteDoc(docRef);
   } catch (err: any) {
     console.error(err);
@@ -194,9 +194,9 @@ const removeUser = async (user: User) => {
  */
 const checkForToken = async (user: User): Promise<boolean> => {
   try {
-    const docRef = doc(db, "users", user?.uid);
+    const docRef = doc(db, 'users', user?.uid);
     const snapshot = await getDoc(docRef);
-    if (snapshot.data()?.refreshToken !== "") return Promise.resolve(true);
+    if (snapshot.data()?.refreshToken !== '') return Promise.resolve(true);
   } catch (err: any) {
     console.error(err);
   }
@@ -211,7 +211,7 @@ const checkForToken = async (user: User): Promise<boolean> => {
  */
 const getRefreshToken = async (user: User): Promise<string | null> => {
   try {
-    const docRef = doc(db, "users", user?.uid);
+    const docRef = doc(db, 'users', user?.uid);
     const res = await getDoc(docRef);
     return Promise.resolve(res.data()?.refreshToken);
   } catch (err: any) {
@@ -228,12 +228,12 @@ const getRefreshToken = async (user: User): Promise<string | null> => {
  */
 const addTokenToDb = async (data: string, user: User) => {
   if (!data || !user) return;
-  await updateDoc(doc(db, "users", user?.uid), { refreshToken: data })
+  await updateDoc(doc(db, 'users', user?.uid), { refreshToken: data })
     .then(() => {
-      console.log("Refresh token added to user store");
+      console.log('Refresh token added to user store');
     })
     .catch((err) => {
-      console.error("Error storing user refresh token: ", err);
+      console.error('Error storing user refresh token: ', err);
     });
 };
 

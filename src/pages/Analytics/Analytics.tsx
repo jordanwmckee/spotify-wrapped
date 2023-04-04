@@ -1,12 +1,12 @@
-import { PieChart, Pie, Sector, Cell } from "recharts";
-import PageTitle from "components/PageTitle/PageTitle";
-import "./Analytics.css";
+import { PieChart, Pie, Sector, Cell } from 'recharts';
+import PageTitle from 'components/PageTitle/PageTitle';
+import './Analytics.css';
 import {
   sort_artists_and_rank,
   sort_genres_and_rank,
   test,
-} from "pages/Analytics/Calculations";
-import FloatingCard from "components/Cards/FloatingCard/FloatingCard.js";
+} from 'pages/Analytics/Calculations';
+import FloatingCard from 'components/Cards/FloatingCard/FloatingCard.js';
 
 const Analytics = (props: AnalyticsProps) => {
   const {
@@ -66,7 +66,7 @@ const Analytics = (props: AnalyticsProps) => {
 
 const styles = {
   test: {
-    fontSize: "50px",
+    fontSize: '50px',
   },
 };
 
