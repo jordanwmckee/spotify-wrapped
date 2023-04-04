@@ -5,7 +5,7 @@ import {
   sort_artists_and_rank,
   sort_genres_and_rank,
   test,
-} from "analytics_calc";
+} from "pages/Analytics/Calculations";
 import FloatingCard from "components/Cards/FloatingCard/FloatingCard.js";
 
 const Analytics = (props: AnalyticsProps) => {
