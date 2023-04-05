@@ -222,18 +222,24 @@ const getRecommendedTracks = async (): Promise<{
 /**
  * Get similar artists to user's top artists for the month
  *
- * @param {string} seedArtist Array of user's top artists for the month
  * @returns {RecommendedItems[]} Array of recommended artists for user
  */
-const getRecommendedArtists = async (
-  seedArtist: string
-): Promise<RecommendedItems[]> => {
+const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
   var recommendedArtists: RecommendedItems[] = [];
   try {
+    // get seedArtist
+    const seedArtist = (
+      await spotifyApi.getMyTopArtists({
+        time_range: 'short_term',
+        limit: '1',
+      })
+    ).items[0].id;
+    // get related artists
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
       seedArtist
     );
     if (relatedArtistsRes) {
+      // loop through related artists and add to return array
       for (const artist of relatedArtistsRes.artists) {
         let data: RecommendedItems = {
           name: artist.name,

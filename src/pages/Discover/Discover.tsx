@@ -14,7 +14,7 @@ const Discover = (props: DiscoverProps) => {
       <div className="discover content">
         {recommendedArtists && userPlaylists && (
           <RecommendedCard
-            title="Recommended Artists"
+            title="Artists"
             type="artists"
             list={recommendedArtists}
             userPlaylists={userPlaylists}
@@ -22,7 +22,7 @@ const Discover = (props: DiscoverProps) => {
         )}
         {recommendedSongs && userPlaylists && (
           <RecommendedCard
-            title="Recommended Songs"
+            title="Tracks"
             type="tracks"
             list={recommendedSongs}
             userPlaylists={userPlaylists}
