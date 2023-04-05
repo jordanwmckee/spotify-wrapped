@@ -1,9 +1,11 @@
 import PageTitle from 'components/PageTitle/PageTitle';
 import RecommendedCard from 'components/Cards/RecommendedCard/RecommendedCard';
 import './Discover.css';
+import { useState } from 'react';
 
 const Discover = (props: DiscoverProps) => {
   const { recommendedArtists, recommendedSongs, userPlaylists } = props;
+  const [length, setLength] = useState<number>(10);
 
   return (
     <>
@@ -18,6 +20,7 @@ const Discover = (props: DiscoverProps) => {
             type="artists"
             list={recommendedArtists}
             userPlaylists={userPlaylists}
+            length={length}
           />
         )}
         {recommendedSongs && userPlaylists && (
@@ -26,9 +29,17 @@ const Discover = (props: DiscoverProps) => {
             type="tracks"
             list={recommendedSongs}
             userPlaylists={userPlaylists}
+            length={length}
           />
         )}
       </div>
+      <button
+        onClick={() => {
+          length == 10 ? setLength(20) : setLength(10);
+        }}
+      >
+        {length == 10 ? 'Show More' : 'Show less'}
+      </button>
     </>
   );
 };

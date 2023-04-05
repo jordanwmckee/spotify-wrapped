@@ -51,7 +51,7 @@ interface RecommendedItems {
   name: string;
   image: string;
   uri: string;
-  id?: string;
+  id: string;
   following?: boolean;
 }
 
@@ -95,6 +95,12 @@ interface RecommendedCardProps {
   list: RecommendedItems[];
   userPlaylists: Playlists[];
   type: 'artists' | 'tracks';
+  length: number;
+}
+
+interface AddSongDropdownProps extends PlayerProps {
+  uri: string;
+  id: string;
 }
 
 // Pages

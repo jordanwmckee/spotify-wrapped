@@ -83,7 +83,7 @@ const Navbar = (props: NavBarProps) => {
             alt={DefaultPFP}
           />
           <img className="dd-arrow" src={DdArrow} alt="" />
-          {open ? (
+          {open && (
             <div className="profile-dropdown">
               <div className="dropdown-top">
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
@@ -97,7 +97,7 @@ const Navbar = (props: NavBarProps) => {
                 <h4 onClick={logoutActions}>Logout</h4>
               </div>
             </div>
-          ) : null}
+          )}
         </div>
         <div className="sidebar-toggle">
           <div className="hamburger" onClick={toggleSidebar}>

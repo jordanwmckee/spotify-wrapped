@@ -1,15 +1,31 @@
 import FollowArtistIcon from 'assets/logos/follow-artist.png';
 import isFollowingIcon from 'assets/logos/isFollowing.png';
-import AddButtonIcon from 'assets/logos/add-button.png';
 import PlayIcon from 'assets/logos/play-button-square.png';
 import './RecommendedCard.css';
 import { useDispatch } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
 import { spotifyApi } from 'spotify';
+import AddSongDropdown from 'components/AddSongDropdown/AddSongDropdown';
 
 const RecommendedCard = (props: RecommendedCardProps) => {
-  const { title, list, userPlaylists, type } = props;
+  const { title, list, userPlaylists, type, length } = props;
   const dispatch = useDispatch();
+
+  // follow/unfollow artist based on following status
+  const toggleFollowing = (
+    e: React.MouseEvent<HTMLImageElement>,
+    artist: RecommendedItems
+  ): void => {
+    // follow/unfollow artist & update image
+    if (artist.following) {
+      spotifyApi.unfollowArtists([artist.id!]);
+      (e.target as HTMLImageElement).src = FollowArtistIcon;
+    } else {
+      spotifyApi.followArtists([artist.id!]);
+      (e.target as HTMLImageElement).src = isFollowingIcon;
+    }
+    artist.following = !artist.following;
+  };
 
   return (
     <div className="recommended-card">
@@ -17,10 +33,14 @@ const RecommendedCard = (props: RecommendedCardProps) => {
         <h2>{title}</h2>
       </div>
       <div className="recommended-card-list">
-        {list.slice(0, 10).map((data) => (
+        {list.slice(0, length).map((data) => (
           <div className="recommended-list-item" key={data.uri}>
             {type == 'artists' ? (
-              <img src={data.image} alt="unavailable." />
+              <img
+                src={data.image}
+                alt="unavailable."
+                className="recommended-image"
+              />
             ) : (
               <div
                 className="album-image"
@@ -28,9 +48,13 @@ const RecommendedCard = (props: RecommendedCardProps) => {
                   dispatch(SET_PLAYER_URIS([data.uri!]));
                 }}
               >
-                <img src={data.image} alt="unavailable" />
+                <img
+                  src={data.image}
+                  alt="unavailable"
+                  className="recommended-image"
+                />
                 <div className="img-button">
-                  <img src={PlayIcon} alt="" />
+                  <img src={PlayIcon} alt="" className="recommended-image" />
                 </div>
               </div>
             )}
@@ -42,27 +66,18 @@ const RecommendedCard = (props: RecommendedCardProps) => {
             {type == 'artists' ? (
               <img
                 src={!data.following ? FollowArtistIcon : isFollowingIcon}
-                className="item-icon"
+                className="item-icon recommended-image"
                 alt=""
                 title="Follow artist"
                 onClick={(e: React.MouseEvent<HTMLImageElement>) => {
-                  // follow/unfollow artist & update image
-                  if (data.following) {
-                    spotifyApi.unfollowArtists([data.id!]);
-                    (e.target as HTMLImageElement).src = FollowArtistIcon;
-                  } else {
-                    spotifyApi.followArtists([data.id!]);
-                    (e.target as HTMLImageElement).src = isFollowingIcon;
-                  }
-                  data.following = !data.following;
+                  toggleFollowing(e, data);
                 }}
               />
             ) : (
-              <img
-                src={AddButtonIcon}
-                className="item-icon"
-                alt=""
-                title="Add song to playlist"
+              <AddSongDropdown
+                userPlaylists={userPlaylists}
+                uri={data.uri}
+                id={data.id}
               />
             )}
           </div>

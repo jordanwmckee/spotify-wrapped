@@ -207,6 +207,7 @@ const getRecommendedTracks = async (): Promise<{
             name: track.name,
             image: currentImage,
             uri: track.uri,
+            id: track.id,
           };
           tracksArr.push(data);
           urisArr.push(track.uri);

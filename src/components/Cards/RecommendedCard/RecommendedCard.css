@@ -31,7 +31,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.recommended-list-item img {
+.recommended-list-item .recommended-image {
   width: 50px;
   height: 50px;
 }
