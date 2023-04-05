@@ -68,7 +68,7 @@ function App() {
       loadScreenDiv.setAttribute('style', 'height: 55px;');
       setTimeout(() => {
         loadScreenDiv.style.display = 'none';
-      }, 500);
+      }, 300);
     }
   };
 
