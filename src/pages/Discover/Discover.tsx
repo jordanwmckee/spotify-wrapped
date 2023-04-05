@@ -11,7 +11,7 @@ const Discover = (props: DiscoverProps) => {
         title="Discover"
         description="Recommended artists and music."
       />
-      <div className="content">
+      <div className="discover content">
         {recommendedArtists && userPlaylists && (
           <RecommendedCard
             title="Recommended Artists"
