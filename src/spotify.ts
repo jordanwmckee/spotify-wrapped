@@ -21,7 +21,7 @@ const auth_query_params = new URLSearchParams({
   grant_type: 'authorization_code',
   client_id: clientId,
   scope:
-    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private',
+    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private user-follow-modify user-follow-read',
   redirect_uri: redirectUri,
 });
 
@@ -170,10 +170,14 @@ const refreshAuthToken = async () => {
 /**
  * Get array of URIs to use for Spotify Playback SDK
  *
- * @returns {string[]} The URIS for the Player to use
+ * @returns {string[], RecommendedItems[]} The URIS for the Player to use
  */
-const getRecommendUris = async (): Promise<string[]> => {
-  var tracksArr: string[] = [];
+const getRecommendedTracks = async (): Promise<{
+  urisArr: string[];
+  tracksArr: RecommendedItems[];
+}> => {
+  var urisArr: string[] = [];
+  var tracksArr: RecommendedItems[] = [];
   try {
     // Get seed tracks for recommendations
     const top5Tracks = await spotifyApi.getMyTopTracks({
@@ -191,13 +195,62 @@ const getRecommendUris = async (): Promise<string[]> => {
       seed_tracks: seeds,
       limit: 100,
     });
-    recommendations.tracks.forEach((track) => {
-      tracksArr.push(track.uri);
-    });
+
+    if (recommendations) {
+      // Use Promise.all() to wait for all of the promises inside the forEach loop to resolve
+      await Promise.all(
+        recommendations.tracks.map(async (track) => {
+          // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
+          let currentImage = (await spotifyApi.getTrack(track.id)).album
+            .images[0].url;
+          let data: RecommendedItems = {
+            name: track.name,
+            image: currentImage,
+            uri: track.uri,
+          };
+          tracksArr.push(data);
+          urisArr.push(track.uri);
+        })
+      );
+    }
   } catch (err) {
     console.error(err);
   }
-  return Promise.resolve(tracksArr);
+  return Promise.resolve({ urisArr, tracksArr });
+};
+
+/**
+ * Get similar artists to user's top artists for the month
+ *
+ * @param {string} seedArtist Array of user's top artists for the month
+ * @returns {RecommendedItems[]} Array of recommended artists for user
+ */
+const getRecommendedArtists = async (
+  seedArtist: string
+): Promise<RecommendedItems[]> => {
+  var recommendedArtists: RecommendedItems[] = [];
+  try {
+    const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
+      seedArtist
+    );
+    if (relatedArtistsRes) {
+      for (const artist of relatedArtistsRes.artists) {
+        let data: RecommendedItems = {
+          name: artist.name,
+          image: artist.images[0].url,
+          uri: artist.uri,
+          id: artist.id,
+          following: (await spotifyApi.isFollowingArtists([artist.id]))[0]
+            ? true
+            : false,
+        };
+        recommendedArtists.push(data);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return Promise.resolve(recommendedArtists);
 };
 
 /**
@@ -234,6 +287,7 @@ const getTopItems = async (
         let data = {
           name: artist.name,
           image: artist.images[0].url,
+          id: artist.id,
         };
         topArtistsArr.push(data);
       });
@@ -404,6 +458,7 @@ const getUserPlaylists = async (): Promise<Playlists[]> => {
         let data = {
           name: playlist.name,
           uri: playlist.uri,
+          id: playlist.id,
         };
         playlists.push(data);
       });
@@ -422,7 +477,8 @@ export {
   getTokensFromStore,
   refreshAuthToken,
   // refreshCycle,
-  getRecommendUris,
+  getRecommendedTracks,
+  getRecommendedArtists,
   getTopItems,
   getRecentListens,
   getMonthlyListens,

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
 import PlayButton from 'assets/logos/play-button.png';
@@ -6,13 +5,7 @@ import './TopCard.css';
 
 const TopCard = (props: TopCardProps) => {
   const { list, title } = props;
-  const [uri, setUri] = useState<string>();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!uri) return;
-    dispatch(SET_PLAYER_URIS([uri]));
-  }, [uri]);
 
   return (
     <div className="top-card">
@@ -29,7 +22,7 @@ const TopCard = (props: TopCardProps) => {
                 <div
                   className="album-image"
                   onClick={() => {
-                    setUri(data.uri);
+                    dispatch(SET_PLAYER_URIS([data.uri!]));
                   }}
                 >
                   <img src={data.image} alt="unavailable" />

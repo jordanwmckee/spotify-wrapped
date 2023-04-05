@@ -12,18 +12,21 @@ import {
   fetchTokensFromCode,
   refreshAuthToken,
   spotifyApi,
-  getRecommendUris,
+  getRecommendedTracks,
   getTopItems,
   getRecentListens,
   getMonthlyListens,
   getAlltimeListens,
   getUserPlaylists,
   checkForTokens,
+  getRecommendedArtists,
 } from './spotify';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'context/store';
 import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from 'context/user';
 import Player from 'components/Player/Player';
+import Discover from 'pages/Discover/Discover';
+import Create from 'pages/Create/Create';
 
 function App() {
   // used for auth
@@ -43,6 +46,10 @@ function App() {
   const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
   const [allTimeGenres, setAllTimeGenres] = useState<object[]>();
   const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
+  const [recommendedArtists, setRecommendedArtists] =
+    useState<RecommendedItems[]>();
+  const [recommendedSongs, setRecommendedSongs] =
+    useState<RecommendedItems[]>();
   const { recommendUris, playerUris } = useSelector(
     (state: RootState) => state.user
   );
@@ -52,11 +59,16 @@ function App() {
     let tokenDetected: boolean = true;
 
     // get & update all spotify info to be store in the app
+    // (thank god for reconciliation)
     const getData = async () => {
       // validate access token
       await refreshAuthToken();
-      // get recommend uris for player
-      !recommendUris && dispatch(SET_RECOMMEND_URIS(await getRecommendUris()));
+      // get recommend songs and uris for player
+      if (!recommendUris || !recommendedSongs) {
+        const { urisArr, tracksArr } = await getRecommendedTracks();
+        dispatch(SET_RECOMMEND_URIS(urisArr));
+        setRecommendedSongs(tracksArr);
+      }
       if (!displayName || !profilePic) {
         // get user spotify account
         const userAccount = await spotifyApi.getMe();
@@ -69,6 +81,10 @@ function App() {
           await getTopItems({ time_range: 'short_term', limit: '16' });
         setMonthlySongs(monthlySongs);
         setMonthlyArtists(monthlyArtists);
+        const recommendedArtists = await getRecommendedArtists(
+          monthlyArtists[0].id!
+        );
+        setRecommendedArtists(recommendedArtists);
       }
       if (!allTimeSongs || !allTimeArtists) {
         // get top all time items
@@ -137,6 +153,8 @@ function App() {
     monthlyListens,
     monthlyGenres,
     userPlaylists,
+    recommendedArtists,
+    recommendedSongs,
   ]);
 
   return (
@@ -178,6 +196,17 @@ function App() {
                   />
                 }
               />
+              <Route
+                path="/discover"
+                element={
+                  <Discover
+                    recommendedArtists={recommendedArtists}
+                    recommendedSongs={recommendedSongs}
+                    userPlaylists={userPlaylists}
+                  />
+                }
+              />
+              <Route path="/create" element={<Create />} />
               <Route
                 path="*"
                 element={

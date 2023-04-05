@@ -1,0 +1,90 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.recommended-card {
+  width: 100%;
+  height: auto;
+  background-color: white;
+  border-radius: 10px;
+  margin: 30px auto;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.recommended-card-title {
+  width: 100%;
+  background-color: #1db954;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  height: 40px;
+}
+.recommended-card-title h2 {
+  font-size: 20px;
+  width: 100%;
+}
+.recommended-card-list {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+.recommended-list-item {
+  width: calc(100% - 20px);
+  margin: 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.recommended-list-item img {
+  width: 50px;
+  height: 50px;
+}
+.recommended-list-item .album-image {
+  cursor: pointer;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+.recommended-list-item .album-image .img-button {
+  opacity: 0;
+  top: 0;
+  left: 0;
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: 0.3s ease;
+}
+.recommended-list-item .album-image:hover .img-button {
+  opacity: 0.5;
+}
+.recommended-list-item .item-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.recommended-list-item h3 {
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 3px;
+}
+
+@media only screen and (min-width: 768px) {
+  .recommended-card {
+    width: calc(50% - 40px);
+  }
+}
+
+@media only screen and (min-width: 960px) {
+}
+
+@media only screen and (min-width: 1382px) {
+  .recommended-card-title h2 {
+    font-size: 24px;
+  }
+  .recommended-list-item h3 {
+    font-size: 18px;
+  }
+}
