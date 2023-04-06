@@ -34,6 +34,7 @@ const Discover = (props: DiscoverProps) => {
         )}
       </div>
       <button
+        className="expand-button"
         onClick={() => {
           length == 10 ? setLength(20) : setLength(10);
         }}
