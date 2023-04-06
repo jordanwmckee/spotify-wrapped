@@ -1,20 +1,16 @@
-import { useState } from 'react';
 import AddButtonIcon from 'assets/logos/add-button.png';
 import './AddSongDropdown.css';
 import { spotifyApi } from 'spotify';
+import useToggleState from 'hooks/useToggleState';
 
 const AddSongDropdown = (props: AddSongDropdownProps) => {
   const { userPlaylists, uri, id } = props;
-  const [primary, setPrimary] = useState<boolean>(false);
-  const [secondary, setSecondary] = useState<boolean>(false);
+  const [primary, togglePrimary, closePrimary] = useToggleState(false);
+  const [secondary, toggleSecondary, closeSecondary] = useToggleState(false);
 
-  const toggleDropdown = (dd: 'primary' | 'secondary') => {
-    dd == 'primary' ? setPrimary(!primary) : setSecondary(!secondary);
-  };
-
-  const closeDropdown = () => {
-    setPrimary(false);
-    setSecondary(false);
+  const closeDropdowns = () => {
+    closePrimary();
+    closeSecondary();
   };
 
   const saveSongToLibrary = () => {
@@ -34,11 +30,9 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
   };
 
   return (
-    <div className="playlist-add" onMouseLeave={closeDropdown}>
+    <div className="playlist-add" onMouseLeave={closeDropdowns}>
       <img
-        onClick={() => {
-          toggleDropdown('primary');
-        }}
+        onClick={togglePrimary}
         src={AddButtonIcon}
         className="add-icon"
         alt=""
@@ -50,18 +44,12 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
             <h4
               onClick={() => {
                 saveSongToLibrary();
-                closeDropdown();
+                closeDropdowns();
               }}
             >
               Add to liked
             </h4>
-            <h4
-              onClick={() => {
-                toggleDropdown('secondary');
-              }}
-            >
-              Add to playlist...
-            </h4>
+            <h4 onClick={toggleSecondary}>Add to playlist...</h4>
             {secondary && (
               <div className="playlist-selection">
                 {userPlaylists!.map((playlist) => (
@@ -69,7 +57,7 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
                     key={playlist.id}
                     onClick={() => {
                       addSongToPlaylist(playlist.id);
-                      closeDropdown();
+                      closeDropdowns();
                     }}
                   >
                     {playlist.name}

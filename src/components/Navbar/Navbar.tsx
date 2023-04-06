@@ -1,27 +1,19 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from 'firebase';
 import { RESET } from 'context/user';
 import Logo from 'assets/logos/logo.png';
 import DefaultPFP from 'assets/logos/default-pfp.png';
 import DdArrow from 'assets/logos/dd-arrow.png';
 import './Navbar.css';
 import { spotifyApi } from 'spotify';
+import useToggleState from 'hooks/useToggleState';
 
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
-  const [open, setOpen] = useState(false);
+  const [dropdown, toggleDropdown, closeDropdown] = useToggleState(false);
   const [sidebar, setSidebar] = useState(false);
   const dispatch = useDispatch();
-
-  const toggleDropdown = () => {
-    setOpen(!open);
-  };
-
-  const closeDropdown = () => {
-    setOpen(false);
-  };
 
   const toggleSidebar = () => {
     // modify hambuger icon
@@ -83,7 +75,7 @@ const Navbar = (props: NavBarProps) => {
             alt={DefaultPFP}
           />
           <img className="dd-arrow" src={DdArrow} alt="" />
-          {open && (
+          {dropdown && (
             <div className="profile-dropdown">
               <div className="dropdown-top">
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
