@@ -79,62 +79,84 @@ function App() {
 
     // wrap the async code inside a function
     const getData = async () => {
-      // refresh auth token before making requests
-      await refreshAuthToken();
-      // perform all the async operations in parallel
-      const [
-        recommendedTracksResult,
-        recommendedArtistsResult,
-        userAccountResult,
-        topMonthlyResult,
-        topAllTimeResult,
-        listenHistoryResult,
-        topMonthlyGenresResult,
-        topAllTimeGenresResult,
-        userPlaylistsResult,
-      ] = await Promise.all([
-        getRecommendedTracks(),
-        getRecommendedArtists(),
-        spotifyApi.getMe(),
-        getTopItems({ time_range: 'short_term', limit: '16' }),
-        getTopItems({ time_range: 'long_term', limit: '16' }),
-        getRecentListens({ limit: 50 }),
-        getMonthlyListens({ time_range: 'short_term', limit: 50 }),
-        getAlltimeListens({ time_range: 'long_term', limit: 50 }),
-        getUserPlaylists(),
-      ]);
+      try {
+        // refresh auth token before making requests
+        await refreshAuthToken();
+        // perform all the async operations in parallel
+        const [
+          recommendedTracksResult,
+          recommendedArtistsResult,
+          userAccountResult,
+          topMonthlyResult,
+          topAllTimeResult,
+          listenHistoryResult,
+          topMonthlyGenresResult,
+          topAllTimeGenresResult,
+          userPlaylistsResult,
+        ] = await Promise.allSettled([
+          getRecommendedTracks(),
+          getRecommendedArtists(),
+          spotifyApi.getMe(),
+          getTopItems({ time_range: 'short_term', limit: '16' }),
+          getTopItems({ time_range: 'long_term', limit: '16' }),
+          getRecentListens({ limit: 50 }),
+          getMonthlyListens({ time_range: 'short_term', limit: 50 }),
+          getAlltimeListens({ time_range: 'long_term', limit: 50 }),
+          getUserPlaylists(),
+        ]);
 
-      // update state with the results
-      if (!unmounted) {
-        dispatch(SET_RECOMMEND_URIS(recommendedTracksResult.urisArr));
-        setRecommendedSongs(recommendedTracksResult.tracksArr);
+        if (!unmounted) {
+          // handle errors and update state with the results
+          recommendedTracksResult.status === 'fulfilled' &&
+            dispatch(SET_RECOMMEND_URIS(recommendedTracksResult.value.urisArr));
+          recommendedTracksResult.status === 'fulfilled' &&
+            setRecommendedSongs(recommendedTracksResult.value.tracksArr);
 
-        setDisplayName(userAccountResult.display_name || '');
-        setProfilePic(userAccountResult.images![0].url || '');
+          userAccountResult.status === 'fulfilled' &&
+            setDisplayName(userAccountResult.value.display_name || '');
+          userAccountResult.status === 'fulfilled' &&
+            setProfilePic(userAccountResult.value.images![0].url || '');
 
-        setMonthlySongs(topMonthlyResult.topTracks);
-        setMonthlyArtists(topMonthlyResult.topArtists);
-        setRecommendedArtists(recommendedArtistsResult);
+          topMonthlyResult.status === 'fulfilled' &&
+            setMonthlySongs(topMonthlyResult.value.topTracks);
+          topMonthlyResult.status === 'fulfilled' &&
+            setMonthlyArtists(topMonthlyResult.value.topArtists);
+          recommendedArtistsResult.status === 'fulfilled' &&
+            setRecommendedArtists(recommendedArtistsResult.value);
 
-        setAllTimeSongs(topAllTimeResult.topTracks);
-        setAllTimeArtists(topAllTimeResult.topArtists);
+          topAllTimeResult.status === 'fulfilled' &&
+            setAllTimeSongs(topAllTimeResult.value.topTracks);
+          topAllTimeResult.status === 'fulfilled' &&
+            setAllTimeArtists(topAllTimeResult.value.topArtists);
 
-        setRecentListens(listenHistoryResult.listenHistory);
-        setRecentGenres(listenHistoryResult.genresArr);
+          listenHistoryResult.status === 'fulfilled' &&
+            setRecentListens(listenHistoryResult.value.listenHistory);
+          listenHistoryResult.status === 'fulfilled' &&
+            setRecentGenres(listenHistoryResult.value.genresArr);
 
-        setMonthlyListens(topMonthlyGenresResult.topMonthly);
-        setMonthlyGenres(topMonthlyGenresResult.TopMonthGenres);
+          topMonthlyGenresResult.status === 'fulfilled' &&
+            setMonthlyListens(topMonthlyGenresResult.value.topMonthly);
+          topMonthlyGenresResult.status === 'fulfilled' &&
+            setMonthlyGenres(topMonthlyGenresResult.value.TopMonthGenres);
 
-        setAllTimeListens(topAllTimeGenresResult.allTListens);
-        setAllTimeGenres(topAllTimeGenresResult.allTGenres);
+          topAllTimeGenresResult.status === 'fulfilled' &&
+            setAllTimeListens(topAllTimeGenresResult.value.allTListens);
+          topAllTimeGenresResult.status === 'fulfilled' &&
+            setAllTimeGenres(topAllTimeGenresResult.value.allTGenres);
 
-        setUserPlaylists(userPlaylistsResult);
+          userPlaylistsResult.status === 'fulfilled' &&
+            setUserPlaylists(userPlaylistsResult.value);
 
-        if (!playerUris && recommendedTracksResult.urisArr) {
-          dispatch(SET_PLAYER_URIS(recommendedTracksResult.urisArr));
+          if (!playerUris)
+            recommendedTracksResult.status === 'fulfilled' &&
+              !playerUris &&
+              dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
         }
+        clearLoadingScreen();
+      } catch (error) {
+        // handle error
+        console.error(error);
       }
-      clearLoadingScreen();
     };
 
     const checkToken = async () => {
