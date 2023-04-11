@@ -17,7 +17,7 @@
   display: inline-block;
   top: -3px;
   right: -20px;
-  background-color: #25282c;
+  background-color: var(--gray800);
   width: 175px;
   border-radius: 10px;
   overflow: hidden;
@@ -41,7 +41,7 @@
   /* #ebf1f5; */
 }
 .playlistDropdown h4:hover {
-  background-color: #55595f;
+  background-color: var(--gray600);
   cursor: pointer;
 }
 .playlistSelection {
@@ -52,8 +52,8 @@
 }
 .playlistSelection p {
   padding: 0 4px;
-  color: #25282c;
+  color: var(--gray800);
 }
 .playlistSelection p:hover {
-  background-color: #d9e3ea;
+  background-color: var(--gray200);
 }
