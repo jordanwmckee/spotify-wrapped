@@ -6,6 +6,14 @@
   align-items: center;
   padding: 50px 0;
 }
+.home-footer h3 {
+  color: lightgray;
+}
+.home-footer a {
+  text-decoration: none;
+  display: block;
+  margin: 5px 0;
+}
 .home-footer-links {
   width: 50%;
   display: flex;
@@ -15,6 +23,13 @@
 }
 .home-footer-links div {
   margin: 0 10px;
+  text-align: left;
+}
+.home-footer-links .home-footer-left {
+  width: 50%;
+}
+.home-footer-links .home-footer-right {
+  width: 50%;
 }
 
 @media only screen and (min-width: 768px) {

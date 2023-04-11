@@ -16,6 +16,7 @@ import Discover from 'pages/Discover/Discover';
 import Create from 'pages/Create/Create';
 import LoadScreen from 'components/LoadScreen/LoadScreen';
 import useFetchData from 'hooks/useFetchData';
+import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 
 function App() {
   // used for auth
@@ -169,6 +170,7 @@ function App() {
               <HomeNavbar />
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
