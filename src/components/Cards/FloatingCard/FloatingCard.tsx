@@ -1,14 +1,14 @@
 import { PieChart, Pie, ResponsiveContainer } from 'recharts';
-import './FloatingCard.css';
+import styles from './FloatingCard.module.css';
 
 const FloatingCard = (props: FloatingCardProps) => {
   const { data, title } = props;
   return (
-    <div className="floating-card">
-      <div className="floating-card-title">
+    <div className={styles.floatingCard}>
+      <div className={styles.floatingCardTitle}>
         <h2>{title}</h2>
       </div>
-      <div className="floating-card-graph">
+      <div className={styles.floatingCardGraph}>
         <PieChart width={1000} height={250}>
           <Pie
             data={data}
@@ -21,8 +21,8 @@ const FloatingCard = (props: FloatingCardProps) => {
           />
         </PieChart>
       </div>
-      <div className="floating-card-data-table">
-        <table className="table">
+      <div className={styles.floatingCardDataTable}>
+        <table>
           <tbody>
             <tr>
               <th>Name</th>

@@ -1,14 +1,14 @@
-import './TitleCard.css';
+import styles from './TitleCard.module.css';
 
 const TitleCard = (props: TitleCardProps) => {
   const { title, description } = props;
   return (
-    <div className="title-card">
-      <div className="title-card-heading">
+    <div className={styles.titleCard}>
+      <div className={styles.titleCardHeading}>
         <h1>{title}</h1>
       </div>
       {description && (
-        <div className="title-card-text">
+        <div className={styles.titleCardText}>
           <h5>{description}</h5>
         </div>
       )}

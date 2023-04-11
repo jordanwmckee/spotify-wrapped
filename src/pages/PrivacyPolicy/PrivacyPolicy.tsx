@@ -1,11 +1,11 @@
 import HomeFooter from 'components/HomeFooter/HomeFooter';
-import './PrivacyPolicy.css';
+import styles from './PrivacyPolicy.module.css';
 
 const PrivacyPolicy = () => {
   return (
     <>
-      <div id="privacy-policy">
-        <div className="policy-info">
+      <div id={styles.privacyPolicy}>
+        <div className={styles.policyInfo}>
           <h1>Privacy Policy for Monthly Wrapped</h1>
 
           <p>

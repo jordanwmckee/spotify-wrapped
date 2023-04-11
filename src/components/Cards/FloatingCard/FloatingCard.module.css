@@ -1,11 +1,11 @@
-.floating-card {
+.floatingCard {
   width: 100%;
   background-color: #fff;
   border-radius: 10px;
   margin: 30px 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
-.floating-card-title {
+.floatingCardTitle {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   top: 0;
@@ -14,6 +14,9 @@
   background-color: #1db954;
   transition: width 0.3s ease;
 }
+.floatingCardTitle h2 {
+  color: #25282c;
+}
 .recharts-wrapper {
   margin: 0 auto;
   width: 100% !important;
@@ -21,20 +24,20 @@
 .recharts-surface {
   width: 100% !important;
 }
-.floating-card-title h2 {
+.floatingCardTitle h2 {
   font-size: 20px;
   width: 100%;
 }
-.floating-card-graph {
+.floatingCardGraph {
   width: 100%;
 }
-.floating-card-data-table {
+.floatingCardDataTable {
   text-align: center !important;
   height: 150px;
   width: 100%;
   overflow-y: scroll;
 }
-.table th {
+.floatingCardDataTable table th {
   font-weight: bold;
   border-radius: 5px;
   background-color: #1db954;
@@ -42,7 +45,7 @@
   width: 925px;
   border: 1px solid black !important;
 }
-.table td {
+.floatingCardDataTable table td {
   border-radius: 3px;
   background-color: #9af5ba;
   text-align: left !important;
@@ -51,13 +54,13 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .floating-card-title h2 {
+  .floatingCardTitle h2 {
     font-size: 24px;
   }
 }
 
 @media only screen and (min-width: 960px) {
-  .floating-card-title {
+  .floatingCardTitle {
     border-top-right-radius: 0;
     border-bottom-right-radius: 10px;
     width: 50%;

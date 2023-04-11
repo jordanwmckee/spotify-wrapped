@@ -1,7 +1,7 @@
 import FollowArtistIcon from 'assets/logos/follow-artist.png';
 import isFollowingIcon from 'assets/logos/isFollowing.png';
 import PlayIcon from 'assets/logos/play-button-square.png';
-import './RecommendedCard.css';
+import styles from './RecommendedCard.module.css';
 import { useDispatch } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
 import { spotifyApi } from 'spotify';
@@ -28,22 +28,22 @@ const RecommendedCard = (props: RecommendedCardProps) => {
   };
 
   return (
-    <div className="recommended-card">
-      <div className="recommended-card-title">
+    <div className={styles.recommendedCard}>
+      <div className={styles.recommendedCardTitle}>
         <h2>{title}</h2>
       </div>
-      <div className="recommended-card-list">
+      <div className={styles.recommendedCardList}>
         {list.slice(0, length).map((data) => (
-          <div className="recommended-list-item" key={data.uri}>
+          <div className={styles.recommendedListItem} key={data.uri}>
             {type == 'artists' ? (
               <img
                 src={data.image}
                 alt="unavailable."
-                className="recommended-image"
+                className={styles.recommendedImage}
               />
             ) : (
               <div
-                className="album-image"
+                className={styles.albumImage}
                 onClick={() => {
                   dispatch(SET_PLAYER_URIS([data.uri!]));
                 }}
@@ -51,10 +51,14 @@ const RecommendedCard = (props: RecommendedCardProps) => {
                 <img
                   src={data.image}
                   alt="unavailable"
-                  className="recommended-image"
+                  className={styles.recommendedImage}
                 />
-                <div className="img-button">
-                  <img src={PlayIcon} alt="" className="recommended-image" />
+                <div className={styles.imgButton}>
+                  <img
+                    src={PlayIcon}
+                    alt=""
+                    className={styles.recommendedImage}
+                  />
                 </div>
               </div>
             )}
@@ -66,7 +70,7 @@ const RecommendedCard = (props: RecommendedCardProps) => {
             {type == 'artists' ? (
               <img
                 src={!data.following ? FollowArtistIcon : isFollowingIcon}
-                className="item-icon recommended-image"
+                className={styles.itemIcon}
                 alt=""
                 title="Follow artist"
                 onClick={(e: React.MouseEvent<HTMLImageElement>) => {

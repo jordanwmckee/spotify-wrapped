@@ -16,27 +16,27 @@
   filter: brightness(0.7);
   border-radius: 10px;
 }
-.homepage-section {
+.homepageSection {
   width: 100%;
   border-bottom: 1px solid #55595f;
 }
 /* homepage analytics */
-#homepage-analytics {
+#homepageAnalytics {
   flex-direction: column;
   max-width: 80%;
   margin: 0 auto;
   padding: 50px 0;
 }
-#homepage-analytics .projects-header {
+#homepageAnalytics .projectsHeader {
   margin-bottom: 50px;
 }
-#homepage-analytics .all-projects {
+#homepageAnalytics .allProjects {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-#homepage-analytics .analytic-item {
+#homepageAnalytics .analyticItem {
   display: flex;
   background-color: #33363a;
   align-items: center;
@@ -47,7 +47,7 @@
   overflow: hidden;
   border-radius: 10px;
 }
-#homepage-analytics .section-info {
+#homepageAnalytics .sectionInfo {
   padding: 30px;
   flex-basis: 50%;
   height: 100%;
@@ -56,23 +56,23 @@
   justify-content: center;
   flex-direction: column;
 }
-#homepage-analytics .section-info h1 {
+#homepageAnalytics .sectionInfo h1 {
   font-size: 35px;
   font-weight: 500;
   color: #ebf1f5;
   margin-bottom: 30px;
 }
-#homepage-analytics .section-info p {
+#homepageAnalytics .sectionInfo p {
   color: #9ba9b4;
   font-size: 20px;
 }
-#homepage-analytics .section-img {
+#homepageAnalytics .sectionImg {
   flex-basis: 50%;
   max-height: 300px;
   overflow: hidden;
   position: relative;
 }
-#homepage-analytics .section-img::after {
+#homepageAnalytics .sectionImg::after {
   content: '';
   position: absolute;
   left: 0;
@@ -82,17 +82,17 @@
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
   opacity: 0.7;
 }
-#homepage-analytics .section-img img {
+#homepageAnalytics .sectionImg img {
   height: 100%;
   width: 100%;
   transition: 0.2s ease transform;
   text-align: center;
 }
-#homepage-analytics .analytic-item:hover .section-img img {
+#homepageAnalytics .analyticItem:hover .sectionImg img {
   transform: scale(1.1);
 }
 /* end homepage analytics */
-.homepage-section .start-now {
+.homepageSection .startNow {
   margin-bottom: 40px;
 }
 
@@ -101,24 +101,24 @@
   .hero img {
     border-radius: 0;
   }
-  #homepage-analytics .analytic-item {
+  #homepageAnalytics .analyticItem {
     flex-direction: row;
     background-color: #25282c;
   }
-  #homepage-analytics .analytic-item:nth-child(even) {
+  #homepageAnalytics .analyticItem:nth-child(even) {
     flex-direction: row-reverse;
   }
-  #homepage-analytics .analytic-item {
+  #homepageAnalytics .analyticItem {
     height: 400px;
     margin: 0;
     width: 100%;
     border-radius: 0;
   }
-  #homepage-analytics .all-projects .section-info {
+  #homepageAnalytics .allProjects .sectionInfo {
     height: 100%;
     text-align: left;
   }
-  #homepage-analytics .all-projects .section-img {
+  #homepageAnalytics .allProjects .sectionImg {
     height: 100%;
   }
 }

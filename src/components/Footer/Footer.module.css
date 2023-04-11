@@ -12,11 +12,11 @@
   padding: 0;
   margin: 10px 0;
 }
-.footer-left,
-.footer-right {
+.footerLeft,
+.footerRight {
   width: 40%;
 }
 .footer h4,
 p {
-  color: gray;
+  color: gray !important;
 }

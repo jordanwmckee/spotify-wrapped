@@ -1,8 +1,9 @@
 .discover {
   display: flex;
   flex-direction: column;
+  padding: 1px 20px;
 }
-.expand-button {
+.expandButton {
   text-decoration: none;
   color: white;
   padding: 8px 12px;
@@ -10,7 +11,7 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.expand-button:hover {
+.expandButton:hover {
   filter: brightness(0.9);
 }
 

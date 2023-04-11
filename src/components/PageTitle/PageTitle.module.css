@@ -1,4 +1,4 @@
-.page-title {
+.pageTitle {
   position: absolute;
   top: 75px;
   width: 100%;
@@ -7,12 +7,18 @@
   text-align: left;
   transition: width 0.3s ease;
 }
-.title-text {
+.titleText {
   padding: 10px 30px;
+}
+.titleText h2 {
+  color: #33363a;
+}
+.titleText p {
+  color: #9ba9b4;
 }
 
 @media only screen and (min-width: 960px) {
-  .page-title {
+  .pageTitle {
     width: calc(100% - 300px);
     border-bottom: 1px solid lightgray;
     box-shadow: none;

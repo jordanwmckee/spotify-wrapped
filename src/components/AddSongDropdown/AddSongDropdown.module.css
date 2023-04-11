@@ -1,18 +1,18 @@
-.playlist-add {
+.playlistAdd {
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
-.add-icon {
+.addIcon {
   width: 24px;
   height: 24px;
 }
-.add-icon:hover {
+.addIcon:hover {
   transform: scale(1.2);
 }
-.playlist-dropdown {
+.playlistDropdown {
   position: absolute;
   display: inline-block;
   top: -3px;
@@ -24,34 +24,35 @@
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
   z-index: 1001;
 }
-.playlist-dropdown img {
+.playlistDropdown img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
 }
-.playlist-dropdown h3 {
+.playlistDropdown h3 {
   font-size: 15px;
   padding: 5px 0;
 }
-.playlist-dropdown h4 {
+.playlistDropdown h4 {
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
   color: #ebf1f5;
 }
-.playlist-dropdown h4:hover {
+.playlistDropdown h4:hover {
   background-color: #55595f;
   cursor: pointer;
 }
-.playlist-selection {
+.playlistSelection {
   background-color: white;
   max-height: 150px;
   overflow-y: scroll;
   text-align: left;
 }
-.playlist-selection p {
+.playlistSelection p {
   padding: 0 4px;
+  color: #25282c;
 }
-.playlist-selection p:hover {
+.playlistSelection p:hover {
   background-color: #d9e3ea;
 }

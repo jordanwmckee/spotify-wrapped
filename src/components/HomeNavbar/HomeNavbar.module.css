@@ -1,4 +1,4 @@
-#home-navbar {
+#homeNavbar {
   padding: 5px 20px;
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
   margin: 0 auto;
   justify-content: space-between;
 }
-#home-navbar img {
+#homeNavbar img {
   width: 80px;
   height: auto;
   text-align: left;

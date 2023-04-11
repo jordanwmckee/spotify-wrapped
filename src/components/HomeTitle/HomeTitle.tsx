@@ -1,4 +1,4 @@
-import './HomeTitle.css';
+import styles from './HomeTitle.module.css';
 
 const HomeTitle = (props: HomeTitleProps) => {
   const { title, description, subheading } = props;
@@ -9,7 +9,7 @@ const HomeTitle = (props: HomeTitleProps) => {
     titleSize = '45px';
     descSize = '22px';
   }
-  const styles = {
+  const inlineStyles = {
     homeTitle: {
       fontSize: titleSize,
     },
@@ -19,9 +19,9 @@ const HomeTitle = (props: HomeTitleProps) => {
   };
 
   return (
-    <div className="home-title">
-      <h1 style={styles.homeTitle}>{title}</h1>
-      {description && <p style={styles.homeTitleDesc}>{description}</p>}
+    <div className={styles.homeTitle}>
+      <h1 style={inlineStyles.homeTitle}>{title}</h1>
+      {description && <p style={inlineStyles.homeTitleDesc}>{description}</p>}
     </div>
   );
 };
