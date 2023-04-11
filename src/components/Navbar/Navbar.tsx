@@ -5,9 +5,10 @@ import { RESET } from 'context/user';
 import Logo from 'assets/logos/logo.png';
 import DefaultPFP from 'assets/logos/default-pfp.png';
 import DdArrow from 'assets/logos/dd-arrow.png';
-import './Navbar.css';
+import styles from './Navbar.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
+import { closeSidebar, toggleSidebar } from 'components/Sidebar/Sidebar';
 
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
@@ -15,32 +16,24 @@ const Navbar = (props: NavBarProps) => {
   const [sidebar, setSidebar] = useState(false);
   const dispatch = useDispatch();
 
-  const toggleSidebar = () => {
+  const toggleBar = () => {
     // modify hambuger icon
-    document.querySelector('.hamburger')!.classList.toggle('active');
-    const overlay = document.getElementById('body-overlay')!;
-    // resize sidebar & add/remove overlay
-    let sidebarMenu = document.getElementById('sidebar')!;
-    if (!sidebar) {
-      sidebarMenu.setAttribute('style', 'width: min(300px, 100%)');
-      overlay.setAttribute('style', 'width: 100%; opacity: 0.4; left: 300px');
-    } else {
-      sidebarMenu.setAttribute('style', 'width: 0');
+    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    const overlay = document.getElementById(styles.bodyOverlay)!;
+    if (toggleSidebar())
       overlay.setAttribute('style', 'width: 0; opacity: 0; left: 0');
-    }
-    setSidebar(!sidebar);
+    else
+      overlay.setAttribute('style', 'width: 100%; opacity: 0.4; left: 300px');
   };
 
-  const closeSidebar = () => {
+  const closeBar = () => {
     // toggle hambuger active
-    document.querySelector('.hamburger')!.classList.toggle('active');
-    // close sidebar
-    document.getElementById('sidebar')!.setAttribute('style', 'width: 0');
+    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    closeSidebar();
     // remove overlay
     document
-      .getElementById('body-overlay')!
+      .getElementById(styles.bodyOverlay)!
       .setAttribute('style', 'width: 0; opacity: 0; left 0');
-    setSidebar(false);
   };
 
   // clear state & sessionStorage before logout
@@ -54,46 +47,46 @@ const Navbar = (props: NavBarProps) => {
   };
 
   return (
-    <div id="navbar">
-      <div id="body-overlay" onClick={closeSidebar}></div>
+    <div id={styles.navbar}>
+      <div id={styles.bodyOverlay} onClick={closeBar}></div>
       {/* Site Logo */}
-      <div className="navbar-lhs">
+      <div className={styles.navbarLhs}>
         <Link to="/">
           <img src={Logo} alt="ber_logo" />
         </Link>
       </div>
-      <div className="navbar-rhs">
+      <div className={styles.navbarRhs}>
         {/* User Profile Dropdown */}
         <div
-          className="profile"
+          className={styles.profile}
           onClick={toggleDropdown}
           onMouseLeave={closeDropdown}
         >
           <img
-            className="profile-pic"
+            className={styles.profilePic}
             src={profilePic ? profilePic : DefaultPFP}
             alt={DefaultPFP}
           />
-          <img className="dd-arrow" src={DdArrow} alt="" />
+          <img className={styles.ddArrow} src={DdArrow} alt="" />
           {dropdown && (
-            <div className="profile-dropdown">
-              <div className="dropdown-top">
+            <div className={styles.profileDropdown}>
+              <div className={styles.dropdownTop}>
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
                 <h3>{displayName ? displayName : 'User'}</h3>
               </div>
-              <div className="options">
+              <div className={styles.options}>
                 <h4>Some Option</h4>
                 <h4>Another Option</h4>
               </div>
-              <div className="logout">
+              <div className={styles.logout}>
                 <h4 onClick={logoutActions}>Logout</h4>
               </div>
             </div>
           )}
         </div>
-        <div className="sidebar-toggle">
-          <div className="hamburger" onClick={toggleSidebar}>
-            <div className="bar"></div>
+        <div className={styles.sidebarToggle}>
+          <div className={styles.hamburger} onClick={toggleBar}>
+            <div className={styles.bar}></div>
           </div>
         </div>
       </div>

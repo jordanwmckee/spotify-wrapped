@@ -1,10 +1,9 @@
 import SpotifyPlayer from 'react-spotify-web-playback';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { spotifyApi } from 'spotify';
 import { RootState } from 'context/store';
 import DoubleArrow from 'assets/logos/double-arrow.png';
-import './Player.css';
+import styles from './Player.module.css';
 import { SET_PLAYER_URIS } from 'context/user';
 
 const Player = (props: PlayerProps) => {
@@ -15,27 +14,31 @@ const Player = (props: PlayerProps) => {
   const dispatch = useDispatch();
 
   const togglePopup = () => {
-    document.querySelector('.popup')!.classList.toggle('popup-open');
-    document.querySelector('.popup-img')?.classList.toggle('active-popup');
+    document
+      .querySelector(`.${styles.popup}`)
+      ?.classList.toggle(styles.popupOpen);
+    document
+      .querySelector(`.${styles.popupImg}`)
+      ?.classList.toggle(styles.activePopup);
   };
 
   return (
-    <div id="player">
-      <div className="popup">
+    <div id={styles.player}>
+      <div className={styles.popup}>
         <div
-          className="popup-button"
+          className={styles.popupButton}
           onClick={togglePopup}
           title="show/hide playback sources"
         >
-          <img src={DoubleArrow} alt="" className="popup-img" />
+          <img src={DoubleArrow} alt="" className={styles.popupImg} />
         </div>
-        <div className="title">
+        <div className={styles.title}>
           <h3>Playback Sources</h3>
         </div>
-        <div className="playback-options">
-          <div className="recommended">
+        <div className={styles.playbackOptions}>
+          <div className={styles.recommended}>
             <h4>For You</h4>
-            <div className="recommended-btn">
+            <div className={styles.recommendedBtn}>
               <p
                 onClick={() => {
                   dispatch(SET_PLAYER_URIS(recommendUris!));
@@ -45,9 +48,9 @@ const Player = (props: PlayerProps) => {
               </p>
             </div>
           </div>
-          <div className="playlists">
+          <div className={styles.playlists}>
             <h4>Your Playlists</h4>
-            <div className="playlist-list">
+            <div className={styles.playlistList}>
               {userPlaylists &&
                 userPlaylists.map((data) => (
                   <p
@@ -63,7 +66,7 @@ const Player = (props: PlayerProps) => {
           </div>
         </div>
       </div>
-      <div className="player-box">
+      <div className={styles.playerBox}>
         <SpotifyPlayer
           token={spotifyApi.getAccessToken()!}
           uris={playerUris!}

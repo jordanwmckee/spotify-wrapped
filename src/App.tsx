@@ -14,7 +14,9 @@ import { RootState } from 'context/store';
 import Player from 'components/Player/Player';
 import Discover from 'pages/Discover/Discover';
 import Create from 'pages/Create/Create';
-import LoadScreen from 'components/LoadScreen/LoadScreen';
+import LoadScreen, {
+  clearLoadingScreen,
+} from 'components/LoadScreen/LoadScreen';
 import useFetchData from 'hooks/useFetchData';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 
@@ -44,21 +46,6 @@ function App() {
     recommendedSongs,
     getData,
   } = useFetchData();
-
-  const clearLoadingScreen = () => {
-    // shrink loading screen div
-    const loadScreenDiv = document.getElementById('load-screen');
-    // set the display property of the img and h1 elements to none
-    if (loadScreenDiv) {
-      loadScreenDiv
-        .querySelector('.load-screen-items')
-        ?.setAttribute('style', 'display: none');
-      loadScreenDiv.setAttribute('style', 'height: 55px;');
-      setTimeout(() => {
-        loadScreenDiv.style.display = 'none';
-      }, 300);
-    }
-  };
 
   useEffect(() => {
     // create a variable to store a cleanup function

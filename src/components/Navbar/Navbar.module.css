@@ -12,7 +12,7 @@
   margin: 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
-#body-overlay {
+#bodyOverlay {
   width: 0;
   height: 100%;
   display: block;
@@ -42,19 +42,19 @@
 #navbar .profile:hover {
   background-color: #55595f;
 }
-#navbar .navbar-rhs {
+#navbar .navbarRhs {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-#navbar .profile-pic {
+#navbar .profilePic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 5px;
 }
-#navbar .dd-arrow {
+#navbar .ddArrow {
   width: 10px;
 }
 #navbar button:active {
@@ -63,10 +63,10 @@
 #navbar a:hover {
   color: #1db954;
 }
-#navbar .navbar-lhs img {
+#navbar .navbarLhs img {
   width: 50px;
 }
-.profile-dropdown {
+.profileDropdown {
   position: absolute;
   display: inline-block;
   top: 0;
@@ -78,30 +78,30 @@
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
   z-index: 1001;
 }
-.profile-dropdown .dropdown-top {
+.profileDropdown .dropdownTop {
   border-bottom: 1px solid #d9e3ea;
   padding: 10px 0;
 }
-.profile-dropdown img {
+.profileDropdown img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
 }
-.profile-dropdown h3 {
+.profileDropdown h3 {
   font-size: 15px;
   padding: 5px 0;
 }
-.profile-dropdown h4 {
+.profileDropdown h4 {
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
   color: #55595f;
 }
-.profile-dropdown .logout h4 {
+.profileDropdown .logout h4 {
   color: #db4437;
   border-top: 1px solid #d9e3ea;
 }
-.profile-dropdown h4:hover {
+.profileDropdown h4:hover {
   background-color: #d9e3ea;
   cursor: pointer;
 }
@@ -174,10 +174,10 @@
 /* end hamburger */
 
 @media only screen and (min-width: 960px) {
-  #navbar .sidebar-toggle {
+  #navbar .sidebarToggle {
     display: none;
   }
-  #body-overlay {
+  #bodyOverlay {
     display: none !important;
   }
 }

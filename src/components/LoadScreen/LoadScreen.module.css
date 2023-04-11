@@ -1,4 +1,4 @@
-#load-screen {
+#loadScreen {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,13 +12,13 @@
   transition: height 0.3s ease-out;
   overflow: hidden;
 }
-#load-screen .load-screen-items {
+#loadScreen .loadScreenItems {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-#load-screen h1 {
+#loadScreen h1 {
   position: absolute;
   bottom: 80px;
   color: white;
