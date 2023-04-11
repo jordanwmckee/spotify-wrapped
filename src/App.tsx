@@ -8,56 +8,43 @@ import Footer from 'components/Footer/Footer';
 import Navbar from 'components/Navbar/Navbar';
 import HomeNavbar from 'components/HomeNavbar/HomeNavbar';
 import { useEffect, useState } from 'react';
-import {
-  fetchTokensFromCode,
-  refreshAuthToken,
-  spotifyApi,
-  getRecommendedTracks,
-  getTopItems,
-  getRecentListens,
-  getMonthlyListens,
-  getAlltimeListens,
-  getUserPlaylists,
-  checkForTokens,
-  getRecommendedArtists,
-} from './spotify';
-import { useDispatch, useSelector } from 'react-redux';
+import { fetchTokensFromCode, checkForTokens } from './spotify';
+import { useSelector } from 'react-redux';
 import { RootState } from 'context/store';
-import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from 'context/user';
 import Player from 'components/Player/Player';
 import Discover from 'pages/Discover/Discover';
 import Create from 'pages/Create/Create';
 import LoadScreen from 'components/LoadScreen/LoadScreen';
+import useFetchData from 'hooks/useFetchData';
 
 function App() {
   // used for auth
-  const [loading, setLoading] = useState<boolean>(true);
   const [linked, setLinked] = useState(false);
-  // vars collected from web api
-  const [displayName, setDisplayName] = useState<string>();
-  const [profilePic, setProfilePic] = useState<string>();
-  const [monthlyArtists, setMonthlyArtists] = useState<TopItems[]>();
-  const [monthlySongs, setMonthlySongs] = useState<TopItems[]>();
-  const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
-  const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
-  const [recentListens, setRecentListens] = useState<Listens[]>();
-  const [recentGenres, setRecentGenres] = useState<object[]>();
-  const [monthlyListens, setMonthlyListens] = useState<Listens[]>();
-  const [monthlyGenres, setMonthlyGenres] = useState<object[]>();
-  const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
-  const [allTimeGenres, setAllTimeGenres] = useState<object[]>();
-  const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
-  const [recommendedArtists, setRecommendedArtists] =
-    useState<RecommendedItems[]>();
-  const [recommendedSongs, setRecommendedSongs] =
-    useState<RecommendedItems[]>();
+  // redux vars
   const { recommendUris, playerUris } = useSelector(
     (state: RootState) => state.user
   );
-  const dispatch = useDispatch();
+  // vars collected from web api
+  const {
+    displayName,
+    profilePic,
+    monthlyArtists,
+    monthlySongs,
+    allTimeArtists,
+    allTimeSongs,
+    recentListens,
+    recentGenres,
+    monthlyListens,
+    monthlyGenres,
+    allTimeListens,
+    allTimeGenres,
+    userPlaylists,
+    recommendedArtists,
+    recommendedSongs,
+    getData,
+  } = useFetchData();
 
   const clearLoadingScreen = () => {
-    setLoading(false);
     // shrink loading screen div
     const loadScreenDiv = document.getElementById('load-screen');
     // set the display property of the img and h1 elements to none
@@ -77,88 +64,13 @@ function App() {
     let unmounted = false;
     let tokenDetected: boolean = false;
 
-    // wrap the async code inside a function
-    const getData = async () => {
-      try {
-        // refresh auth token before making requests
-        await refreshAuthToken();
-        // perform all the async operations in parallel
-        const [
-          recommendedTracksResult,
-          recommendedArtistsResult,
-          userAccountResult,
-          topMonthlyResult,
-          topAllTimeResult,
-          listenHistoryResult,
-          topMonthlyGenresResult,
-          topAllTimeGenresResult,
-          userPlaylistsResult,
-        ] = await Promise.allSettled([
-          getRecommendedTracks(),
-          getRecommendedArtists(),
-          spotifyApi.getMe(),
-          getTopItems({ time_range: 'short_term', limit: '16' }),
-          getTopItems({ time_range: 'long_term', limit: '16' }),
-          getRecentListens({ limit: 50 }),
-          getMonthlyListens({ time_range: 'short_term', limit: 50 }),
-          getAlltimeListens({ time_range: 'long_term', limit: 50 }),
-          getUserPlaylists(),
-        ]);
-
-        if (!unmounted) {
-          // handle errors and update state with the results
-          recommendedTracksResult.status === 'fulfilled' &&
-            dispatch(SET_RECOMMEND_URIS(recommendedTracksResult.value.urisArr));
-          recommendedTracksResult.status === 'fulfilled' &&
-            setRecommendedSongs(recommendedTracksResult.value.tracksArr);
-
-          userAccountResult.status === 'fulfilled' &&
-            setDisplayName(userAccountResult.value.display_name || '');
-          userAccountResult.status === 'fulfilled' &&
-            setProfilePic(userAccountResult.value.images![0].url || '');
-
-          topMonthlyResult.status === 'fulfilled' &&
-            setMonthlySongs(topMonthlyResult.value.topTracks);
-          topMonthlyResult.status === 'fulfilled' &&
-            setMonthlyArtists(topMonthlyResult.value.topArtists);
-          recommendedArtistsResult.status === 'fulfilled' &&
-            setRecommendedArtists(recommendedArtistsResult.value);
-
-          topAllTimeResult.status === 'fulfilled' &&
-            setAllTimeSongs(topAllTimeResult.value.topTracks);
-          topAllTimeResult.status === 'fulfilled' &&
-            setAllTimeArtists(topAllTimeResult.value.topArtists);
-
-          listenHistoryResult.status === 'fulfilled' &&
-            setRecentListens(listenHistoryResult.value.listenHistory);
-          listenHistoryResult.status === 'fulfilled' &&
-            setRecentGenres(listenHistoryResult.value.genresArr);
-
-          topMonthlyGenresResult.status === 'fulfilled' &&
-            setMonthlyListens(topMonthlyGenresResult.value.topMonthly);
-          topMonthlyGenresResult.status === 'fulfilled' &&
-            setMonthlyGenres(topMonthlyGenresResult.value.TopMonthGenres);
-
-          topAllTimeGenresResult.status === 'fulfilled' &&
-            setAllTimeListens(topAllTimeGenresResult.value.allTListens);
-          topAllTimeGenresResult.status === 'fulfilled' &&
-            setAllTimeGenres(topAllTimeGenresResult.value.allTGenres);
-
-          userPlaylistsResult.status === 'fulfilled' &&
-            setUserPlaylists(userPlaylistsResult.value);
-
-          if (!playerUris)
-            recommendedTracksResult.status === 'fulfilled' &&
-              !playerUris &&
-              dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
-        }
-        clearLoadingScreen();
-      } catch (error) {
-        // handle error
-        console.error(error);
-      }
+    // try to fetch data from web api
+    const tryFetchData = async () => {
+      if (!unmounted) await getData();
+      clearLoadingScreen();
     };
 
+    // check for valid Spotify tokens
     const checkToken = async () => {
       let isLinked = checkForTokens();
       if (isLinked === false && window.location.search.includes('code')) {
@@ -171,9 +83,8 @@ function App() {
       }
     };
 
-    setLoading(true);
     checkToken();
-    if (tokenDetected) getData();
+    if (tokenDetected) tryFetchData();
     else clearLoadingScreen();
 
     // cleanup function to set unmounted flag
