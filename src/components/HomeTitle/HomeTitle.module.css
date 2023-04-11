@@ -3,12 +3,12 @@
   margin: 40px 100px;
 }
 .homeTitle h1 {
-  color: #ebf1f5;
+  color: var(--gray100);
   margin-bottom: 5px;
   font-size: 15px;
 }
 .homeTitle p {
-  color: #9ba9b4;
+  color: var(--gray400);
   font-size: 14px;
 }
 

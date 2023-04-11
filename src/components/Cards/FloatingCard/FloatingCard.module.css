@@ -11,11 +11,11 @@
   top: 0;
   width: 100%;
   height: 40px;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   transition: width 0.3s ease;
 }
 .floatingCardTitle h2 {
-  color: #25282c;
+  color: var(--gray800);
 }
 .recharts-wrapper {
   margin: 0 auto;
@@ -40,7 +40,7 @@
 .floatingCardDataTable table th {
   font-weight: bold;
   border-radius: 5px;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   text-align: center !important;
   width: 925px;
   border: 1px solid black !important;

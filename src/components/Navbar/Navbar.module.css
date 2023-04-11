@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #25282c;
+  background-color: var(--gray800);
   z-index: 1000;
   height: 45px;
   width: calc(100% - 40px);
@@ -27,7 +27,7 @@
   transition-property: opacity, left;
 }
 #navbar h1 {
-  color: #1db954;
+  color: var(--spotifyGreen);
   font-size: 40px;
 }
 #navbar .profile {
@@ -40,7 +40,7 @@
   position: relative;
 }
 #navbar .profile:hover {
-  background-color: #55595f;
+  background-color: var(--gray600);
 }
 #navbar .navbarRhs {
   display: flex;
@@ -61,7 +61,7 @@
   filter: brightness(0.75);
 }
 #navbar a:hover {
-  color: #1db954;
+  color: var(--spotifyGreen);
 }
 #navbar .navbarLhs img {
   width: 50px;
@@ -79,7 +79,7 @@
   z-index: 1001;
 }
 .profileDropdown .dropdownTop {
-  border-bottom: 1px solid #d9e3ea;
+  border-bottom: 1px solid var(--gray200);
   padding: 10px 0;
 }
 .profileDropdown img {
@@ -95,14 +95,14 @@
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
-  color: #55595f;
+  color: var(--gray600);
 }
 .profileDropdown .logout h4 {
   color: #db4437;
-  border-top: 1px solid #d9e3ea;
+  border-top: 1px solid var(--gray200);
 }
 .profileDropdown h4:hover {
-  background-color: #d9e3ea;
+  background-color: var(--gray200);
   cursor: pointer;
 }
 
@@ -111,7 +111,7 @@
   height: 45px;
   width: 45px;
   display: inline-block;
-  border: 2px solid #d9e3ea;
+  border: 2px solid var(--gray200);
   border-radius: 50%;
   position: relative;
   display: flex;
@@ -127,7 +127,7 @@
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  border: 2px solid #d9e3ea;
+  border: 2px solid var(--gray200);
   animation: hamburger_pulse 1.5s ease infinite;
 }
 #navbar .hamburger .bar {
@@ -144,7 +144,7 @@
   height: 100%;
   width: 100%;
   left: 0;
-  background-color: #d9e3ea;
+  background-color: var(--gray200);
   transition: 0.3s ease;
   transition-property: top, bottom;
 }

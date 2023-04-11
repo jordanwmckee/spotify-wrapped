@@ -18,7 +18,7 @@
 }
 .homepageSection {
   width: 100%;
-  border-bottom: 1px solid #55595f;
+  border-bottom: 1px solid var(--gray600);
 }
 /* homepage analytics */
 #homepageAnalytics {
@@ -38,7 +38,7 @@
 }
 #homepageAnalytics .analyticItem {
   display: flex;
-  background-color: #33363a;
+  background-color: var(--gray700);
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -59,11 +59,11 @@
 #homepageAnalytics .sectionInfo h1 {
   font-size: 35px;
   font-weight: 500;
-  color: #ebf1f5;
+  color: var(--gray100);
   margin-bottom: 30px;
 }
 #homepageAnalytics .sectionInfo p {
-  color: #9ba9b4;
+  color: var(--gray400);
   font-size: 20px;
 }
 #homepageAnalytics .sectionImg {
@@ -103,7 +103,7 @@
   }
   #homepageAnalytics .analyticItem {
     flex-direction: row;
-    background-color: #25282c;
+    background-color: var(--gray800);
   }
   #homepageAnalytics .analyticItem:nth-child(even) {
     flex-direction: row-reverse;

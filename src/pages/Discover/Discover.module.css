@@ -5,9 +5,9 @@
 }
 .expandButton {
   text-decoration: none;
-  color: white;
+  color: var(--offWhite);
   padding: 8px 12px;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   border-radius: 3px;
   cursor: pointer;
 }

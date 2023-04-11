@@ -26,14 +26,14 @@
   text-align: left;
   font-size: 14px;
   margin: 10px 20px 0;
-  color: #9ba9b4;
+  color: var(--gray400);
 }
 #sidebar .links {
   width: 300px;
 }
 #sidebar .sidebarTitle h3 {
   font-size: 25px;
-  color: #25282c;
+  color: var(--gray800);
 }
 #sidebar .sidebarItem {
   display: flex;
@@ -44,7 +44,7 @@
   border-radius: 5px;
 }
 #sidebar .sidebarItem:hover {
-  background-color: #d9e3ea;
+  background-color: var(--gray200);
 }
 #sidebar .sidebarItem img {
   height: 20px;
@@ -52,7 +52,7 @@
 }
 #sidebar .links h3 {
   font-size: 20px;
-  color: #25282c;
+  color: var(--gray800);
 }
 #sidebar .link {
   display: block;

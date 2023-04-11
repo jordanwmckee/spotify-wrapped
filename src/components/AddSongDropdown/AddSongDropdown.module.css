@@ -37,7 +37,8 @@
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
-  color: #ebf1f5;
+  color: var(--offWhite);
+  /* #ebf1f5; */
 }
 .playlistDropdown h4:hover {
   background-color: #55595f;

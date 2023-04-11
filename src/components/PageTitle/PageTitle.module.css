@@ -11,10 +11,10 @@
   padding: 10px 30px;
 }
 .titleText h2 {
-  color: #33363a;
+  color: var(--gray700);
 }
 .titleText p {
-  color: #9ba9b4;
+  color: var(--gray400);
 }
 
 @media only screen and (min-width: 960px) {

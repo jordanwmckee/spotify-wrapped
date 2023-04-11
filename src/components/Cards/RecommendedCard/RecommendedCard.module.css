@@ -8,7 +8,7 @@
 }
 .recommendedCardTitle {
   width: 100%;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   height: 40px;
@@ -16,7 +16,7 @@
 .recommendedCardTitle h2 {
   font-size: 20px;
   width: 100%;
-  color: #25282c;
+  color: var(--gray800);
 }
 .recommendedCardList {
   display: flex;
@@ -66,7 +66,7 @@
   font-size: 16px;
   cursor: pointer;
   padding: 0 3px;
-  color: #25282c;
+  color: var(--gray800);
 }
 
 @media only screen and (min-width: 768px) {

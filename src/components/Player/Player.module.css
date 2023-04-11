@@ -70,7 +70,7 @@
 }
 .popup .recommended p:hover,
 .playlists p:hover {
-  background-color: #d9e3ea;
+  background-color: var(--gray200);
 }
 .popup .playbackOptions {
   display: flex;

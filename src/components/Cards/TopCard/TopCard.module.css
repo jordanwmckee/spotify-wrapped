@@ -11,13 +11,13 @@
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   height: 40px;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   transition: width 0.3s ease;
 }
 .topCardTitle h2 {
   width: 100%;
   font-size: 20px;
-  color: #25282c;
+  color: var(--gray800);
 }
 .topCardList {
   padding: 10px;
@@ -45,7 +45,7 @@
   text-align: left;
   font-size: 13px;
   width: 100%;
-  color: #25282c;
+  color: var(--gray800);
 }
 .topListItem img {
   width: 50px;

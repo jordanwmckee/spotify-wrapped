@@ -2,7 +2,11 @@
   width: 30%;
   margin: 15px;
   height: 120px;
-  background-image: linear-gradient(to bottom right, #25282c, #55595f);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--gray800),
+    var(--gray600)
+  );
   border-radius: 10px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
