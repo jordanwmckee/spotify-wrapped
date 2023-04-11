@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RESET } from 'context/user';
@@ -13,7 +12,6 @@ import { closeSidebar, toggleSidebar } from 'components/Sidebar/Sidebar';
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
   const [dropdown, toggleDropdown, closeDropdown] = useToggleState(false);
-  const [sidebar, setSidebar] = useState(false);
   const dispatch = useDispatch();
 
   const toggleBar = () => {
