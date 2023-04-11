@@ -9,7 +9,6 @@ import { SET_PLAYER_URIS } from 'context/user';
 
 const Player = (props: PlayerProps) => {
   const { userPlaylists } = props;
-  const [open, setOpen] = useState(false);
   const { playerUris, recommendUris } = useSelector(
     (state: RootState) => state.user
   );
@@ -18,7 +17,6 @@ const Player = (props: PlayerProps) => {
   const togglePopup = () => {
     document.querySelector('.popup')!.classList.toggle('popup-open');
     document.querySelector('.popup-img')?.classList.toggle('active-popup');
-    setOpen(!open);
   };
 
   return (
