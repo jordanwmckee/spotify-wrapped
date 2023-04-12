@@ -30,7 +30,7 @@ const Player = (props: PlayerProps) => {
           onClick={togglePopup}
           title="show/hide playback sources"
         >
-          <img src={DoubleArrow} alt="" className={styles.popupImg} />
+          <img className={styles.popupImg} src={DoubleArrow} alt="" />
         </div>
         <div className={styles.title}>
           <h3>Playback Sources</h3>
