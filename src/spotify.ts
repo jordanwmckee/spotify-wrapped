@@ -235,20 +235,30 @@ const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
     const seedArtist = seedArtistRes.items[0].id;
     // get related artists
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
-      seedArtist
+      seedArtist,
+      { limit: 20 }
     );
+
     if (relatedArtistsRes) {
-      // loop through related artists and add to return array
-      for (const artist of relatedArtistsRes.artists) {
+      // Get an array of all the artist IDs
+      const artistIds = relatedArtistsRes.artists.map((artist) => artist.id);
+
+      // Check if the user is following all the artists at once
+      const followingArtists = await spotifyApi.isFollowingArtists(artistIds);
+
+      // Loop through related artists and add to return array
+      for (let i = 0; i < relatedArtistsRes.artists.length; i++) {
+        const artist = relatedArtistsRes.artists[i];
+        const following = followingArtists[i];
+
         let data: RecommendedItems = {
           name: artist.name,
           image: artist.images[0].url,
           uri: artist.uri,
           id: artist.id,
-          following: (await spotifyApi.isFollowingArtists([artist.id]))[0]
-            ? true
-            : false,
+          following: following,
         };
+
         recommendedArtists.push(data);
       }
     }
