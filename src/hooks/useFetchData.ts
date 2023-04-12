@@ -11,6 +11,7 @@ import {
   getTopItems,
   getUserPlaylists,
   refreshAuthToken,
+  // setRefreshTimer,
   spotifyApi,
 } from 'spotify';
 
@@ -126,6 +127,8 @@ const useFetchData = (): FetchDataResult => {
         recommendedTracksResult.status === 'fulfilled' &&
           !playerUris &&
           dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
+
+      // setRefreshTimer();
     } catch (error) {
       // handle error
       console.error(error);

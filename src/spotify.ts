@@ -158,13 +158,12 @@ const refreshAuthToken = async () => {
   // refreshCycle(user);
 };
 
-/**
- * Run refreshAuthToken every hour to generate new token
- *
- * @param {User} user Returned from useAuthState
- */
-// const refreshCycle = (user: User) => {
-//   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
+// /**
+//  * Refresh user's access token every hour before expiration
+//  */
+// const setRefreshTimer = () => {
+//   refreshAuthToken();
+//   setInterval(setRefreshTimer, 1000 * 60 * 60);
 // };
 
 /**
@@ -482,7 +481,7 @@ export {
   checkForTokens,
   getTokensFromStore,
   refreshAuthToken,
-  // refreshCycle,
+  // setRefreshTimer,
   getRecommendedTracks,
   getRecommendedArtists,
   getTopItems,
