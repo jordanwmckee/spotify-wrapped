@@ -41,8 +41,6 @@ const useFetchData = (): FetchDataResult => {
   const [monthlySongs, setMonthlySongs] = useState<TopItems[]>();
   const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
   const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
-  const [recentListens, setRecentListens] = useState<Listens[]>();
-  const [recentGenres, setRecentGenres] = useState<object[]>();
   const [monthlyListens, setMonthlyListens] = useState<Listens[]>();
   const [monthlyGenres, setMonthlyGenres] = useState<object[]>();
   const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
@@ -66,7 +64,6 @@ const useFetchData = (): FetchDataResult => {
         userAccountResult,
         topMonthlyResult,
         topAllTimeResult,
-        listenHistoryResult,
         topMonthlyGenresResult,
         topAllTimeGenresResult,
         userPlaylistsResult,
@@ -76,7 +73,6 @@ const useFetchData = (): FetchDataResult => {
         spotifyApi.getMe(),
         getTopItems({ time_range: 'short_term', limit: '16' }),
         getTopItems({ time_range: 'long_term', limit: '16' }),
-        getRecentListens({ limit: 50 }),
         getMonthlyListens({ time_range: 'short_term', limit: 50 }),
         getAlltimeListens({ time_range: 'long_term', limit: 50 }),
         getUserPlaylists(),
@@ -104,11 +100,6 @@ const useFetchData = (): FetchDataResult => {
         setAllTimeSongs(topAllTimeResult.value.topTracks);
       topAllTimeResult.status === 'fulfilled' &&
         setAllTimeArtists(topAllTimeResult.value.topArtists);
-
-      listenHistoryResult.status === 'fulfilled' &&
-        setRecentListens(listenHistoryResult.value.listenHistory);
-      listenHistoryResult.status === 'fulfilled' &&
-        setRecentGenres(listenHistoryResult.value.genresArr);
 
       topMonthlyGenresResult.status === 'fulfilled' &&
         setMonthlyListens(topMonthlyGenresResult.value.topMonthly);
@@ -142,8 +133,6 @@ const useFetchData = (): FetchDataResult => {
     monthlySongs,
     allTimeArtists,
     allTimeSongs,
-    recentListens,
-    recentGenres,
     monthlyListens,
     monthlyGenres,
     allTimeListens,

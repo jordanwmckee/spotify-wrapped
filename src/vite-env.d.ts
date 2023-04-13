@@ -113,8 +113,6 @@ interface DashboardProps {
 }
 
 interface AnalyticsProps {
-  recentListens?: Listens[];
-  recentGenres?: object[];
   monthlyListens?: Listens[];
   monthlyGenres?: object[];
   allTimeListens?: Listens[];

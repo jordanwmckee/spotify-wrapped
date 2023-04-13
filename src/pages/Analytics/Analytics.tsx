@@ -9,26 +9,9 @@ import {
 import FloatingCard from 'components/Cards/FloatingCard/FloatingCard.js';
 
 const Analytics = (props: AnalyticsProps) => {
-  const {
-    recentListens,
-    recentGenres,
-    monthlyListens,
-    monthlyGenres,
-    allTimeListens,
-    allTimeGenres,
-  } = props;
-  if (
-    recentListens &&
-    recentGenres &&
-    monthlyListens &&
-    monthlyGenres &&
-    allTimeListens &&
-    allTimeGenres
-  ) {
-    const rec_genre_stats = sort_genres_and_rank(recentGenres);
-    //console.log(rec_genre_stats);
-    const rec_artist_stats = sort_artists_and_rank(recentListens);
-    //console.log(rec_artist_stats);
+  const { monthlyListens, monthlyGenres, allTimeListens, allTimeGenres } =
+    props;
+  if (monthlyListens && monthlyGenres && allTimeListens && allTimeGenres) {
     const monthly_genre_stats = sort_genres_and_rank(monthlyGenres);
     const monthly_artist_stats = sort_artists_and_rank(monthlyListens);
     const allTime_genre_stats = sort_genres_and_rank(allTimeGenres);
@@ -51,11 +34,6 @@ const Analytics = (props: AnalyticsProps) => {
             data={alltime_artist_stats}
             title="Top All-Time Artists"
           />
-          <FloatingCard
-            data={rec_artist_stats}
-            title="Recently Played Artists"
-          />
-          <FloatingCard data={rec_genre_stats} title="Recently Played Genres" />
         </div>
       </>
     );
