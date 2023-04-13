@@ -47,38 +47,25 @@ function App() {
     getData,
   } = useFetchData();
 
+  const handleAuth = async () => {
+    // validate token
+    let isLinked = checkForTokens();
+    if (isLinked === false && window.location.search.includes('code')) {
+      await fetchTokensFromCode();
+      isLinked = true;
+    }
+    setLinked(isLinked);
+
+    // fetch data from web api if valid token
+    if (isLinked) {
+      console.log('get data ran');
+      await getData();
+    }
+    clearLoadingScreen();
+  };
+
   useEffect(() => {
-    // create a variable to store a cleanup function
-    let unmounted = false;
-    let tokenDetected: boolean = false;
-
-    // try to fetch data from web api
-    const tryFetchData = async () => {
-      if (!unmounted) await getData();
-      clearLoadingScreen();
-    };
-
-    // check for valid Spotify tokens
-    const checkToken = async () => {
-      let isLinked = checkForTokens();
-      if (isLinked === false && window.location.search.includes('code')) {
-        await fetchTokensFromCode();
-        isLinked = true;
-      }
-      if (isLinked) tokenDetected = true;
-      if (!unmounted) {
-        setLinked(isLinked);
-      }
-    };
-
-    checkToken();
-    if (tokenDetected) tryFetchData();
-    else clearLoadingScreen();
-
-    // cleanup function to set unmounted flag
-    return () => {
-      unmounted = true;
-    };
+    handleAuth();
   }, []);
 
   return (
