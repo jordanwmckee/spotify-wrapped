@@ -19,6 +19,7 @@ interface TopItems {
   image: string;
   uri?: string;
   id?: string;
+  artist?: SpotifyApi.ArtistObjectSimplified[];
 }
 
 /**
@@ -113,10 +114,10 @@ interface DashboardProps {
 }
 
 interface AnalyticsProps {
-  monthlyListens?: Listens[];
-  monthlyGenres?: object[];
-  allTimeListens?: Listens[];
-  allTimeGenres?: object[];
+  monthlySongs?: TopItems[];
+  monthlyGenres?: string[][];
+  allTimeSongs?: TopItems[];
+  allTimeGenres?: string[][];
 }
 
 interface DiscoverProps {

@@ -35,9 +35,7 @@ function App() {
     monthlySongs,
     allTimeArtists,
     allTimeSongs,
-    monthlyListens,
     monthlyGenres,
-    allTimeListens,
     allTimeGenres,
     userPlaylists,
     recommendedArtists,
@@ -93,9 +91,9 @@ function App() {
                   path="/analytics"
                   element={
                     <Analytics
-                      monthlyListens={monthlyListens}
+                      monthlySongs={monthlySongs}
                       monthlyGenres={monthlyGenres}
-                      allTimeListens={allTimeListens}
+                      allTimeSongs={allTimeSongs}
                       allTimeGenres={allTimeGenres}
                     />
                   }

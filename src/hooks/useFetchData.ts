@@ -3,8 +3,6 @@ import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from 'context/user';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getAlltimeListens,
-  getMonthlyListens,
   getRecommendedArtists,
   getRecommendedTracks,
   getTopItems,
@@ -22,9 +20,9 @@ interface FetchDataResult {
   allTimeSongs?: TopItems[];
   allTimeArtists?: TopItems[];
   monthlyListens?: Listens[];
-  monthlyGenres?: object[];
+  monthlyGenres?: string[][];
   allTimeListens?: Listens[];
-  allTimeGenres?: object[];
+  allTimeGenres?: string[][];
   userPlaylists?: Playlists[];
   recommendedArtists?: RecommendedItems[];
   recommendedSongs?: RecommendedItems[];
@@ -38,10 +36,8 @@ const useFetchData = (): FetchDataResult => {
   const [monthlySongs, setMonthlySongs] = useState<TopItems[]>();
   const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
   const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
-  const [monthlyListens, setMonthlyListens] = useState<Listens[]>();
-  const [monthlyGenres, setMonthlyGenres] = useState<object[]>();
-  const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
-  const [allTimeGenres, setAllTimeGenres] = useState<object[]>();
+  const [monthlyGenres, setMonthlyGenres] = useState<string[][]>();
+  const [allTimeGenres, setAllTimeGenres] = useState<string[][]>();
   const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
   const [recommendedArtists, setRecommendedArtists] =
     useState<RecommendedItems[]>();
@@ -61,8 +57,6 @@ const useFetchData = (): FetchDataResult => {
         userAccountResult,
         topMonthlyResult,
         topAllTimeResult,
-        topMonthlyGenresResult,
-        topAllTimeGenresResult,
         userPlaylistsResult,
       ] = await Promise.allSettled([
         getRecommendedTracks(),
@@ -70,8 +64,6 @@ const useFetchData = (): FetchDataResult => {
         spotifyApi.getMe(),
         getTopItems({ time_range: 'short_term', limit: '16' }),
         getTopItems({ time_range: 'long_term', limit: '16' }),
-        getMonthlyListens({ time_range: 'short_term', limit: 50 }),
-        getAlltimeListens({ time_range: 'long_term', limit: 50 }),
         getUserPlaylists(),
       ]);
 
@@ -90,6 +82,9 @@ const useFetchData = (): FetchDataResult => {
         setMonthlySongs(topMonthlyResult.value.topTracks);
       topMonthlyResult.status === 'fulfilled' &&
         setMonthlyArtists(topMonthlyResult.value.topArtists);
+      topMonthlyResult.status === 'fulfilled' &&
+        setMonthlyGenres(topMonthlyResult.value.topGenres);
+
       recommendedArtistsResult.status === 'fulfilled' &&
         setRecommendedArtists(recommendedArtistsResult.value);
 
@@ -97,24 +92,15 @@ const useFetchData = (): FetchDataResult => {
         setAllTimeSongs(topAllTimeResult.value.topTracks);
       topAllTimeResult.status === 'fulfilled' &&
         setAllTimeArtists(topAllTimeResult.value.topArtists);
-
-      topMonthlyGenresResult.status === 'fulfilled' &&
-        setMonthlyListens(topMonthlyGenresResult.value.topMonthly);
-      topMonthlyGenresResult.status === 'fulfilled' &&
-        setMonthlyGenres(topMonthlyGenresResult.value.TopMonthGenres);
-
-      topAllTimeGenresResult.status === 'fulfilled' &&
-        setAllTimeListens(topAllTimeGenresResult.value.allTListens);
-      topAllTimeGenresResult.status === 'fulfilled' &&
-        setAllTimeGenres(topAllTimeGenresResult.value.allTGenres);
+      topAllTimeResult.status === 'fulfilled' &&
+        setAllTimeGenres(topAllTimeResult.value.topGenres);
 
       userPlaylistsResult.status === 'fulfilled' &&
         setUserPlaylists(userPlaylistsResult.value);
 
-      if (!playerUris)
-        recommendedTracksResult.status === 'fulfilled' &&
-          !playerUris &&
-          dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
+      recommendedTracksResult.status === 'fulfilled' &&
+        !playerUris &&
+        dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
 
       // setRefreshTimer();
     } catch (error) {
@@ -130,9 +116,7 @@ const useFetchData = (): FetchDataResult => {
     monthlySongs,
     allTimeArtists,
     allTimeSongs,
-    monthlyListens,
     monthlyGenres,
-    allTimeListens,
     allTimeGenres,
     userPlaylists,
     recommendedArtists,

@@ -265,17 +265,22 @@ const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
  */
 const getTopItems = async (
   params: object
-): Promise<{ topTracks: TopItems[]; topArtists: TopItems[] }> => {
+): Promise<{
+  topTracks: TopItems[];
+  topArtists: TopItems[];
+  topGenres: string[][];
+}> => {
   try {
     const [topTracksRes, topArtistsRes] = await Promise.all([
       spotifyApi.getMyTopTracks(params),
       spotifyApi.getMyTopArtists(params),
     ]);
 
-    const topTracks = topTracksRes.items.map((track) => ({
+    const topTracks: TopItems[] = topTracksRes.items.map((track) => ({
       name: track.name,
       image: track.album.images[0].url,
       uri: track.uri,
+      artist: track.artists,
     }));
 
     const topArtists = topArtistsRes.items.map((artist) => ({
@@ -284,124 +289,27 @@ const getTopItems = async (
       id: artist.id,
     }));
 
+    // get genres for top artists
+    const artistIds = topTracksRes.items.flatMap((track) =>
+      track.artists.map((artist) => artist.id)
+    );
+    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50 if longer
+    const topGenres = (await spotifyApi.getArtists(artistIds)).artists.map(
+      (artist) => artist.genres
+    );
+
     return {
       topTracks,
       topArtists,
+      topGenres,
     };
   } catch (err) {
     console.error(err);
     return {
       topTracks: [],
       topArtists: [],
+      topGenres: [],
     };
-  }
-};
-
-/**
- * make api call to get the last 50 listened to tracks and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getRecentListens = async (
-  params: object
-): Promise<{ listenHistory: Listens[]; genresArr: object[] }> => {
-  try {
-    const recentListensRes = await spotifyApi.getMyRecentlyPlayedTracks(params);
-    const listenHistory = recentListensRes.items.map(({ track }) => ({
-      id: track.id,
-      name: track.name,
-      artist: track.artists,
-    }));
-
-    const artistIds = listenHistory.flatMap((track) =>
-      track.artist.map((artist) => artist.id)
-    );
-    if (artistIds.length > 50) artistIds.length = 50;
-
-    const artistsRes = await spotifyApi.getArtists(artistIds);
-    const genresArr = artistsRes.artists.map((artist) => artist.genres);
-    return { listenHistory, genresArr };
-  } catch (err) {
-    console.error(err);
-    return { listenHistory: [], genresArr: [] };
-  }
-};
-
-/**
- * make api call to get the top 50 listened to tracks in the last month
- * and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getMonthlyListens = async (
-  params: object
-): Promise<{
-  topMonthly: Listens[];
-  TopMonthGenres: object[];
-}> => {
-  try {
-    const monthlyListensRes = await spotifyApi.getMyTopTracks(params);
-    const topMonthly = monthlyListensRes.items.map(({ id, name, artists }) => ({
-      id,
-      name,
-      artist: artists,
-    }));
-
-    const artistIds = monthlyListensRes.items.flatMap((track) =>
-      track.artists.map((artist) => artist.id)
-    );
-    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50
-
-    const artistsRes = await spotifyApi.getArtists(artistIds);
-
-    const TopMonthGenres = artistsRes.artists.map((artist) => artist.genres);
-    return { topMonthly, TopMonthGenres };
-  } catch (err) {
-    console.log(err);
-    return { topMonthly: [], TopMonthGenres: [] };
-  }
-};
-
-/**
- * make api call to get the top 50 listened to tracks in the last several years
- * and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getAlltimeListens = async (
-  params: object
-): Promise<{
-  allTListens: Listens[];
-  allTGenres: object[];
-}> => {
-  try {
-    const alltimeListensRes = await spotifyApi.getMyTopTracks({
-      ...params,
-      time_range: 'long_term',
-    });
-    const allTListens = alltimeListensRes.items.map(
-      ({ id, name, artists }) => ({
-        id,
-        name,
-        artist: artists,
-      })
-    );
-
-    const artistIds = alltimeListensRes.items.flatMap((track) =>
-      track.artists.map((artist) => artist.id)
-    );
-    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50
-
-    const artistsRes = await spotifyApi.getArtists(artistIds);
-
-    const allTGenres = artistsRes.artists.map((artist) => artist.genres);
-    return { allTListens, allTGenres };
-  } catch (err) {
-    console.log(err);
-    return { allTListens: [], allTGenres: [] };
   }
 };
 
@@ -436,8 +344,5 @@ export {
   getRecommendedTracks,
   getRecommendedArtists,
   getTopItems,
-  getRecentListens,
-  getMonthlyListens,
-  getAlltimeListens,
   getUserPlaylists,
 };
