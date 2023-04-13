@@ -18,7 +18,7 @@ interface TopItems {
   name: string;
   image: string;
   uri?: string;
-  id?: string;
+  id: string;
   artist?: SpotifyApi.ArtistObjectSimplified[];
 }
 

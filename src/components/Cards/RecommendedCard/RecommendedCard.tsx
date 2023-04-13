@@ -15,7 +15,7 @@ const RecommendedCard = (props: RecommendedCardProps) => {
   const toggleFollowing = (
     e: React.MouseEvent<HTMLImageElement>,
     artist: RecommendedItems
-  ): void => {
+  ) => {
     // follow/unfollow artist & update image
     if (artist.following) {
       spotifyApi.unfollowArtists([artist.id!]);

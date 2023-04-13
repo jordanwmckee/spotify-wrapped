@@ -168,23 +168,17 @@ const refreshAuthToken = async () => {
  *
  * @returns {object} {urisArr: string[]; tracksArr: RecommendedItems[]} The URIS for the Player to use
  */
-const getRecommendedTracks = async (): Promise<{
+const getRecommendedTracks = async (
+  seedTracks: string
+): Promise<{
   urisArr: string[];
   tracksArr: RecommendedItems[];
 }> => {
   try {
-    // Get seed tracks for recommendations
-    const top5Tracks = await spotifyApi.getMyTopTracks({
-      time_range: 'short_term',
-      limit: '5',
-    });
-
-    const seeds = top5Tracks.items.map((track) => track.id).join(',');
-
     // Get recommendations using seeds
     const recommendations = await spotifyApi.getRecommendations({
-      seed_tracks: seeds,
-      limit: 100,
+      seed_tracks: seedTracks,
+      limit: 50,
     });
 
     var urisArr: string[] = [];
@@ -219,15 +213,10 @@ const getRecommendedTracks = async (): Promise<{
  *
  * @returns {RecommendedItems[]} Array of recommended artists for user
  */
-const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
+const getRecommendedArtists = async (
+  seedArtist: string
+): Promise<RecommendedItems[]> => {
   try {
-    const seedArtistRes = await spotifyApi.getMyTopArtists({
-      time_range: 'short_term',
-      limit: '1',
-    });
-
-    const seedArtist = seedArtistRes.items[0].id;
-
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
       seedArtist,
       {
@@ -280,6 +269,7 @@ const getTopItems = async (
       image: track.album.images[0].url,
       uri: track.uri,
       artist: track.artists,
+      id: track.id,
     }));
 
     const topArtists = topArtistsRes.items.map((artist) => ({

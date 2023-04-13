@@ -52,15 +52,11 @@ const useFetchData = (): FetchDataResult => {
       await refreshAuthToken();
       // perform all the async operations in parallel
       const [
-        recommendedTracksResult,
-        recommendedArtistsResult,
         userAccountResult,
         topMonthlyResult,
         topAllTimeResult,
         userPlaylistsResult,
       ] = await Promise.allSettled([
-        getRecommendedTracks(),
-        getRecommendedArtists(),
         spotifyApi.getMe(),
         getTopItems({ time_range: 'short_term', limit: '16' }),
         getTopItems({ time_range: 'long_term', limit: '16' }),
@@ -68,43 +64,51 @@ const useFetchData = (): FetchDataResult => {
       ]);
 
       // handle errors and update state with the results
-      recommendedTracksResult.status === 'fulfilled' &&
-        dispatch(SET_RECOMMEND_URIS(recommendedTracksResult.value.urisArr));
-      recommendedTracksResult.status === 'fulfilled' &&
-        setRecommendedSongs(recommendedTracksResult.value.tracksArr);
-
-      userAccountResult.status === 'fulfilled' &&
+      if (userAccountResult.status === 'fulfilled') {
         setDisplayName(userAccountResult.value.display_name || '');
-      userAccountResult.status === 'fulfilled' &&
         setProfilePic(userAccountResult.value.images![0].url || '');
+      }
 
-      topMonthlyResult.status === 'fulfilled' &&
+      if (topMonthlyResult.status === 'fulfilled') {
         setMonthlySongs(topMonthlyResult.value.topTracks);
-      topMonthlyResult.status === 'fulfilled' &&
         setMonthlyArtists(topMonthlyResult.value.topArtists);
-      topMonthlyResult.status === 'fulfilled' &&
         setMonthlyGenres(topMonthlyResult.value.topGenres);
 
-      recommendedArtistsResult.status === 'fulfilled' &&
-        setRecommendedArtists(recommendedArtistsResult.value);
+        // get recommended artists/tracks/uris from top monthly items
+        const seedArtist = topMonthlyResult.value.topArtists[0].id;
+        const seedTracks = topMonthlyResult.value.topTracks
+          .flatMap((track) => track.id)
+          .slice(0, 5)
+          .join(',');
 
-      topAllTimeResult.status === 'fulfilled' &&
+        const [recommendedArtistsResult, recommendedTracksResult] =
+          await Promise.allSettled([
+            getRecommendedArtists(seedArtist),
+            getRecommendedTracks(seedTracks),
+          ]);
+
+        recommendedArtistsResult.status === 'fulfilled' &&
+          setRecommendedArtists(recommendedArtistsResult.value);
+
+        if (recommendedTracksResult.status === 'fulfilled') {
+          setRecommendedSongs(recommendedTracksResult.value.tracksArr);
+          dispatch(SET_RECOMMEND_URIS(recommendedTracksResult.value.urisArr));
+          !playerUris &&
+            dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
+        }
+      }
+
+      if (topAllTimeResult.status === 'fulfilled') {
         setAllTimeSongs(topAllTimeResult.value.topTracks);
-      topAllTimeResult.status === 'fulfilled' &&
         setAllTimeArtists(topAllTimeResult.value.topArtists);
-      topAllTimeResult.status === 'fulfilled' &&
         setAllTimeGenres(topAllTimeResult.value.topGenres);
+      }
 
       userPlaylistsResult.status === 'fulfilled' &&
         setUserPlaylists(userPlaylistsResult.value);
 
-      recommendedTracksResult.status === 'fulfilled' &&
-        !playerUris &&
-        dispatch(SET_PLAYER_URIS(recommendedTracksResult.value.urisArr));
-
       // setRefreshTimer();
     } catch (error) {
-      // handle error
       console.error(error);
     }
   };
