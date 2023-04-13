@@ -16,21 +16,17 @@ const TopCard = (props: TopCardProps) => {
         {list.map((data) => (
           <ul className={styles.topListItem} key={data.name}>
             <li>
-              {!data.uri ? (
-                <img src={data.image} alt="unavailable." />
-              ) : (
-                <div
-                  className={styles.albumImage}
-                  onClick={() => {
-                    dispatch(SET_PLAYER_URIS([data.uri!]));
-                  }}
-                >
-                  <img src={data.image} alt="unavailable" />
-                  <div className={styles.imgButton}>
-                    <img src={PlayButton} alt="" />
-                  </div>
+              <div
+                className={styles.albumImage}
+                onClick={() => {
+                  dispatch(SET_PLAYER_URIS([data.uri!]));
+                }}
+              >
+                <img src={data.image} alt="unavailable" />
+                <div className={styles.imgButton}>
+                  <img src={PlayButton} alt="" />
                 </div>
-              )}
+              </div>
               <a href={data.uri}>{data.name}</a>
             </li>
           </ul>
