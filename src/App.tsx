@@ -57,10 +57,7 @@ function App() {
     setLinked(isLinked);
 
     // fetch data from web api if valid token
-    if (isLinked) {
-      console.log('get data ran');
-      await getData();
-    }
+    if (isLinked) await getData();
     clearLoadingScreen();
   };
 
