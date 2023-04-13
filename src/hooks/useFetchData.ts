@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getAlltimeListens,
   getMonthlyListens,
-  getRecentListens,
   getRecommendedArtists,
   getRecommendedTracks,
   getTopItems,
@@ -22,8 +21,6 @@ interface FetchDataResult {
   monthlySongs?: TopItems[];
   allTimeSongs?: TopItems[];
   allTimeArtists?: TopItems[];
-  recentListens?: Listens[];
-  recentGenres?: object[];
   monthlyListens?: Listens[];
   monthlyGenres?: object[];
   allTimeListens?: Listens[];
