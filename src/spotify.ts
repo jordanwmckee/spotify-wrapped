@@ -60,9 +60,9 @@ const checkForTokens = (): boolean => {
 };
 
 /**
- * Get currentToken object from loacl storage
+ * Get currentToken object from local storage
  *
- * @returns {Token | null}
+ * @returns {Token | null} Token retrieved or null
  */
 const getTokensFromStore = (): Token | null => {
   const auth: string = localStorage.getItem('SpotifyTokens')!;
@@ -84,6 +84,27 @@ const isValidAccessToken = (): boolean => {
 };
 
 /**
+ * Use a given fetch body, make the request and return the json result
+ *
+ * @param {BodyInit} body The body of the fetch request
+ * @returns {Promise<any>} The json result of the request
+ */
+const tokenFetch = async (body: BodyInit): Promise<any> => {
+  return fetch('https://accounts.spotify.com/api/token', {
+    method: 'post',
+    body: body,
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+    },
+  }).then((res) => {
+    return res.json();
+  });
+};
+
+/**
  * Assumes the code from Spotify's callback is in the url
  * Use code from url to request an access_token and refresh_token from web api
  */
@@ -100,18 +121,7 @@ const fetchTokensFromCode = async () => {
       grant_type: 'authorization_code',
     });
 
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'post',
-      body: body,
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-      },
-    });
-
-    const data = await response.json();
+    const data = await tokenFetch(body);
     // add response tokens to stores
     addTokensToStore(data.refresh_token, data.access_token, Date.now());
     spotifyApi.setAccessToken(data.access_token);
@@ -121,7 +131,7 @@ const fetchTokensFromCode = async () => {
 };
 
 /**
- * Get refresh token from firebase, and use it to generate a new access token
+ * Get refresh token from store, and use it to generate a new access token
  */
 const refreshAuthToken = async () => {
   // check if access token is still valid first
@@ -132,7 +142,6 @@ const refreshAuthToken = async () => {
   } else {
     console.log('No valid token detected.');
   }
-
   if (!auth?.refresh_token) return;
 
   var body = new URLSearchParams({
@@ -140,18 +149,7 @@ const refreshAuthToken = async () => {
     refresh_token: auth.refresh_token,
   });
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'post',
-    body: body,
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-      Authorization:
-        'Basic ' +
-        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-    },
-  });
-
-  const data = await response.json();
+  const data = await tokenFetch(body);
   console.log('New access token generated.');
   addTokensToStore(auth.refresh_token, data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
@@ -168,7 +166,7 @@ const refreshAuthToken = async () => {
 /**
  * Get array of URIs to use for Spotify Playback SDK
  *
- * @returns {string[], RecommendedItems[]} The URIS for the Player to use
+ * @returns {object} {urisArr: string[]; tracksArr: RecommendedItems[]} The URIS for the Player to use
  */
 const getRecommendedTracks = async (): Promise<{
   urisArr: string[];
@@ -261,7 +259,8 @@ const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
  * Make api call to get top songs and artists based on parameters passed
  *
  * @param {object} params The parameters to use in the api call
- * @returns {TopItems[], TopItems[]} Arrays for the top artists and songs based on given params
+ * @returns {object} {topTracks: TopItems[]; topArtists: TopItems[]; topGenres: string[][]}
+ * Arrays for the top artists and songs based on given params
  */
 const getTopItems = async (
   params: object
