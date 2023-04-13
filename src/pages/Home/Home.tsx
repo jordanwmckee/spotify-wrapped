@@ -69,17 +69,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <HomeTitle
-        title="Delivered to your email."
-        description="For you to save & share with your friends."
-        subheading={true}
-      />
-      <div className={styles.homepageSection}>
-        <div className="home-button" style={{ marginBottom: '40px' }}>
-          <Link to={loginUrl}>Start Now</Link>
-        </div>
-      </div>
-
       <HomeFooter />
     </div>
   );
