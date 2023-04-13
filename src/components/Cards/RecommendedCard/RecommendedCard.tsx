@@ -35,33 +35,25 @@ const RecommendedCard = (props: RecommendedCardProps) => {
       <div className={styles.recommendedCardList}>
         {list.slice(0, length).map((data) => (
           <div className={styles.recommendedListItem} key={data.uri}>
-            {type == 'artists' ? (
+            <div
+              className={styles.albumImage}
+              onClick={() => {
+                dispatch(SET_PLAYER_URIS([data.uri!]));
+              }}
+            >
               <img
                 src={data.image}
-                alt="unavailable."
+                alt="unavailable"
                 className={styles.recommendedImage}
               />
-            ) : (
-              <div
-                className={styles.albumImage}
-                onClick={() => {
-                  dispatch(SET_PLAYER_URIS([data.uri!]));
-                }}
-              >
+              <div className={styles.imgButton}>
                 <img
-                  src={data.image}
-                  alt="unavailable"
+                  src={PlayIcon}
+                  alt=""
                   className={styles.recommendedImage}
                 />
-                <div className={styles.imgButton}>
-                  <img
-                    src={PlayIcon}
-                    alt=""
-                    className={styles.recommendedImage}
-                  />
-                </div>
               </div>
-            )}
+            </div>
             <a href={data.uri} target="_blank">
               <h3>
                 <u>{data.name}</u>

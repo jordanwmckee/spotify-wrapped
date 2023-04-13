@@ -17,7 +17,7 @@ interface Token {
 interface TopItems {
   name: string;
   image: string;
-  uri?: string;
+  uri: string;
   id: string;
   artist?: SpotifyApi.ArtistObjectSimplified[];
 }

@@ -39,7 +39,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.topListItem h3 {
+.topListItem a {
   font-weight: 700;
   margin: 0 7px;
   text-align: left;
@@ -49,6 +49,7 @@
 }
 .topListItem img {
   width: 50px;
+  height: 50px;
 }
 .albumImage {
   cursor: pointer;
@@ -74,7 +75,7 @@
   .topCardTitle h2 {
     font-size: 24px;
   }
-  .topListItem h3 {
+  .topListItem a {
     font-size: 16px;
   }
 }
@@ -91,8 +92,9 @@
   .topListItem img {
     width: 90px;
     height: 90px;
+    border-radius: 5px;
   }
-  .topListItem h3 {
+  .topListItem a {
     text-align: center;
   }
   .albumImage {

@@ -31,7 +31,7 @@ const TopCard = (props: TopCardProps) => {
                   </div>
                 </div>
               )}
-              <h3>{data.name}</h3>
+              <a href={data.uri}>{data.name}</a>
             </li>
           </ul>
         ))}

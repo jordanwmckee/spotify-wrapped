@@ -20,8 +20,23 @@ const auth_query_params = new URLSearchParams({
   response_type: 'code',
   grant_type: 'authorization_code',
   client_id: clientId,
-  scope:
-    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private user-follow-modify user-follow-read',
+  scope: `streaming 
+     user-read-email 
+     user-library-read 
+     user-library-modify 
+     user-read-playback-state 
+     user-modify-playback-state 
+     user-read-recently-played 
+     playlist-read-collaborative 
+     playlist-read-private 
+     user-read-currently-playing 
+     playlist-modify-public 
+     user-top-read 
+     user-read-private 
+     playlist-modify-private 
+     user-follow-modify 
+     user-follow-read
+     ugc-image-upload`,
   redirect_uri: redirectUri,
 });
 
@@ -268,13 +283,14 @@ const getTopItems = async (
       name: track.name,
       image: track.album.images[0].url,
       uri: track.uri,
-      artist: track.artists,
       id: track.id,
+      artist: track.artists,
     }));
 
     const topArtists = topArtistsRes.items.map((artist) => ({
       name: artist.name,
       image: artist.images[0].url,
+      uri: artist.uri,
       id: artist.id,
     }));
 
