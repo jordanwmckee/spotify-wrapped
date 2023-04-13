@@ -155,7 +155,6 @@ const refreshAuthToken = async () => {
   console.log('New access token generated.');
   addTokensToStore(auth.refresh_token, data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
-  // refreshCycle(user);
 };
 
 // /**
@@ -175,19 +174,14 @@ const getRecommendedTracks = async (): Promise<{
   urisArr: string[];
   tracksArr: RecommendedItems[];
 }> => {
-  var urisArr: string[] = [];
-  var tracksArr: RecommendedItems[] = [];
   try {
     // Get seed tracks for recommendations
     const top5Tracks = await spotifyApi.getMyTopTracks({
       time_range: 'short_term',
       limit: '5',
     });
-    let seeds = '';
-    top5Tracks.items.forEach((track) => {
-      seeds += track.id + ',';
-    });
-    seeds = seeds.slice(0, -1);
+
+    const seeds = top5Tracks.items.map((track) => track.id).join(',');
 
     // Get recommendations using seeds
     const recommendations = await spotifyApi.getRecommendations({
@@ -195,28 +189,31 @@ const getRecommendedTracks = async (): Promise<{
       limit: 100,
     });
 
-    if (recommendations) {
-      // Use Promise.all() to wait for all of the promises inside the forEach loop to resolve
-      await Promise.all(
-        recommendations.tracks.map(async (track) => {
-          // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
-          let currentImage = (await spotifyApi.getTrack(track.id)).album
-            .images[0].url;
-          let data: RecommendedItems = {
-            name: track.name,
-            image: currentImage,
-            uri: track.uri,
-            id: track.id,
-          };
-          tracksArr.push(data);
-          urisArr.push(track.uri);
-        })
-      );
-    }
+    var urisArr: string[] = [];
+    var tracksArr: RecommendedItems[] = [];
+    // Use Promise.all() to wait for all of the promises inside the map function to resolve
+    await Promise.all(
+      recommendations.tracks.map(async (track) => {
+        // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
+        const album = (await spotifyApi.getTrack(track.id)).album;
+        const image = album.images[0].url;
+
+        const recommendedTrack: RecommendedItems = {
+          name: track.name,
+          image,
+          uri: track.uri,
+          id: track.id,
+        };
+
+        tracksArr.push(recommendedTrack);
+        urisArr.push(track.uri);
+      })
+    );
+    return { urisArr, tracksArr };
   } catch (err) {
     console.error(err);
+    return { urisArr: [], tracksArr: [] };
   }
-  return Promise.resolve({ urisArr, tracksArr });
 };
 
 /**
@@ -225,47 +222,39 @@ const getRecommendedTracks = async (): Promise<{
  * @returns {RecommendedItems[]} Array of recommended artists for user
  */
 const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
-  var recommendedArtists: RecommendedItems[] = [];
   try {
-    // get seedArtist
     const seedArtistRes = await spotifyApi.getMyTopArtists({
       time_range: 'short_term',
       limit: '1',
     });
+
     const seedArtist = seedArtistRes.items[0].id;
-    // get related artists
+
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
       seedArtist,
-      { limit: 20 }
+      {
+        limit: 20,
+      }
     );
 
-    if (relatedArtistsRes) {
-      // Get an array of all the artist IDs
-      const artistIds = relatedArtistsRes.artists.map((artist) => artist.id);
+    const artistIds = relatedArtistsRes.artists.map((artist) => artist.id);
+    const followingArtists = await spotifyApi.isFollowingArtists(artistIds);
 
-      // Check if the user is following all the artists at once
-      const followingArtists = await spotifyApi.isFollowingArtists(artistIds);
+    const recommendedArtists = relatedArtistsRes.artists.map(
+      (artist, index) => ({
+        name: artist.name,
+        image: artist.images[0].url,
+        uri: artist.uri,
+        id: artist.id,
+        following: followingArtists[index],
+      })
+    );
 
-      // Loop through related artists and add to return array
-      for (let i = 0; i < relatedArtistsRes.artists.length; i++) {
-        const artist = relatedArtistsRes.artists[i];
-        const following = followingArtists[i];
-
-        let data: RecommendedItems = {
-          name: artist.name,
-          image: artist.images[0].url,
-          uri: artist.uri,
-          id: artist.id,
-          following: following,
-        };
-
-        recommendedArtists.push(data);
-      }
-    }
+    return recommendedArtists;
   } catch (err) {
     console.error(err);
+    return [];
   }
-  return Promise.resolve(recommendedArtists);
 };
 
 /**
@@ -276,44 +265,36 @@ const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
  */
 const getTopItems = async (
   params: object
-): Promise<{
-  topTracks: TopItems[];
-  topArtists: TopItems[];
-}> => {
-  var topTracksArr: TopItems[] = [];
-  var topArtistsArr: TopItems[] = [];
+): Promise<{ topTracks: TopItems[]; topArtists: TopItems[] }> => {
   try {
-    // get top items
-    const topTracksRes = await spotifyApi.getMyTopTracks(params);
-    const topArtistsRes = await spotifyApi.getMyTopArtists(params);
-    // convert requests into objects for TopCard component
-    if (topTracksRes) {
-      topTracksRes.items.forEach((track) => {
-        let data = {
-          name: track.name,
-          image: track.album.images[0].url,
-          uri: track.uri,
-        };
-        topTracksArr.push(data);
-      });
-    }
-    if (topArtistsRes) {
-      topArtistsRes.items.forEach((artist) => {
-        let data = {
-          name: artist.name,
-          image: artist.images[0].url,
-          id: artist.id,
-        };
-        topArtistsArr.push(data);
-      });
-    }
+    const [topTracksRes, topArtistsRes] = await Promise.all([
+      spotifyApi.getMyTopTracks(params),
+      spotifyApi.getMyTopArtists(params),
+    ]);
+
+    const topTracks = topTracksRes.items.map((track) => ({
+      name: track.name,
+      image: track.album.images[0].url,
+      uri: track.uri,
+    }));
+
+    const topArtists = topArtistsRes.items.map((artist) => ({
+      name: artist.name,
+      image: artist.images[0].url,
+      id: artist.id,
+    }));
+
+    return {
+      topTracks,
+      topArtists,
+    };
   } catch (err) {
     console.error(err);
+    return {
+      topTracks: [],
+      topArtists: [],
+    };
   }
-  return Promise.resolve({
-    topTracks: topTracksArr,
-    topArtists: topArtistsArr,
-  });
 };
 
 /**
@@ -324,43 +305,27 @@ const getTopItems = async (
  */
 const getRecentListens = async (
   params: object
-): Promise<{
-  listenHistory: Listens[];
-  genresArr: object[];
-}> => {
-  var listenHistoryArr: Listens[] = [];
-  var genresList: object[] = [];
-  var holder: string[] = [];
+): Promise<{ listenHistory: Listens[]; genresArr: object[] }> => {
   try {
-    // get last 50 listened tracks
     const recentListensRes = await spotifyApi.getMyRecentlyPlayedTracks(params);
-    if (recentListensRes) {
-      recentListensRes.items.forEach((track) => {
-        let data = {
-          id: track.track.id,
-          name: track.track.name,
-          artist: track.track.artists,
-        };
-        listenHistoryArr.push(data);
-      });
-      listenHistoryArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        genresList.push(junkVar.genres);
-      }
-    }
+    const listenHistory = recentListensRes.items.map(({ track }) => ({
+      id: track.id,
+      name: track.name,
+      artist: track.artists,
+    }));
+
+    const artistIds = listenHistory.flatMap((track) =>
+      track.artist.map((artist) => artist.id)
+    );
+    if (artistIds.length > 50) artistIds.length = 50;
+
+    const artistsRes = await spotifyApi.getArtists(artistIds);
+    const genresArr = artistsRes.artists.map((artist) => artist.genres);
+    return { listenHistory, genresArr };
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    return { listenHistory: [], genresArr: [] };
   }
-  return Promise.resolve({
-    listenHistory: listenHistoryArr,
-    genresArr: genresList,
-  });
 };
 
 /**
@@ -376,39 +341,27 @@ const getMonthlyListens = async (
   topMonthly: Listens[];
   TopMonthGenres: object[];
 }> => {
-  var monthlyListensArr: Listens[] = [];
-  var monthlyGenresList: object[] = [];
-  var holder: string[] = [];
   try {
-    // get last 50 listened tracks
     const monthlyListensRes = await spotifyApi.getMyTopTracks(params);
-    if (monthlyListensRes) {
-      monthlyListensRes.items.forEach((track) => {
-        let data = {
-          id: track.id,
-          name: track.name,
-          artist: track.artists,
-        };
-        monthlyListensArr.push(data);
-      });
-      monthlyListensArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        monthlyGenresList.push(junkVar.genres);
-      }
-    }
+    const topMonthly = monthlyListensRes.items.map(({ id, name, artists }) => ({
+      id,
+      name,
+      artist: artists,
+    }));
+
+    const artistIds = monthlyListensRes.items.flatMap((track) =>
+      track.artists.map((artist) => artist.id)
+    );
+    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50
+
+    const artistsRes = await spotifyApi.getArtists(artistIds);
+
+    const TopMonthGenres = artistsRes.artists.map((artist) => artist.genres);
+    return { topMonthly, TopMonthGenres };
   } catch (err) {
     console.log(err);
+    return { topMonthly: [], TopMonthGenres: [] };
   }
-  return Promise.resolve({
-    topMonthly: monthlyListensArr,
-    TopMonthGenres: monthlyGenresList,
-  });
 };
 
 /**
@@ -424,39 +377,32 @@ const getAlltimeListens = async (
   allTListens: Listens[];
   allTGenres: object[];
 }> => {
-  var allTimeListensArr: Listens[] = [];
-  var allTimeGenresList: object[] = [];
-  var holder: string[] = [];
   try {
-    // get last 50 listened tracks
-    const recentListensRes = await spotifyApi.getMyTopTracks(params);
-    if (recentListensRes) {
-      recentListensRes.items.forEach((track) => {
-        let data = {
-          id: track.id,
-          name: track.name,
-          artist: track.artists,
-        };
-        allTimeListensArr.push(data);
-      });
-      allTimeListensArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        allTimeGenresList.push(junkVar.genres);
-      }
-    }
+    const alltimeListensRes = await spotifyApi.getMyTopTracks({
+      ...params,
+      time_range: 'long_term',
+    });
+    const allTListens = alltimeListensRes.items.map(
+      ({ id, name, artists }) => ({
+        id,
+        name,
+        artist: artists,
+      })
+    );
+
+    const artistIds = alltimeListensRes.items.flatMap((track) =>
+      track.artists.map((artist) => artist.id)
+    );
+    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50
+
+    const artistsRes = await spotifyApi.getArtists(artistIds);
+
+    const allTGenres = artistsRes.artists.map((artist) => artist.genres);
+    return { allTListens, allTGenres };
   } catch (err) {
     console.log(err);
+    return { allTListens: [], allTGenres: [] };
   }
-  return Promise.resolve({
-    allTListens: allTimeListensArr,
-    allTGenres: allTimeGenresList,
-  });
 };
 
 /**
@@ -465,23 +411,18 @@ const getAlltimeListens = async (
  * @returns {Playlists[]} An array of objects for each user playlist
  */
 const getUserPlaylists = async (): Promise<Playlists[]> => {
-  var playlists: Playlists[] = [];
   try {
     const res = await spotifyApi.getUserPlaylists();
-    if (playlists) {
-      res.items.forEach((playlist) => {
-        let data = {
-          name: playlist.name,
-          uri: playlist.uri,
-          id: playlist.id,
-        };
-        playlists.push(data);
-      });
-    }
+    const playlists = res.items.map((playlist) => ({
+      name: playlist.name,
+      uri: playlist.uri,
+      id: playlist.id,
+    }));
+    return playlists;
   } catch (err) {
     console.error(err);
+    return []; // return an empty array on error
   }
-  return Promise.resolve(playlists);
 };
 
 export {
