@@ -17,7 +17,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.0",
-    "react-spotify-web-playback": "^0.12.1",
+    "react-spotify-web-playback": "^0.13.4",
     "recharts": "^2.4.3",
     "spotify-web-api-js": "^1.5.2",
     "web-vitals": "^2.1.4"

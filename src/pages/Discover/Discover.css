@@ -1,0 +1,22 @@
+.discover {
+  display: flex;
+  flex-direction: column;
+}
+.expand-button {
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  background-color: #1db954;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.expand-button:hover {
+  filter: brightness(0.9);
+}
+
+@media only screen and (min-width: 768px) {
+  .discover {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

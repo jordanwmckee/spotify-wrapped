@@ -17,7 +17,7 @@ const Dashboard = (props: DashboardProps) => {
         title="Dashboard"
         description={displayName ? `Welcome back ${displayName}.` : ''}
       />
-      <div className="content">
+      <div className="dashboard content">
         {monthlyArtists && monthlySongs && (
           <>
             <TopCard list={monthlyArtists} title="Top Artists this Month" />

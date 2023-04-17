@@ -42,16 +42,6 @@
 #navbar .profile:hover {
   background-color: #55595f;
 }
-#navbar button {
-  background-color: #1db954;
-  border-radius: 20px;
-  font-weight: bold;
-  width: 125px;
-  padding: 10px, 20px;
-  cursor: pointer;
-  letter-spacing: 0.1em;
-  color: black;
-}
 #navbar .navbar-rhs {
   display: flex;
   flex-direction: row;
@@ -133,7 +123,7 @@
 }
 #navbar .hamburger::after {
   position: absolute;
-  content: "";
+  content: '';
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -149,7 +139,7 @@
 }
 #navbar .hamburger .bar::after,
 #navbar .hamburger .bar::before {
-  content: "";
+  content: '';
   position: absolute;
   height: 100%;
   width: 100%;

@@ -18,6 +18,7 @@ interface TopItems {
   name: string;
   image: string;
   uri?: string;
+  id?: string;
 }
 
 /**
@@ -40,11 +41,24 @@ interface Genres {}
 interface Playlists {
   name: string;
   uri: string;
+  id: string;
+}
+
+/**
+ * Recommended items for artists or tracks
+ */
+interface RecommendedItems {
+  name: string;
+  image: string;
+  uri: string;
+  id: string;
+  following?: boolean;
 }
 
 //----------------------
 // PROPS INTERFACES
 
+// Components
 interface NavBarProps {
   displayName?: string;
   profilePic?: string;
@@ -54,6 +68,42 @@ interface PlayerProps {
   userPlaylists?: Playlists[];
 }
 
+interface PageTitleProps {
+  title: string;
+  description?: string;
+}
+
+interface HomeTitleProps extends PageTitleProps {
+  subheading?: boolean;
+}
+
+// Cards
+interface TitleCardProps extends PageTitleProps {}
+
+interface TopCardProps {
+  title: string;
+  list: TopItems[];
+}
+
+interface FloatingCardProps {
+  data: any;
+  title: any;
+}
+
+interface RecommendedCardProps {
+  title: string;
+  list: RecommendedItems[];
+  userPlaylists: Playlists[];
+  type: 'artists' | 'tracks';
+  length: number;
+}
+
+interface AddSongDropdownProps extends PlayerProps {
+  uri: string;
+  id: string;
+}
+
+// Pages
 interface DashboardProps {
   displayName?: string;
   monthlyArtists?: TopItems[];
@@ -71,23 +121,8 @@ interface AnalyticsProps {
   allTimeGenres?: object[];
 }
 
-interface PageTitleProps {
-  title: string;
-  description?: string;
-}
-
-interface HomeTitleProps extends PageTitleProps {
-  subheading?: boolean;
-}
-
-interface TopCardProps {
-  list: TopItems[];
-  title: string;
-}
-
-interface TitleCardProps extends PageTitleProps {}
-
-interface FloatingCardProps {
-  data: any;
-  title: any;
+interface DiscoverProps {
+  recommendedArtists?: RecommendedItems[];
+  recommendedSongs?: RecommendedItems[];
+  userPlaylists?: Playlists[];
 }

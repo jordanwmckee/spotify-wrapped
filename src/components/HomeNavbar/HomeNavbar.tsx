@@ -11,10 +11,8 @@ const Navbar = () => {
           <img src={Logo} alt="ber_logo" />
         </Link>
       </div>
-      <div className="links">
-        <div className="register-button home-button">
-          <Link to={loginUrl}>Login</Link>
-        </div>
+      <div className="login home-button">
+        <Link to={loginUrl}>Login</Link>
       </div>
     </div>
   );

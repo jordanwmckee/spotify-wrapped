@@ -1,0 +1,25 @@
+#load-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  top: 0px;
+  height: 100%;
+  position: fixed;
+  background-color: #25282c;
+  z-index: 1002;
+  transition: height 0.3s ease-out;
+  overflow: hidden;
+}
+#load-screen .load-screen-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#load-screen h1 {
+  position: absolute;
+  bottom: 80px;
+  color: white;
+}
