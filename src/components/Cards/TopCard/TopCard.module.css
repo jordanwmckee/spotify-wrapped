@@ -5,6 +5,7 @@
   border-radius: 10px;
   margin: 20px 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 .topCardTitle {
   width: 100%;
@@ -16,8 +17,16 @@
 }
 .topCardTitle h2 {
   width: 100%;
-  font-size: 20px;
+  font-size: 30px;
   color: var(--gray800);
+}
+.topCardTitle img {
+  height: 25px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+  padding: 5px;
 }
 .topCardList {
   padding: 10px;

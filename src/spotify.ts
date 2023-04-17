@@ -287,7 +287,7 @@ const getTopItems = async (
       artist: track.artists,
     }));
 
-    const topArtists = topArtistsRes.items.map((artist) => ({
+    const topArtists: TopItems[] = topArtistsRes.items.map((artist) => ({
       name: artist.name,
       image: artist.images[0].url,
       uri: artist.uri,
@@ -323,7 +323,7 @@ const getTopItems = async (
  *
  * @returns {Playlists[]} An array of objects for each user playlist
  */
-const getUserPlaylists = async (): Promise<Playlists[]> => {
+const getUserPlaylists = async (): Promise<Playlist[]> => {
   try {
     const res = await spotifyApi.getUserPlaylists();
     const playlists = res.items.map((playlist) => ({

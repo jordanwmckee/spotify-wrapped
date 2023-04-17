@@ -32,14 +32,9 @@ interface Listens {
 }
 
 /**
- *
- */
-interface Genres {}
-
-/**
  * User playlists store
  */
-interface Playlists {
+interface Playlist {
   name: string;
   uri: string;
   id: string;
@@ -66,7 +61,7 @@ interface NavBarProps {
 }
 
 interface PlayerProps {
-  userPlaylists?: Playlists[];
+  userPlaylists?: Playlist[];
 }
 
 interface PageTitleProps {
@@ -84,6 +79,8 @@ interface TitleCardProps extends PageTitleProps {}
 interface TopCardProps {
   title: string;
   list: TopItems[];
+  userId?: string;
+  playlists?: Playlist[];
 }
 
 interface FloatingCardProps {
@@ -94,7 +91,7 @@ interface FloatingCardProps {
 interface RecommendedCardProps {
   title: string;
   list: RecommendedItems[];
-  userPlaylists: Playlists[];
+  userPlaylists: Playlist[];
   type: 'artists' | 'tracks';
   length: number;
 }
@@ -111,6 +108,8 @@ interface DashboardProps {
   monthlySongs?: TopItems[];
   allTimeArtists?: TopItems[];
   allTimeSongs?: TopItems[];
+  userId?: string;
+  playlists?: Playlist[];
 }
 
 interface AnalyticsProps {
@@ -123,5 +122,5 @@ interface AnalyticsProps {
 interface DiscoverProps {
   recommendedArtists?: RecommendedItems[];
   recommendedSongs?: RecommendedItems[];
-  userPlaylists?: Playlists[];
+  userPlaylists?: Playlist[];
 }

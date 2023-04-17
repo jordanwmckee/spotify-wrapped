@@ -15,6 +15,7 @@ import {
 interface FetchDataResult {
   displayName?: string;
   profilePic?: string;
+  userId?: string;
   monthlyArtists?: TopItems[];
   monthlySongs?: TopItems[];
   allTimeSongs?: TopItems[];
@@ -23,7 +24,7 @@ interface FetchDataResult {
   monthlyGenres?: string[][];
   allTimeListens?: Listens[];
   allTimeGenres?: string[][];
-  userPlaylists?: Playlists[];
+  userPlaylists?: Playlist[];
   recommendedArtists?: RecommendedItems[];
   recommendedSongs?: RecommendedItems[];
   getData: () => Promise<void>;
@@ -32,13 +33,14 @@ interface FetchDataResult {
 const useFetchData = (): FetchDataResult => {
   const [displayName, setDisplayName] = useState<string>();
   const [profilePic, setProfilePic] = useState<string>();
+  const [userId, setUserId] = useState<string>();
   const [monthlyArtists, setMonthlyArtists] = useState<TopItems[]>();
   const [monthlySongs, setMonthlySongs] = useState<TopItems[]>();
   const [allTimeSongs, setAllTimeSongs] = useState<TopItems[]>();
   const [allTimeArtists, setAllTimeArtists] = useState<TopItems[]>();
   const [monthlyGenres, setMonthlyGenres] = useState<string[][]>();
   const [allTimeGenres, setAllTimeGenres] = useState<string[][]>();
-  const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
+  const [userPlaylists, setUserPlaylists] = useState<Playlist[]>();
   const [recommendedArtists, setRecommendedArtists] =
     useState<RecommendedItems[]>();
   const [recommendedSongs, setRecommendedSongs] =
@@ -67,6 +69,7 @@ const useFetchData = (): FetchDataResult => {
       if (userAccountResult.status === 'fulfilled') {
         setDisplayName(userAccountResult.value.display_name || '');
         setProfilePic(userAccountResult.value.images![0].url || '');
+        setUserId(userAccountResult.value.id || '');
       }
 
       if (topMonthlyResult.status === 'fulfilled') {
@@ -116,6 +119,7 @@ const useFetchData = (): FetchDataResult => {
   return {
     displayName,
     profilePic,
+    userId,
     monthlyArtists,
     monthlySongs,
     allTimeArtists,

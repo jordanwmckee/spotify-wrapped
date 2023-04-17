@@ -31,6 +31,7 @@ function App() {
   const {
     displayName,
     profilePic,
+    userId,
     monthlyArtists,
     monthlySongs,
     allTimeArtists,
@@ -84,6 +85,8 @@ function App() {
                       monthlySongs={monthlySongs}
                       allTimeArtists={allTimeArtists}
                       allTimeSongs={allTimeSongs}
+                      userId={userId}
+                      playlists={userPlaylists}
                     />
                   }
                 />

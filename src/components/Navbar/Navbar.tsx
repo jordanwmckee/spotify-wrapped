@@ -14,10 +14,6 @@ const Navbar = (props: NavBarProps) => {
   const [dropdown, toggleDropdown, closeDropdown] = useToggleState(false);
   const dispatch = useDispatch();
 
-  // const createPlaylist = () => {
-  //   spotifyApi.createPlaylist(user.id, {name: "monthly wrapped (this month)", public: "false", description: "users top songs for x month"})
-  // }
-
   const toggleBar = () => {
     // modify hambuger icon
     document
@@ -81,7 +77,7 @@ const Navbar = (props: NavBarProps) => {
                 <h3>{displayName ? displayName : 'User'}</h3>
               </div>
               <div className={styles.options}>
-                <h4>Send to Playlist</h4>
+                <h4>Some Option</h4>
                 <h4>Another Option</h4>
               </div>
               <div className={styles.logout}>
