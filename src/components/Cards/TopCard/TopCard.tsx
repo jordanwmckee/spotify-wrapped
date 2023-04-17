@@ -1,32 +1,32 @@
 import { useDispatch } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
-import PlayButton from 'assets/logos/play-button.png';
-import './TopCard.css';
+import PlayButton from 'assets/logos/play-button-square.png';
+import styles from './TopCard.module.css';
 
 const TopCard = (props: TopCardProps) => {
   const { list, title } = props;
   const dispatch = useDispatch();
 
   return (
-    <div className="top-card">
-      <div className="top-card-title">
+    <div className={styles.topCard}>
+      <div className={styles.topCardTitle}>
         <h2>{title}</h2>
       </div>
-      <div className="top-card-list">
+      <div className={styles.topCardList}>
         {list.map((data) => (
-          <ul className="top-list-item" key={data.name}>
+          <ul className={styles.topListItem} key={data.name}>
             <li>
               {!data.uri ? (
                 <img src={data.image} alt="unavailable." />
               ) : (
                 <div
-                  className="album-image"
+                  className={styles.albumImage}
                   onClick={() => {
                     dispatch(SET_PLAYER_URIS([data.uri!]));
                   }}
                 >
                   <img src={data.image} alt="unavailable" />
-                  <div className="img-button">
+                  <div className={styles.imgButton}>
                     <img src={PlayButton} alt="" />
                   </div>
                 </div>

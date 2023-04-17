@@ -1,5 +1,5 @@
 import AddButtonIcon from 'assets/logos/add-button.png';
-import './AddSongDropdown.css';
+import styles from './AddSongDropdown.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
 
@@ -30,17 +30,17 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
   };
 
   return (
-    <div className="playlist-add" onMouseLeave={closeDropdowns}>
+    <div className={styles.playlistAdd} onMouseLeave={closeDropdowns}>
       <img
         onClick={togglePrimary}
         src={AddButtonIcon}
-        className="add-icon"
+        className={styles.addIcon}
         alt=""
         title="Add song to playlist"
       />
       {primary && (
-        <div className="playlist-dropdown">
-          <div className="options">
+        <div className={styles.playlistDropdown}>
+          <div className={styles.options}>
             <h4
               onClick={() => {
                 saveSongToLibrary();
@@ -51,7 +51,7 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
             </h4>
             <h4 onClick={toggleSecondary}>Add to playlist...</h4>
             {secondary && (
-              <div className="playlist-selection">
+              <div className={styles.playlistSelection}>
                 {userPlaylists!.map((playlist) => (
                   <p
                     key={playlist.id}

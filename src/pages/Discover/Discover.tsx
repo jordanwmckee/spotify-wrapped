@@ -1,6 +1,6 @@
 import PageTitle from 'components/PageTitle/PageTitle';
 import RecommendedCard from 'components/Cards/RecommendedCard/RecommendedCard';
-import './Discover.css';
+import styles from './Discover.module.css';
 import { useState } from 'react';
 
 const Discover = (props: DiscoverProps) => {
@@ -13,7 +13,7 @@ const Discover = (props: DiscoverProps) => {
         title="Discover"
         description="Recommended artists and music."
       />
-      <div className="discover content">
+      <div className={styles.discover}>
         {recommendedArtists && userPlaylists && (
           <RecommendedCard
             title="Artists"
@@ -34,7 +34,7 @@ const Discover = (props: DiscoverProps) => {
         )}
       </div>
       <button
-        className="expand-button"
+        className={styles.expandButton}
         onClick={() => {
           length == 10 ? setLength(20) : setLength(10);
         }}

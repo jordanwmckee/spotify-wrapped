@@ -1,6 +1,6 @@
 import TopCard from 'components/Cards/TopCard/TopCard';
 import PageTitle from 'components/PageTitle/PageTitle';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const Dashboard = (props: DashboardProps) => {
   const {
@@ -17,7 +17,7 @@ const Dashboard = (props: DashboardProps) => {
         title="Dashboard"
         description={displayName ? `Welcome back ${displayName}.` : ''}
       />
-      <div className="dashboard content">
+      <div className={styles.dashboard}>
         {monthlyArtists && monthlySongs && (
           <>
             <TopCard list={monthlyArtists} title="Top Artists this Month" />

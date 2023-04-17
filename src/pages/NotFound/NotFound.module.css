@@ -1,0 +1,5 @@
+.notFound h2,
+a,
+p {
+  color: var(--gray400);
+}

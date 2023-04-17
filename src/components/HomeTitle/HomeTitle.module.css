@@ -1,22 +1,22 @@
-.home-title {
+.homeTitle {
   width: calc(100%-200px);
   margin: 40px 100px;
 }
-.home-title h1 {
-  color: #ebf1f5;
+.homeTitle h1 {
+  color: var(--gray100);
   margin-bottom: 5px;
   font-size: 15px;
 }
-.home-title p {
-  color: #9ba9b4;
+.homeTitle p {
+  color: var(--gray400);
   font-size: 14px;
 }
 
 @media only screen and (min-width: 768px) {
-  .home-title h1 {
+  .homeTitle h1 {
     font-size: 25px;
   }
-  .home-title p {
+  .homeTitle p {
     font-size: 16px;
   }
 }

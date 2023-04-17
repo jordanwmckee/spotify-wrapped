@@ -1,0 +1,17 @@
+#privacyPolicy {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--grayBorder);
+}
+#privacyPolicy .policyInfo {
+  align-self: center;
+  max-width: 600px;
+  text-align: left;
+  margin: 30px;
+}
+#privacyPolicy .policyInfo h1,
+h2,
+li,
+p {
+  color: var(--offWhite);
+}

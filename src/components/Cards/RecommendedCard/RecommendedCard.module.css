@@ -1,4 +1,4 @@
-.recommended-card {
+.recommendedCard {
   width: 100%;
   height: auto;
   background-color: white;
@@ -6,24 +6,25 @@
   margin: 20px 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
-.recommended-card-title {
+.recommendedCardTitle {
   width: 100%;
-  background-color: #1db954;
+  background-color: var(--spotifyGreen);
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   height: 40px;
 }
-.recommended-card-title h2 {
+.recommendedCardTitle h2 {
   font-size: 20px;
   width: 100%;
+  color: var(--gray800);
 }
-.recommended-card-list {
+.recommendedCardList {
   display: flex;
   flex-direction: column;
   width: calc(100% - 20px);
   padding: 10px;
 }
-.recommended-list-item {
+.recommendedListItem {
   width: calc(100% - 20px);
   margin: 5px 0;
   display: flex;
@@ -31,17 +32,18 @@
   justify-content: space-between;
   align-items: center;
 }
-.recommended-list-item .recommended-image {
+.recommendedListItem .recommendedImage {
   width: 50px;
   height: 50px;
+  cursor: pointer;
 }
-.recommended-list-item .album-image {
+.recommendedListItem .albumImage {
   cursor: pointer;
   position: relative;
   width: 50px;
   height: 50px;
 }
-.recommended-list-item .album-image .img-button {
+.recommendedListItem .albumImage .imgButton {
   opacity: 0;
   top: 0;
   left: 0;
@@ -51,23 +53,24 @@
   height: 100%;
   transition: 0.3s ease;
 }
-.recommended-list-item .album-image:hover .img-button {
+.recommendedListItem .albumImage:hover .imgButton {
   opacity: 0.5;
 }
-.recommended-list-item .item-icon {
+.recommendedListItem .itemIcon {
   width: 24px;
   height: 24px;
   cursor: pointer;
 }
-.recommended-list-item h3 {
+.recommendedListItem h3 {
   font-weight: 700;
   font-size: 16px;
   cursor: pointer;
   padding: 0 3px;
+  color: var(--gray800);
 }
 
 @media only screen and (min-width: 768px) {
-  .recommended-card {
+  .recommendedCard {
     width: calc(50% - 10px);
   }
 }
@@ -76,10 +79,10 @@
 }
 
 @media only screen and (min-width: 1382px) {
-  .recommended-card-title h2 {
+  .recommendedCardTitle h2 {
     font-size: 24px;
   }
-  .recommended-list-item h3 {
+  .recommendedListItem h3 {
     font-size: 18px;
   }
 }

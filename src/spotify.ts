@@ -229,12 +229,11 @@ const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
   var recommendedArtists: RecommendedItems[] = [];
   try {
     // get seedArtist
-    const seedArtist = (
-      await spotifyApi.getMyTopArtists({
-        time_range: 'short_term',
-        limit: '1',
-      })
-    ).items[0].id;
+    const seedArtistRes = await spotifyApi.getMyTopArtists({
+      time_range: 'short_term',
+      limit: '1',
+    });
+    const seedArtist = seedArtistRes.items[0].id;
     // get related artists
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
       seedArtist

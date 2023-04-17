@@ -17,25 +17,25 @@
 #sidebar div {
   text-align: left;
 }
-#sidebar .sidebar-title {
+#sidebar .sidebarTitle {
   border-bottom: 1px solid lightgray;
   padding: 20px;
   height: 40px;
 }
-#sidebar .nav-menu-text {
+#sidebar .navMenuText {
   text-align: left;
   font-size: 14px;
   margin: 10px 20px 0;
-  color: #9ba9b4;
+  color: var(--gray400);
 }
 #sidebar .links {
   width: 300px;
 }
-#sidebar .sidebar-title h3 {
+#sidebar .sidebarTitle h3 {
   font-size: 25px;
-  color: #25282c;
+  color: var(--gray800);
 }
-#sidebar .sidebar-item {
+#sidebar .sidebarItem {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -43,16 +43,16 @@
   padding: 3px 8px;
   border-radius: 5px;
 }
-#sidebar .sidebar-item:hover {
-  background-color: #d9e3ea;
+#sidebar .sidebarItem:hover {
+  background-color: var(--gray200);
 }
-#sidebar .sidebar-item img {
+#sidebar .sidebarItem img {
   height: 20px;
   margin-right: 10px;
 }
 #sidebar .links h3 {
   font-size: 20px;
-  color: #25282c;
+  color: var(--gray800);
 }
 #sidebar .link {
   display: block;

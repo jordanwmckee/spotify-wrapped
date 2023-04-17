@@ -1,4 +1,4 @@
-.home-footer {
+.homeFooter {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -6,19 +6,33 @@
   align-items: center;
   padding: 50px 0;
 }
-.home-footer-links {
+.homeFooter h3 {
+  color: lightgray;
+}
+.homeFooter a {
+  text-decoration: none;
+  display: block;
+  margin: 5px 0;
+}
+.homeFooterLinks {
   width: 50%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
-.home-footer-links div {
+.homeFooterLinks div {
   margin: 0 10px;
+}
+.homeFooterLinks .homeFooterLeft {
+  width: 50%;
+}
+.homeFooterLinks .homeFooterRight {
+  width: 50%;
 }
 
 @media only screen and (min-width: 768px) {
-  .home-footer-links {
+  .homeFooterLinks {
     width: 40%;
   }
 }

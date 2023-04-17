@@ -1,11 +1,11 @@
-import './PageTitle.css';
+import styles from './PageTitle.module.css';
 
 const PageTitle = (props: PageTitleProps) => {
   const { title, description } = props;
 
   return (
-    <div className="page-title">
-      <div className="title-text">
+    <div className={styles.pageTitle}>
+      <div className={styles.titleText}>
         <h2>{title}</h2>
         {description && <p>{description}</p>}
       </div>
