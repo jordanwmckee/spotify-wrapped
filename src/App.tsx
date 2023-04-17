@@ -71,14 +71,14 @@ function App() {
       if (!monthlySongs || !monthlyArtists) {
         // get top monthly user items
         const { topTracks: monthlySongs, topArtists: monthlyArtists } =
-          await getTopItems({ time_range: "short_term", limit: "8" });
+          await getTopItems({ time_range: "short_term", limit: "16" });
         setMonthlySongs(monthlySongs);
         setMonthlyArtists(monthlyArtists);
       }
       if (!allTimeSongs || !allTimeArtists) {
         // get top all time items
         const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
-          await getTopItems({ time_range: "long_term", limit: "8" });
+          await getTopItems({ time_range: "long_term", limit: "16" });
         setAllTimeSongs(allTimeSongs);
         setAllTimeArtists(allTimeArtists);
       }

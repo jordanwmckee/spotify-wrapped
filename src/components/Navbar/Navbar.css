@@ -12,6 +12,20 @@
   margin: 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
+#body-overlay {
+  width: 0;
+  height: 100%;
+  display: block;
+  position: fixed;
+  z-index: -100;
+  top: 75px;
+  left: 0;
+  overflow: hidden;
+  background: rgb(0, 0, 0);
+  opacity: 0;
+  transition: 0.3s ease;
+  transition-property: opacity, left;
+}
 #navbar h1 {
   color: #1db954;
   font-size: 40px;
@@ -59,14 +73,14 @@
 #navbar a:hover {
   color: #1db954;
 }
-#navbar .logo {
+#navbar .navbar-lhs img {
   width: 50px;
 }
 .profile-dropdown {
   position: absolute;
   display: inline-block;
   top: 0;
-  right: -30px;
+  right: -15px;
   background-color: white;
   width: 175px;
   border-radius: 10px;
@@ -172,5 +186,8 @@
 @media only screen and (min-width: 960px) {
   #navbar .sidebar-toggle {
     display: none;
+  }
+  #body-overlay {
+    display: none !important;
   }
 }

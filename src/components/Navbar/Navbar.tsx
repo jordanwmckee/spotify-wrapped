@@ -6,8 +6,6 @@ import { RESET } from "context/user";
 import Logo from "assets/logos/logo.png";
 import DefaultPFP from "assets/logos/default-pfp.png";
 import DdArrow from "assets/logos/dd-arrow.png";
-import HamburgerButton from "assets/logos/hamburgerButton.png";
-import HamburgerActive from "assets/logos/hamburgerActive.png";
 import "./Navbar.css";
 import { spotifyApi } from "spotify";
 
@@ -26,11 +24,31 @@ const Navbar = (props: NavBarProps) => {
   };
 
   const toggleSidebar = () => {
+    // modify hambuger icon
     document.querySelector(".hamburger")!.classList.toggle("active");
+    const overlay = document.getElementById("body-overlay")!;
+    // resize sidebar & add/remove overlay
     let sidebarMenu = document.getElementById("sidebar")!;
-    if (!sidebar) sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
-    else sidebarMenu.setAttribute("style", "width: 0");
+    if (!sidebar) {
+      sidebarMenu.setAttribute("style", "width: min(300px, 100%)");
+      overlay.setAttribute("style", "width: 100%; opacity: 0.4; left: 300px");
+    } else {
+      sidebarMenu.setAttribute("style", "width: 0");
+      overlay.setAttribute("style", "width: 0; opacity: 0; left: 0");
+    }
     setSidebar(!sidebar);
+  };
+
+  const closeSidebar = () => {
+    // toggle hambuger active
+    document.querySelector(".hamburger")!.classList.toggle("active");
+    // close sidebar
+    document.getElementById("sidebar")!.setAttribute("style", "width: 0");
+    // remove overlay
+    document
+      .getElementById("body-overlay")!
+      .setAttribute("style", "width: 0; opacity: 0; left 0");
+    setSidebar(false);
   };
 
   // clear state & sessionStorage before logout
@@ -47,10 +65,11 @@ const Navbar = (props: NavBarProps) => {
 
   return (
     <div id="navbar">
+      <div id="body-overlay" onClick={closeSidebar}></div>
       {/* Site Logo */}
       <div className="navbar-lhs">
         <Link to="/">
-          <img className="logo" src={Logo} alt="ber_logo" />
+          <img src={Logo} alt="ber_logo" />
         </Link>
       </div>
       <div className="navbar-rhs">

@@ -1,5 +1,5 @@
 import SpotifyPlayer from "react-spotify-web-playback";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { spotifyApi } from "spotify";
 import { RootState } from "context/store";
@@ -10,15 +10,10 @@ import { SET_PLAYER_URIS } from "context/user";
 const Player = (props: PlayerProps) => {
   const { userPlaylists } = props;
   const [open, setOpen] = useState(false);
-  const [playerState, setPlayerState] = useState();
   const { playerUris, recommendUris } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("plstate: ", playerState);
-  }, [playerState]);
 
   const togglePopup = () => {
     document.querySelector(".popup")!.classList.toggle("popup-open");
@@ -75,7 +70,6 @@ const Player = (props: PlayerProps) => {
           token={spotifyApi.getAccessToken()!}
           uris={playerUris!}
           showSaveIcon={true}
-          callback={playerState}
         />
       </div>
     </div>

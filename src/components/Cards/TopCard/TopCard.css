@@ -20,12 +20,11 @@
 }
 .top-card-list {
   padding: 10px;
-  width: calc(100% - 40px);
+  width: calc(100% - 20px);
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  /* overflow-x: scroll; */
 }
 .top-list-item {
   margin: 5px auto;
@@ -38,32 +37,22 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
 }
 .top-list-item h3 {
   font-weight: 700;
-  margin-left: 10px;
+  margin: 0 7px;
   text-align: left;
   font-size: 13px;
   width: 100%;
 }
 .top-list-item img {
   width: 50px;
-  /* height: 50px; */
-  /* border-radius: 50%; */
-}
-.top-list-pic {
-  width: 70px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
 }
 .album-image {
   cursor: pointer;
   position: relative;
-  width: 70px;
-  height: 70px;
-  /* border-radius: 50%; */
+  width: 50px;
+  height: 50px;
 }
 .album-image .img-button {
   opacity: 0;
@@ -73,7 +62,6 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  /* border-radius: 50%; */
   transition: 0.3s ease;
 }
 .album-image:hover .img-button {
@@ -83,9 +71,6 @@
 @media only screen and (min-width: 768px) {
   .top-card-title h2 {
     font-size: 24px;
-  }
-  .top-list-pic {
-    width: 70px;
   }
   .top-list-item h3 {
     font-size: 16px;

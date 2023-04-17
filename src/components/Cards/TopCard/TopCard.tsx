@@ -26,17 +26,15 @@ const TopCard = (props: TopCardProps) => {
               {!data.uri ? (
                 <img src={data.image} alt="unavailable." />
               ) : (
-                <div className="top-list-pic">
-                  <div
-                    className="album-image"
-                    onClick={() => {
-                      setUri(data.uri);
-                    }}
-                  >
-                    <img src={data.image} alt="unavailable" />
-                    <div className="img-button">
-                      <img src={PlayButton} alt="" />
-                    </div>
+                <div
+                  className="album-image"
+                  onClick={() => {
+                    setUri(data.uri);
+                  }}
+                >
+                  <img src={data.image} alt="unavailable" />
+                  <div className="img-button">
+                    <img src={PlayButton} alt="" />
                   </div>
                 </div>
               )}
