@@ -9,11 +9,8 @@
 -->
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -22,22 +19,15 @@
     <img src="assets/../src/assets/logos/logo.png" alt="Logo" width="100" height="120">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Wrapped Monthly</h3>
 
   <p align="center">
-    project_description
-    <br />
-    *Note: this project will not work for all public users until fully published*
-    <br />
-    This web-app offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
+    Monthly Wrapped offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
     Some features include: playlist generation based on top listened songs, a monthly report of listening 
     statistics, a custom self-managing "current" playlist, and much more ...
-    <br />
+    <br /><br />
     <a href="https://github.com/jordanwmckee/spotify-wrapped"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/jordanwmckee/spotify-wrapped"/>View Demo</a>
-    ·
     <a href="https://github.com/jordanwmckee/spotify-wrapped/issues">Report Bug</a>
     ·
     <a href="https://github.com/jordanwmckee/spotify-wrapped/issues">Request Feature</a>
@@ -54,19 +44,9 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -74,74 +54,12 @@
 
 ## About The Project
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
 - [![React][react.js]][react-url]
 - [![Bootstrap][bootstrap.com]][bootstrap-url]
-- [![JQuery][jquery.com]][jquery-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- USAGE EXAMPLES -->
-
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
-
-See the [open issues](https://github.com/jordanwmckee/spotify-wrapped/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
@@ -159,11 +77,11 @@ To contribute, open a new branch or fork under the conventional commits specific
 Examples include
 
 > feat/update-readme  
-> fix/invalid-login-consistency 
+> fix/invalid-login-consistency
 
 All accepted commit titles include
 
-> build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test 
+> build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
 
 All actions must pass in order for a PR to be merged, and code must be reviewed by at least one project maintainer.
 
@@ -187,35 +105,17 @@ Project Link: [https://github.com/jordanwmckee/spotify-wrapped](https://github.c
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
 [contributors-url]: https://github.com/jordanwmckee/spotify-wrapped/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
-[forks-url]: https://github.com/jordanwmckee/spotify-wrapped/network/members
-[stars-shield]: https://img.shields.io/github/stars/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
-[stars-url]: https://github.com/jordanwmckee/spotify-wrapped/stargazers
 [issues-shield]: https://img.shields.io/github/issues/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
 [issues-url]: https://github.com/jordanwmckee/spotify-wrapped/issues
 [license-shield]: https://img.shields.io/github/license/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
 [license-url]: https://github.com/jordanwmckee/spotify-wrapped/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/jordanwmckee
 [product-screenshot]: images/screenshot.png
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [react-url]: https://reactjs.org/
 [bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [bootstrap-url]: https://getbootstrap.com
-[jquery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[jquery-url]: https://jquery.com
