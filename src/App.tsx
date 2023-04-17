@@ -1,21 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "pages/Home/Home";
-import Login from "pages/Login/Login";
-import Register from "pages/Register/Register";
-import Reset from "pages/Reset/Reset";
-import Dashboard from "pages/Dashboard/Dashboard";
-import Analytics from "pages/Analytics/Analytics";
-import NotFound from "pages/NotFound/NotFound";
-import { useAuthState } from "react-firebase-hooks/auth";
-import Sidebar from "components/Sidebar/Sidebar";
-import Footer from "components/Footer/Footer";
-import Navbar from "components/Navbar/Navbar";
-import HomeNavbar from "components/HomeNavbar/HomeNavbar";
-import { useEffect, useState } from "react";
-import { auth, checkForToken } from "firebase";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from 'pages/Home/Home';
+import Dashboard from 'pages/Dashboard/Dashboard';
+import Analytics from 'pages/Analytics/Analytics';
+import NotFound from 'pages/NotFound/NotFound';
+import Sidebar from 'components/Sidebar/Sidebar';
+import Footer from 'components/Footer/Footer';
+import Navbar from 'components/Navbar/Navbar';
+import HomeNavbar from 'components/HomeNavbar/HomeNavbar';
+import { useEffect, useState } from 'react';
 import {
   fetchTokensFromCode,
-  loginUrl,
   refreshAuthToken,
   spotifyApi,
   getRecommendUris,
@@ -24,14 +18,17 @@ import {
   getMonthlyListens,
   getAlltimeListens,
   getUserPlaylists,
-} from "./spotify";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "context/store";
-import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from "context/user";
-import Player from "components/Player/Player";
+  checkForTokens,
+} from './spotify';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'context/store';
+import { SET_PLAYER_URIS, SET_RECOMMEND_URIS } from 'context/user';
+import Player from 'components/Player/Player';
 
 function App() {
-  const [user, loading, error] = useAuthState(auth);
+  // used for auth
+  const [loading, setLoading] = useState<boolean>(true);
+  const [linked, setLinked] = useState(false);
   // vars collected from web api
   const [displayName, setDisplayName] = useState<string>();
   const [profilePic, setProfilePic] = useState<string>();
@@ -46,39 +43,37 @@ function App() {
   const [allTimeListens, setAllTimeListens] = useState<Listens[]>();
   const [allTimeGenres, setAllTimeGenres] = useState<object[]>();
   const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
-
-  const [linked, setLinked] = useState(false);
   const { recommendUris, playerUris } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (loading || !user) return;
+    let tokenDetected: boolean = true;
 
     // get & update all spotify info to be store in the app
     const getData = async () => {
       // validate access token
-      await refreshAuthToken(user);
+      await refreshAuthToken();
       // get recommend uris for player
       !recommendUris && dispatch(SET_RECOMMEND_URIS(await getRecommendUris()));
       if (!displayName || !profilePic) {
         // get user spotify account
         const userAccount = await spotifyApi.getMe();
-        setDisplayName(userAccount.display_name || "");
-        setProfilePic(userAccount.images![0].url || "");
+        setDisplayName(userAccount.display_name || '');
+        setProfilePic(userAccount.images![0].url || '');
       }
       if (!monthlySongs || !monthlyArtists) {
         // get top monthly user items
         const { topTracks: monthlySongs, topArtists: monthlyArtists } =
-          await getTopItems({ time_range: "short_term", limit: "16" });
+          await getTopItems({ time_range: 'short_term', limit: '16' });
         setMonthlySongs(monthlySongs);
         setMonthlyArtists(monthlyArtists);
       }
       if (!allTimeSongs || !allTimeArtists) {
         // get top all time items
         const { topTracks: allTimeSongs, topArtists: allTimeArtists } =
-          await getTopItems({ time_range: "long_term", limit: "16" });
+          await getTopItems({ time_range: 'long_term', limit: '16' });
         setAllTimeSongs(allTimeSongs);
         setAllTimeArtists(allTimeArtists);
       }
@@ -92,14 +87,14 @@ function App() {
       if (!monthlyListens || !monthlyGenres) {
         //get top monthly tracks & genres
         const { topMonthly: monthlyListens, TopMonthGenres: monthlyGenres } =
-          await getMonthlyListens({ time_range: "short_term", limit: 50 });
+          await getMonthlyListens({ time_range: 'short_term', limit: 50 });
         setMonthlyListens(monthlyListens);
         setMonthlyGenres(monthlyGenres);
       }
       if (!allTimeListens || !allTimeGenres) {
         //get top Alltime tracks & genres
         const { allTListens: allTimeListens, allTGenres: allTimeGenres } =
-          await getAlltimeListens({ time_range: "long_term", limit: 50 });
+          await getAlltimeListens({ time_range: 'long_term', limit: 50 });
         setAllTimeListens(allTimeListens);
         setAllTimeGenres(allTimeGenres);
       }
@@ -109,26 +104,23 @@ function App() {
 
     // check for valid access token and update linked bool
     const checkToken = async () => {
-      const win: Window = window;
-      try {
-        const isLinked = await checkForToken(user);
-        setLinked(isLinked);
-        // try to get tokens if spotify is not linked to user
-        if (isLinked === false && window.location.search.includes("code")) {
-          await fetchTokensFromCode(user);
-          setLinked(true);
-        } else if (isLinked === false) win.location = loginUrl;
-        // attempt to retrieve data from web api
-        await getData();
-      } catch (err: any) {
-        console.error(err);
+      let isLinked: boolean = checkForTokens();
+      // try to get tokens if spotify is not linked to user
+      if (isLinked === false && window.location.search.includes('code')) {
+        await fetchTokensFromCode();
+        isLinked = true;
       }
+      if (isLinked) tokenDetected = true;
+      else tokenDetected = false;
+      setLinked(isLinked);
     };
 
+    setLoading(true);
     checkToken();
+    if (tokenDetected) getData();
+    setLoading(false);
     if (!playerUris && recommendUris) dispatch(SET_PLAYER_URIS(recommendUris));
   }, [
-    user,
     loading,
     recommendUris,
     playerUris,
@@ -151,60 +143,56 @@ function App() {
     <div className="App">
       {loading ? (
         <div className="loader" />
-      ) : user ? (
+      ) : linked ? (
         // Routes rendered if user account detected
         <Router>
-          {linked && (
-            <>
-              <Navbar displayName={displayName} profilePic={profilePic} />
-              <Sidebar />
-              {recommendUris && playerUris && (
-                <Player userPlaylists={userPlaylists} />
-              )}
-              <div className="page-space">
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <Dashboard
-                        displayName={displayName}
-                        monthlyArtists={monthlyArtists}
-                        monthlySongs={monthlySongs}
-                        allTimeArtists={allTimeArtists}
-                        allTimeSongs={allTimeSongs}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/analytics"
-                    element={
-                      <Analytics
-                        recentListens={recentListens}
-                        recentGenres={recentGenres}
-                        monthlyListens={monthlyListens}
-                        monthlyGenres={monthlyGenres}
-                        allTimeListens={allTimeListens}
-                        allTimeGenres={allTimeGenres}
-                      />
-                    }
-                  />
-                  <Route
-                    path="*"
-                    element={
-                      <Dashboard
-                        displayName={displayName}
-                        monthlyArtists={monthlyArtists}
-                        monthlySongs={monthlySongs}
-                        allTimeArtists={allTimeArtists}
-                        allTimeSongs={allTimeSongs}
-                      />
-                    }
-                  />
-                </Routes>
-                <Footer />
-              </div>
-            </>
+          <Navbar displayName={displayName} profilePic={profilePic} />
+          <Sidebar />
+          {recommendUris && playerUris && (
+            <Player userPlaylists={userPlaylists} />
           )}
+          <div className="page-space">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Dashboard
+                    displayName={displayName}
+                    monthlyArtists={monthlyArtists}
+                    monthlySongs={monthlySongs}
+                    allTimeArtists={allTimeArtists}
+                    allTimeSongs={allTimeSongs}
+                  />
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <Analytics
+                    recentListens={recentListens}
+                    recentGenres={recentGenres}
+                    monthlyListens={monthlyListens}
+                    monthlyGenres={monthlyGenres}
+                    allTimeListens={allTimeListens}
+                    allTimeGenres={allTimeGenres}
+                  />
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <Dashboard
+                    displayName={displayName}
+                    monthlyArtists={monthlyArtists}
+                    monthlySongs={monthlySongs}
+                    allTimeArtists={allTimeArtists}
+                    allTimeSongs={allTimeSongs}
+                  />
+                }
+              />
+            </Routes>
+            <Footer />
+          </div>
         </Router>
       ) : (
         // Routes rendered if no user account detected
@@ -213,9 +201,6 @@ function App() {
             <HomeNavbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/reset" element={<Reset />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>

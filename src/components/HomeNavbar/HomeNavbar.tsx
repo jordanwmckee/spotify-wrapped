@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
-import Logo from "../../assets/logos/logo.png";
-import "./HomeNavbar.css";
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/logos/logo.png';
+import './HomeNavbar.css';
+import { loginUrl } from 'spotify';
 
 const Navbar = () => {
   return (
@@ -11,9 +12,8 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="links">
-        <Link to="/login">Login</Link>
         <div className="register-button home-button">
-          <Link to="/register">Register</Link>
+          <Link to={loginUrl}>Login</Link>
         </div>
       </div>
     </div>

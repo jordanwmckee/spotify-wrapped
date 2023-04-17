@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
-import HomeFooter from "components/HomeFooter/HomeFooter";
-import HomeTitle from "components/HomeTitle/HomeTitle";
-import "./Home.css";
-import HeroImage from "assets/images/hero-image.jpeg";
-import ArtistsImage from "assets/images/artists.jpg";
-import TracksImage from "assets/images/tracks.jpeg";
-import HistoryImage from "assets/images/history.webp";
+import { Link } from 'react-router-dom';
+import HomeFooter from 'components/HomeFooter/HomeFooter';
+import HomeTitle from 'components/HomeTitle/HomeTitle';
+import './Home.css';
+import HeroImage from 'assets/images/hero-image.jpeg';
+import ArtistsImage from 'assets/images/artists.jpg';
+import TracksImage from 'assets/images/tracks.jpeg';
+import HistoryImage from 'assets/images/history.webp';
+import { loginUrl } from 'spotify';
 
 const Home = () => {
   return (
@@ -16,7 +17,7 @@ const Home = () => {
           description="this is a subheading subscribe and follow for more"
         />
         <div className="home-button">
-          <Link to="/register">Get Started</Link>
+          <Link to={loginUrl}>Get Started</Link>
         </div>
         <img src={HeroImage} alt="not found" />
       </div>
@@ -75,7 +76,7 @@ const Home = () => {
       />
       <div className="homepage-section">
         <div className="home-button start-now">
-          <Link to="/register">Start Now</Link>
+          <Link to={loginUrl}>Start Now</Link>
         </div>
       </div>
 

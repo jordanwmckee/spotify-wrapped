@@ -6,6 +6,7 @@
  * Object for spotify tokens in sessionStorage
  */
 interface Token {
+  refresh_token?: string;
   access_token?: string;
   time_created?: number;
 }

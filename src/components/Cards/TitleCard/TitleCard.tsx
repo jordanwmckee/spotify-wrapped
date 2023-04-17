@@ -1,4 +1,4 @@
-import "./TitleCard.css";
+import './TitleCard.css';
 
 const TitleCard = (props: TitleCardProps) => {
   const { title, description } = props;

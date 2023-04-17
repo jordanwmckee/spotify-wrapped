@@ -1,4 +1,4 @@
-import "./PageTitle.css";
+import './PageTitle.css';
 
 const PageTitle = (props: PageTitleProps) => {
   const { title, description } = props;

@@ -1,11 +1,11 @@
-import SpotifyPlayer from "react-spotify-web-playback";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { spotifyApi } from "spotify";
-import { RootState } from "context/store";
-import DoubleArrow from "assets/logos/double-arrow.png";
-import "./Player.css";
-import { SET_PLAYER_URIS } from "context/user";
+import SpotifyPlayer from 'react-spotify-web-playback';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { spotifyApi } from 'spotify';
+import { RootState } from 'context/store';
+import DoubleArrow from 'assets/logos/double-arrow.png';
+import './Player.css';
+import { SET_PLAYER_URIS } from 'context/user';
 
 const Player = (props: PlayerProps) => {
   const { userPlaylists } = props;
@@ -16,8 +16,8 @@ const Player = (props: PlayerProps) => {
   const dispatch = useDispatch();
 
   const togglePopup = () => {
-    document.querySelector(".popup")!.classList.toggle("popup-open");
-    document.querySelector(".popup-img")?.classList.toggle("active-popup");
+    document.querySelector('.popup')!.classList.toggle('popup-open');
+    document.querySelector('.popup-img')?.classList.toggle('active-popup');
     setOpen(!open);
   };
 

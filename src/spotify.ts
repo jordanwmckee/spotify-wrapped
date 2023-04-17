@@ -3,10 +3,8 @@
  * and for handling deconstruction of API request results
  */
 
-import SpotifyWebApi from "spotify-web-api-js";
-import { addTokenToDb, getRefreshToken } from "./firebase";
-import { Buffer } from "buffer";
-import { User } from "firebase/auth";
+import SpotifyWebApi from 'spotify-web-api-js';
+import { Buffer } from 'buffer';
 
 // Spotify App Config
 const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
@@ -18,12 +16,12 @@ var spotifyApi = new SpotifyWebApi();
 
 // query parameters for spotify auth
 const auth_query_params = new URLSearchParams({
-  show_dialog: "true",
-  response_type: "code",
-  grant_type: "authorization_code",
+  show_dialog: 'true',
+  response_type: 'code',
+  grant_type: 'authorization_code',
   client_id: clientId,
   scope:
-    "streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private",
+    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private',
   redirect_uri: redirectUri,
 });
 
@@ -36,23 +34,40 @@ const loginUrl = `${authEndpoint}?${auth_query_params.toString()}`;
  * @param {string} token The access token for the logged in user
  * @param {number} timeCreated The time the token was requested
  */
-const addTokenToSession = (token: string, timeCreated: number) => {
+const addTokensToStore = (
+  refToken: string,
+  token: string,
+  timeCreated: number
+) => {
   const currentToken: Token = {
+    refresh_token: refToken,
     access_token: token,
     time_created: timeCreated,
   };
-  sessionStorage.setItem("currentToken", JSON.stringify(currentToken));
+  if (refToken)
+    localStorage.setItem('SpotifyTokens', JSON.stringify(currentToken));
 };
 
 /**
- * Get currentToken object from session storage
+ * Check for accessTokens in LocalStorage
+ *
+ * @returns {boolean} True if tokens are found in localStorage, false otherwise
+ */
+const checkForTokens = (): boolean => {
+  const tokenStore = localStorage.getItem('SpotifyTokens');
+  if (tokenStore) return true;
+  else return false;
+};
+
+/**
+ * Get currentToken object from loacl storage
  *
  * @returns {Token | null}
  */
-const getTokenFromSession = (): Token | null => {
-  const token: string = sessionStorage.currentToken;
-  if (!token) return null;
-  else return JSON.parse(token);
+const getTokensFromStore = (): Token | null => {
+  const auth: string = localStorage.getItem('SpotifyTokens')!;
+  if (!auth) return null;
+  else return JSON.parse(auth);
 };
 
 /**
@@ -61,9 +76,9 @@ const getTokenFromSession = (): Token | null => {
  * @returns {boolean} True if access token is still valid, False if not
  */
 const isValidAccessToken = (): boolean => {
-  const token = getTokenFromSession();
-  if (!token) return false;
-  const timeDiff = Date.now() - token.time_created!;
+  const auth = getTokensFromStore();
+  if (!auth) return false;
+  const timeDiff = Date.now() - auth.time_created!;
   if (timeDiff > 3550000) return false;
   return true;
 };
@@ -71,80 +86,76 @@ const isValidAccessToken = (): boolean => {
 /**
  * Assumes the code from Spotify's callback is in the url
  * Use code from url to request an access_token and refresh_token from web api
- *
- * @param {User} user Returned from useAuthState
  */
-const fetchTokensFromCode = async (user: User) => {
+const fetchTokensFromCode = async () => {
   // get response code from url
   const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get("code");
+  const code = urlParams.get('code');
 
   // execute fetch to get tokens from code
-  if (typeof code === "string") {
+  if (typeof code === 'string') {
     const body = new URLSearchParams({
       code: code,
       redirect_uri: redirectUri,
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
     });
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-      method: "post",
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'post',
       body: body,
       headers: {
-        "Content-type": "application/x-www-form-urlencoded",
+        'Content-type': 'application/x-www-form-urlencoded',
         Authorization:
-          "Basic " +
-          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+          'Basic ' +
+          Buffer.from(clientId + ':' + clientSecret).toString('base64'),
       },
     });
 
     const data = await response.json();
-    addTokenToSession(data.access_token, Date.now());
+    // add response tokens to stores
+    addTokensToStore(data.refresh_token, data.access_token, Date.now());
     spotifyApi.setAccessToken(data.access_token);
-    await addTokenToDb(data.refresh_token, user);
-    window.location.hash = "";
+    // clear query params from url
+    window.location.replace(window.location.origin + window.location.pathname);
   }
 };
 
 /**
  * Get refresh token from firebase, and use it to generate a new access token
- *
- * @param {User} user Returned from useAuthState
  */
-const refreshAuthToken = async (user: User) => {
+const refreshAuthToken = async () => {
   // check if access token is still valid first
+  const auth = getTokensFromStore();
   if (isValidAccessToken() === true) {
-    const token = getTokenFromSession();
-    spotifyApi.setAccessToken(token!.access_token!);
+    spotifyApi.setAccessToken(auth!.access_token!);
     return;
   } else {
-    console.log("No valid token detected.");
+    console.log('No valid token detected.');
   }
 
-  const refToken = await getRefreshToken(user);
-  if (!refToken) return;
+  if (!auth?.refresh_token) return;
 
   var body = new URLSearchParams({
-    grant_type: "refresh_token",
-    refresh_token: refToken,
+    grant_type: 'refresh_token',
+    refresh_token: auth.refresh_token,
   });
 
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "post",
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'post',
     body: body,
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      'Content-type': 'application/x-www-form-urlencoded',
       Authorization:
-        "Basic " +
-        Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+        'Basic ' +
+        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
     },
-    // json: true,
   });
 
   const data = await response.json();
-  console.log("New access token generated.");
-  addTokenToSession(data.access_token, Date.now());
+  console.log('New access token generated.');
+  addTokensToStore(auth.refresh_token, data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
-  refreshCycle(user);
+  // refreshCycle(user);
 };
 
 /**
@@ -152,9 +163,9 @@ const refreshAuthToken = async (user: User) => {
  *
  * @param {User} user Returned from useAuthState
  */
-const refreshCycle = (user: User) => {
-  setInterval(refreshAuthToken, 1000 * 59 * 59, user);
-};
+// const refreshCycle = (user: User) => {
+//   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
+// };
 
 /**
  * Get array of URIs to use for Spotify Playback SDK
@@ -166,12 +177,12 @@ const getRecommendUris = async (): Promise<string[]> => {
   try {
     // Get seed tracks for recommendations
     const top5Tracks = await spotifyApi.getMyTopTracks({
-      time_range: "short_term",
-      limit: "5",
+      time_range: 'short_term',
+      limit: '5',
     });
-    let seeds = "";
+    let seeds = '';
     top5Tracks.items.forEach((track) => {
-      seeds += track.id + ",";
+      seeds += track.id + ',';
     });
     seeds = seeds.slice(0, -1);
 
@@ -407,8 +418,10 @@ export {
   spotifyApi,
   loginUrl,
   fetchTokensFromCode,
+  checkForTokens,
+  getTokensFromStore,
   refreshAuthToken,
-  refreshCycle,
+  // refreshCycle,
   getRecommendUris,
   getTopItems,
   getRecentListens,

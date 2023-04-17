@@ -1,5 +1,5 @@
-import { PieChart, Pie, ResponsiveContainer } from "recharts";
-import "./FloatingCard.css";
+import { PieChart, Pie, ResponsiveContainer } from 'recharts';
+import './FloatingCard.css';
 
 const FloatingCard = (props: FloatingCardProps) => {
   const { data, title } = props;
