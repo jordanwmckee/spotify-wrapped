@@ -1,3 +1,13 @@
+/* for react toast notifications */
+:root {
+  --toastify-color-dark: var(--gray600) !important;
+  --toastify-color-success: var(--spotifyGreen) !important;
+  --toastify-text-color-dark: var(--offWhite) !important;
+}
+.Toastify__toast {
+  border-radius: 10px !important;
+}
+
 /* base styles */
 * {
   margin: 0;

@@ -19,6 +19,8 @@ import LoadScreen, {
 } from 'components/LoadScreen/LoadScreen';
 import useFetchData from 'hooks/useFetchData';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // used for auth
@@ -68,6 +70,19 @@ function App() {
         // Routes rendered if user account detected
         <>
           <LoadScreen />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            limit={2}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           <Router>
             <Navbar displayName={displayName} profilePic={profilePic} />
             <Sidebar />

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
 import { spotifyApi } from 'spotify';
 import AddSongDropdown from 'components/AddSongDropdown/AddSongDropdown';
+import { toast } from 'react-toastify';
 
 const RecommendedCard = (props: RecommendedCardProps) => {
   const { title, list, userPlaylists, type, length } = props;
@@ -18,9 +19,11 @@ const RecommendedCard = (props: RecommendedCardProps) => {
   ) => {
     // follow/unfollow artist & update image
     if (artist.following) {
+      toast.success('Unfollowed artist');
       spotifyApi.unfollowArtists([artist.id!]);
       (e.target as HTMLImageElement).src = FollowArtistIcon;
     } else {
+      toast.success('Followed artist');
       spotifyApi.followArtists([artist.id!]);
       (e.target as HTMLImageElement).src = isFollowingIcon;
     }

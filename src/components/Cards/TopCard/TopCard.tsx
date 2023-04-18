@@ -4,6 +4,7 @@ import PlayButton from 'assets/logos/play-button-square.png';
 import PlaylistAdd from 'assets/logos/playlist-add.png';
 import styles from './TopCard.module.css';
 import { spotifyApi } from 'spotify';
+import { toast } from 'react-toastify';
 
 const TopCard = (props: TopCardProps) => {
   const { list, title, userId, playlists } = props;
@@ -42,6 +43,7 @@ const TopCard = (props: TopCardProps) => {
     // update playlist items
     const urisToSend = list.map((track) => track.uri);
     spotifyApi.replaceTracksInPlaylist(playlistId, urisToSend);
+    toast.success('Songs added to playlist!');
   };
 
   return (

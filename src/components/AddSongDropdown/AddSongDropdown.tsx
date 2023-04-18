@@ -2,6 +2,7 @@ import AddButtonIcon from 'assets/logos/add-button.png';
 import styles from './AddSongDropdown.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
+import { toast } from 'react-toastify';
 
 const AddSongDropdown = (props: AddSongDropdownProps) => {
   const { userPlaylists, uri, id } = props;
@@ -32,6 +33,7 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
                 key={playlist.id}
                 onClick={() => {
                   addSongToPlaylist(playlist.id);
+                  toast.success('Added song to playlist!');
                   closeDropdown();
                 }}
               >
