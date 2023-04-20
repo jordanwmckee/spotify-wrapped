@@ -129,7 +129,7 @@ const fetchTokensFromCode = async () => {
   const code = urlParams.get('code');
 
   // execute fetch to get tokens from code
-  if (typeof code === 'string') {
+  if (code) {
     const body = new URLSearchParams({
       code: code,
       redirect_uri: redirectUri,
@@ -260,7 +260,7 @@ const getRecommendedArtists = async (
 };
 
 /**
- * Make api call to get top songs and artists based on parameters passed
+ * Make api call to get top songs, artists, and genres based on parameter seeds
  *
  * @param {object} params The parameters to use in the api call
  * @returns {object} {topTracks: TopItems[]; topArtists: TopItems[]; topGenres: string[][]}
