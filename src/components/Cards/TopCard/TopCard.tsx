@@ -61,7 +61,7 @@ const TopCard = (props: TopCardProps) => {
       </div>
       <div className={styles.topCardList}>
         {list.map((data) => (
-          <ul className={styles.topListItem} key={data.name}>
+          <ul className={styles.topListItem} key={data.id}>
             <li>
               <div
                 className={styles.albumImage}

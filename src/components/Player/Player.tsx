@@ -57,7 +57,7 @@ const Player = (props: PlayerProps) => {
                     onClick={() => {
                       dispatch(SET_PLAYER_URIS([data.uri]));
                     }}
-                    key={data.name}
+                    key={data.id}
                   >
                     {data.name}
                   </p>

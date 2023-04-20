@@ -37,7 +37,7 @@ const RecommendedCard = (props: RecommendedCardProps) => {
       </div>
       <div className={styles.recommendedCardList}>
         {list.slice(0, length).map((data) => (
-          <div className={styles.recommendedListItem} key={data.uri}>
+          <div className={styles.recommendedListItem} key={data.id}>
             <div
               className={styles.albumImage}
               onClick={() => {
