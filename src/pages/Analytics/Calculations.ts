@@ -1,3 +1,121 @@
+const topGenres: string[] = [
+  'Rock',
+  'Pop',
+  'Hip Hop',
+  'Jazz',
+  'Country',
+  'Electronic',
+  'Classical',
+  'R&B/Soul',
+  'Blues',
+  'Reggae',
+  'Funk',
+  'Metal',
+  'Alternative',
+  'Latin',
+  'Folk',
+  'Punk',
+  'World',
+  'Gospel',
+  'Indie',
+  'New Age',
+  'Opera',
+  'Rap',
+  'Techno',
+  'House',
+  'Trance',
+  'Ambient',
+  'Dance',
+  'Dubstep',
+  'Trip Hop',
+  'Grunge',
+  'Ska',
+  'Heavy Metal',
+  'Psychedelic',
+  'Rock and Roll',
+  'Emo',
+  'Hardcore',
+  'Garage',
+  'Britpop',
+  'Glam Rock',
+  'Shoegaze',
+  'Industrial',
+  'Darkwave',
+  'Synthpop',
+  'Post-Punk',
+  'Death Metal',
+  'Thrash Metal',
+  'Power Metal',
+  'Black Metal',
+  'Doom Metal',
+  'Speed Metal',
+  'Progressive Rock',
+  'Progressive Metal',
+  'Psychedelic Rock',
+  'Psychedelic Pop',
+  'Psychedelic Folk',
+  'Psychedelic Soul',
+  'Electronic Rock',
+  'Ambient Pop',
+  'Ambient Techno',
+  'Ambient House',
+  'Ambient Dub',
+  'Ambient Trance',
+  'Ambient Jazz',
+  'Jazz Fusion',
+  'Smooth Jazz',
+  'Acid Jazz',
+  'Bebop',
+  'Cool Jazz',
+  'Free Jazz',
+  'Latin Jazz',
+  'Jazz Funk',
+  'Bossa Nova',
+  'Salsa',
+  'Tango',
+  'Mariachi',
+  'Ranchera',
+  'Tejano',
+  'Norteño',
+  'Reggaeton',
+  'Soca',
+  'Calypso',
+  'Highlife',
+  'Afrobeat',
+  'Fado',
+  'Flamenco',
+  'Tuvan Throat Singing',
+  'Traditional Indian Music',
+  'Japanese Traditional Music',
+  'Celtic Music',
+  'Arabic Music',
+  'African Music',
+  'Brazilian Music',
+  'French Chanson',
+  'Klezmer',
+  'Gypsy Music',
+  'Russian Folk Music',
+  'Irish Music',
+  'Scottish Music',
+  'English Folk Music',
+  'American Folk Music'
+];
+
+
+function findTopGenre(genre: string): string | undefined {
+  const genreRegex = new RegExp(topGenres.join('|'), 'i');
+  const match = genre.match(genreRegex);
+  if (match) {
+    return match[0];
+  } else {
+    return undefined;
+  }
+}
+
+
+
+
+
 /* Test function, I edit this function as I need to test numbers, by default its basically just
  * a typedef- for console.log(), but I do change it to manipulate and display data as I need
  * It may seem redundent to leave it in, but please don't change the location or delete it.
@@ -86,51 +204,50 @@ function prune(array: any, total: any) {
  *  in decending order, percentages are calculated, then the array of objects is returned.
  */
 function sort_genres_and_rank(GenresArg: any) {
-  //var declerations
-  let ranked_recents: any = [];
-  let is_found = false;
-  let total = 0;
-
-  if (GenresArg.length == 0) {
-    return;
+  if (GenresArg.length === 0) {
+    return [];
   }
 
+  const genreCounts: {[key: string]: number} = {};
+
   GenresArg.forEach((song: any) => {
-    //this loop iterates through the array of string arrays
-    song.forEach((genre: any) => {
-      //this loop iterates through the string arrays themselves
-      let data = {
-        //declairing the object used to rank
-        name: genre,
-        count: 1,
-        percent: -1.1,
-      };
-      if (data.name == null) {
-        //checks if there is no name, if no name present, name is auto set to other
-        data.name = 'other';
+    console.log(song);
+    if (typeof song === 'string') {
+      const cleanedGenre = findTopGenre(song) || 'other';
+      if (!genreCounts[cleanedGenre]) {
+        genreCounts[cleanedGenre] = 1;
+      } else {
+        genreCounts[cleanedGenre]++;
       }
-      ranked_recents.forEach((element: any) => {
-        if (element != null && element.name == data.name) {
-          //checks if exists, if it does add to count var child
-          element.count += 1;
-          is_found = true;
+    } else if (Array.isArray(song)) {
+      song.forEach((genre: string) => {
+        const cleanedGenre = findTopGenre(genre) || 'other';
+
+        if (!genreCounts[cleanedGenre]) {
+          genreCounts[cleanedGenre] = 1;
+        } else {
+          genreCounts[cleanedGenre]++;
         }
       });
-      if (is_found == false) {
-        //if it doesn't exist, insert new rank object into array
-        ranked_recents.push(data);
-      }
-      is_found = false;
-      total += 1;
-    });
+    }
+    // If the element is neither a string nor an array, skip it
   });
-  //sort the array by number of times the genre was listened to in decending order
-  ranked_recents = merge_sort_decending(ranked_recents);
-  get_percentages(ranked_recents, total);
-  prune(ranked_recents, total);
-  ranked_recents = merge_sort_decending(ranked_recents);
-  return ranked_recents;
+
+  const rankedGenres = Object.entries(genreCounts)
+    .map(([name, count]) => ({ name, count, percent: -1.1 }))
+    .sort((a, b) => b.count - a.count);
+
+  const total = rankedGenres.reduce((acc, cur) => acc + cur.count, 0);
+
+  get_percentages(rankedGenres, total);
+  prune(rankedGenres, total);
+
+  return rankedGenres;
 }
+
+
+
+
 
 function sort_artists_and_rank(artistArg: any) {
   let ranked: any = [];
