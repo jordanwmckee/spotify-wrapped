@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <div id={styles.sidebar}>
       <div className={styles.sidebarTitle}>
-        <h3>Monthly Wrapped</h3>
+        <h3>Wrapped Monthly</h3>
       </div>
       <h3 className={styles.navMenuText}>NAVIGATION MENU</h3>
       <div className={styles.links}>

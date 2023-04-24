@@ -20,7 +20,7 @@ const TopCard = (props: TopCardProps) => {
       timeRange = `${month.toString().padStart(2, '0')}/${year}`;
     }
     // derrive playlist name from date
-    const playlistName = `Monthly Wrapped (${timeRange})`;
+    const playlistName = `Wrapped Monthly (${timeRange})`;
 
     // check if playlist already exists
     let playlistExists = false;

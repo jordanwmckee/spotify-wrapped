@@ -13,7 +13,7 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.hero}>
         <HomeTitle
-          title="Monthly Wrapped"
+          title="Wrapped Monthly"
           description="this is a subheading subscribe and follow for more"
         />
         <div className="home-button">
