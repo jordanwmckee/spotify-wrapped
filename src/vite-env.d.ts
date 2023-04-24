@@ -17,8 +17,9 @@ interface Token {
 interface TopItems {
   name: string;
   image: string;
-  uri?: string;
-  id?: string;
+  uri: string;
+  id: string;
+  artist?: SpotifyApi.ArtistObjectSimplified[];
 }
 
 /**
@@ -31,14 +32,9 @@ interface Listens {
 }
 
 /**
- *
- */
-interface Genres {}
-
-/**
  * User playlists store
  */
-interface Playlists {
+interface Playlist {
   name: string;
   uri: string;
   id: string;
@@ -65,7 +61,7 @@ interface NavBarProps {
 }
 
 interface PlayerProps {
-  userPlaylists?: Playlists[];
+  userPlaylists?: Playlist[];
 }
 
 interface PageTitleProps {
@@ -83,6 +79,8 @@ interface TitleCardProps extends PageTitleProps {}
 interface TopCardProps {
   title: string;
   list: TopItems[];
+  userId?: string;
+  playlists?: Playlist[];
 }
 
 interface FloatingCardProps {
@@ -93,7 +91,7 @@ interface FloatingCardProps {
 interface RecommendedCardProps {
   title: string;
   list: RecommendedItems[];
-  userPlaylists: Playlists[];
+  userPlaylists: Playlist[];
   type: 'artists' | 'tracks';
   length: number;
 }
@@ -110,19 +108,19 @@ interface DashboardProps {
   monthlySongs?: TopItems[];
   allTimeArtists?: TopItems[];
   allTimeSongs?: TopItems[];
+  userId?: string;
+  playlists?: Playlist[];
 }
 
 interface AnalyticsProps {
-  recentListens?: Listens[];
-  recentGenres?: object[];
-  monthlyListens?: Listens[];
-  monthlyGenres?: object[];
-  allTimeListens?: Listens[];
-  allTimeGenres?: object[];
+  monthlySongs?: TopItems[];
+  monthlyGenres?: string[][];
+  allTimeSongs?: TopItems[];
+  allTimeGenres?: string[][];
 }
 
 interface DiscoverProps {
   recommendedArtists?: RecommendedItems[];
   recommendedSongs?: RecommendedItems[];
-  userPlaylists?: Playlists[];
+  userPlaylists?: Playlist[];
 }

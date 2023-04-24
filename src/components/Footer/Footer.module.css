@@ -16,7 +16,9 @@
 .footerRight {
   width: 40%;
 }
-.footer h4,
-p {
-  color: gray;
+.footer h4 {
+  color: var(--gray400);
+}
+.footer p {
+  color: var(--gray400);
 }

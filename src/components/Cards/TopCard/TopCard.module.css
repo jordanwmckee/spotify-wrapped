@@ -5,6 +5,7 @@
   border-radius: 10px;
   margin: 20px 0;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 .topCardTitle {
   width: 100%;
@@ -18,6 +19,14 @@
   width: 100%;
   font-size: 20px;
   color: var(--gray800);
+}
+.topCardTitle img {
+  height: 25px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+  padding: 5px;
 }
 .topCardList {
   padding: 10px;
@@ -39,7 +48,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.topListItem h3 {
+.topListItem a {
   font-weight: 700;
   margin: 0 7px;
   text-align: left;
@@ -49,6 +58,7 @@
 }
 .topListItem img {
   width: 50px;
+  height: 50px;
 }
 .albumImage {
   cursor: pointer;
@@ -74,7 +84,7 @@
   .topCardTitle h2 {
     font-size: 24px;
   }
-  .topListItem h3 {
+  .topListItem a {
     font-size: 16px;
   }
 }
@@ -91,8 +101,9 @@
   .topListItem img {
     width: 90px;
     height: 90px;
+    border-radius: 5px;
   }
-  .topListItem h3 {
+  .topListItem a {
     text-align: center;
   }
   .albumImage {

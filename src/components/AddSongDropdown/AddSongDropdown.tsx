@@ -2,24 +2,11 @@ import AddButtonIcon from 'assets/logos/add-button.png';
 import styles from './AddSongDropdown.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
+import { toast } from 'react-toastify';
 
 const AddSongDropdown = (props: AddSongDropdownProps) => {
   const { userPlaylists, uri, id } = props;
-  const [primary, togglePrimary, closePrimary] = useToggleState(false);
-  const [secondary, toggleSecondary, closeSecondary] = useToggleState(false);
-
-  const closeDropdowns = () => {
-    closePrimary();
-    closeSecondary();
-  };
-
-  const saveSongToLibrary = () => {
-    try {
-      spotifyApi.addToMySavedTracks([id]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const [dropdown, toggleDropdown, closeDropdown] = useToggleState(false);
 
   const addSongToPlaylist = (playListId: string): void => {
     try {
@@ -30,42 +17,29 @@ const AddSongDropdown = (props: AddSongDropdownProps) => {
   };
 
   return (
-    <div className={styles.playlistAdd} onMouseLeave={closeDropdowns}>
+    <div className={styles.playlistAdd} onMouseLeave={closeDropdown}>
       <img
-        onClick={togglePrimary}
+        onClick={toggleDropdown}
         src={AddButtonIcon}
         className={styles.addIcon}
         alt=""
         title="Add song to playlist"
       />
-      {primary && (
-        <div className={styles.playlistDropdown}>
-          <div className={styles.options}>
-            <h4
-              onClick={() => {
-                saveSongToLibrary();
-                closeDropdowns();
-              }}
-            >
-              Add to liked
-            </h4>
-            <h4 onClick={toggleSecondary}>Add to playlist...</h4>
-            {secondary && (
-              <div className={styles.playlistSelection}>
-                {userPlaylists!.map((playlist) => (
-                  <p
-                    key={playlist.id}
-                    onClick={() => {
-                      addSongToPlaylist(playlist.id);
-                      closeDropdowns();
-                    }}
-                  >
-                    {playlist.name}
-                  </p>
-                ))}
-              </div>
-            )}
-          </div>
+      {dropdown && (
+        <div className={styles.playlistSelection}>
+          {userPlaylists &&
+            userPlaylists.map((playlist) => (
+              <p
+                key={playlist.id}
+                onClick={() => {
+                  addSongToPlaylist(playlist.id);
+                  toast.success('Added song to playlist!');
+                  closeDropdown();
+                }}
+              >
+                {playlist.name}
+              </p>
+            ))}
         </div>
       )}
     </div>

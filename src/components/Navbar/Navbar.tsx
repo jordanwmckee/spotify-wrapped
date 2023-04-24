@@ -16,7 +16,9 @@ const Navbar = (props: NavBarProps) => {
 
   const toggleBar = () => {
     // modify hambuger icon
-    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    document
+      .querySelector(`.${styles.hamburger}`)!
+      .classList.toggle(styles.active);
     const overlay = document.getElementById(styles.bodyOverlay)!;
     if (toggleSidebar())
       overlay.setAttribute('style', 'width: 0; opacity: 0; left: 0');
@@ -26,7 +28,9 @@ const Navbar = (props: NavBarProps) => {
 
   const closeBar = () => {
     // toggle hambuger active
-    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    document
+      .querySelector(`.${styles.hamburger}`)!
+      .classList.toggle(styles.active);
     closeSidebar();
     // remove overlay
     document

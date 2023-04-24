@@ -9,6 +9,8 @@ const Dashboard = (props: DashboardProps) => {
     monthlySongs,
     allTimeArtists,
     allTimeSongs,
+    userId,
+    playlists,
   } = props;
 
   return (
@@ -21,13 +23,23 @@ const Dashboard = (props: DashboardProps) => {
         {monthlyArtists && monthlySongs && (
           <>
             <TopCard list={monthlyArtists} title="Top Artists this Month" />
-            <TopCard list={monthlySongs} title="Top Tracks this Month" />
+            <TopCard
+              list={monthlySongs}
+              title="Top Tracks this Month"
+              userId={userId}
+              playlists={playlists}
+            />
           </>
         )}
         {allTimeArtists && allTimeSongs && (
           <>
             <TopCard list={allTimeArtists} title="Top Artists All Time" />
-            <TopCard list={allTimeSongs} title="Top Tracks All Time" />
+            <TopCard
+              list={allTimeSongs}
+              title="Top Tracks All Time"
+              userId={userId}
+              playlists={playlists}
+            />
           </>
         )}
       </div>
