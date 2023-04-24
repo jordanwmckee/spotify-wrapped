@@ -278,10 +278,10 @@ const getTopItems = async (
       spotifyApi.getMyTopTracks(params),
       spotifyApi.getMyTopArtists(params),
     ]);
-
+    console.log('toptracks: ', topTracksRes);
     const topTracks: TopItems[] = topTracksRes.items.map((track) => ({
       name: track.name,
-      image: track.album.images[0].url,
+      image: track.album.images[0]?.url || '',
       uri: track.uri,
       id: track.id,
       artist: track.artists,
