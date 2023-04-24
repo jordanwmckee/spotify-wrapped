@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SET_PLAYER_URIS } from 'context/user';
 import PlayButton from 'assets/logos/play-button-square.png';
 import PlaylistAdd from 'assets/logos/playlist-add.png';
@@ -7,18 +7,20 @@ import { spotifyApi } from 'spotify';
 import { toast } from 'react-toastify';
 
 const TopCard = (props: TopCardProps) => {
-  const { list, title, userId, playlists } = props;
+  const { list, title, userId, playlists, timeFrame } = props;
   const dispatch = useDispatch();
 
   const createPlaylist = async () => {
-    // get date for playlist name
-    const date = new Date();
-    const month = date.getMonth() + 1; // getMonth() returns 0-11, so add 1 to get 1-12
-    const year = date.getFullYear().toString().slice(-2); // get the last two digits of the year
-    const formattedDate = `${month.toString().padStart(2, '0')}/${year}`;
-
+    let timeRange: string = timeFrame!;
+    if (timeFrame === 'month') {
+      // get date for playlist name
+      const date = new Date();
+      const month = date.getMonth() + 1; // getMonth() returns 0-11, so add 1 to get 1-12
+      const year = date.getFullYear().toString().slice(-2); // get the last two digits of the year
+      timeRange = `${month.toString().padStart(2, '0')}/${year}`;
+    }
     // derrive playlist name from date
-    const playlistName = `Monthly Wrapped (${formattedDate})`;
+    const playlistName = `Monthly Wrapped (${timeRange})`;
 
     // check if playlist already exists
     let playlistExists = false;
@@ -35,7 +37,7 @@ const TopCard = (props: TopCardProps) => {
       const createPlaylistResult = await spotifyApi.createPlaylist(userId!, {
         name: playlistName,
         public: false,
-        description: `My top tracks in ${formattedDate}`,
+        description: `My top tracks ${timeRange}`,
       });
       playlistId = createPlaylistResult.id;
     }
@@ -55,7 +57,7 @@ const TopCard = (props: TopCardProps) => {
             src={PlaylistAdd}
             onClick={createPlaylist}
             alt=""
-            title="Export items to playlist"
+            title="Send items to playlist"
           />
         )}
       </div>

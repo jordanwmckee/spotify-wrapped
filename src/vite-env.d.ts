@@ -81,6 +81,7 @@ interface TopCardProps {
   list: TopItems[];
   userId?: string;
   playlists?: Playlist[];
+  timeFrame?: 'month' | 'all-time';
 }
 
 interface FloatingCardProps {

@@ -28,6 +28,7 @@ const Dashboard = (props: DashboardProps) => {
               title="Top Tracks this Month"
               userId={userId}
               playlists={playlists}
+              timeFrame="month"
             />
           </>
         )}
@@ -39,6 +40,7 @@ const Dashboard = (props: DashboardProps) => {
               title="Top Tracks All Time"
               userId={userId}
               playlists={playlists}
+              timeFrame="all-time"
             />
           </>
         )}
