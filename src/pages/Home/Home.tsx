@@ -13,8 +13,8 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.hero}>
         <HomeTitle
-          title="Monthly Wrapped"
-          description="this is a subheading subscribe and follow for more"
+          title="Wrapped Monthly"
+          description="Your top Spotify analytics every month."
         />
         <div className="home-button">
           <Link to={loginUrl}>Get Started</Link>
@@ -31,7 +31,7 @@ const Home = () => {
           <div className={styles.allProjects}>
             <div className={styles.analyticItem}>
               <div className={styles.sectionInfo}>
-                <h1>Your top artists</h1>
+                <h1>Your Top Artists</h1>
                 <p>
                   Gain insights on which artists you binged the most in the last
                   month.
@@ -43,11 +43,8 @@ const Home = () => {
             </div>
             <div className={styles.analyticItem}>
               <div className={styles.sectionInfo}>
-                <h1>Your top tracks</h1>
-                <p>
-                  See your top songs and which ones you've had on repeat the
-                  longest.
-                </p>
+                <h1>Your Top Tracks</h1>
+                <p>See which songs you've had on repeat this month.</p>
               </div>
               <div className={styles.sectionImg}>
                 <img src={TracksImage} alt="img" />
@@ -55,11 +52,10 @@ const Home = () => {
             </div>
             <div className={styles.analyticItem}>
               <div className={styles.sectionInfo}>
-                <h1>Listening history</h1>
+                <h1>Your Top Genres</h1>
                 <p>
-                  Through the retrieval of your listening history, information
-                  about your listening habits, time, etc are retrieved for your
-                  viewing pleasure.
+                  Your top genres are derrived from all of your top songs and
+                  broken down into a colorful pie chart :)
                 </p>
               </div>
               <div className={styles.sectionImg}>

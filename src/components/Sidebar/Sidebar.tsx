@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import DashboardIcon from 'assets/logos/dashboard.png';
 import AnalyticsIcon from 'assets/logos/analytics.png';
 import DiscoverIcon from 'assets/logos/discover.png';
-import CreateIcon from 'assets/logos/forYou.png';
 import styles from './Sidebar.module.css';
 
 export const toggleSidebar = (): boolean => {
@@ -26,7 +25,7 @@ const Sidebar = () => {
   return (
     <div id={styles.sidebar}>
       <div className={styles.sidebarTitle}>
-        <h3>Monthly Wrapped</h3>
+        <h3>Wrapped Monthly</h3>
       </div>
       <h3 className={styles.navMenuText}>NAVIGATION MENU</h3>
       <div className={styles.links}>
@@ -46,12 +45,6 @@ const Sidebar = () => {
           <div className={styles.sidebarItem}>
             <img src={DiscoverIcon} alt="" />
             <h3>Discover</h3>
-          </div>
-        </Link>
-        <Link to="/create" className={styles.link}>
-          <div className={styles.sidebarItem}>
-            <img src={CreateIcon} alt="" />
-            <h3>Create</h3>
           </div>
         </Link>
       </div>

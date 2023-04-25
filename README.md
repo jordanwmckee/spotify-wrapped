@@ -22,7 +22,7 @@
 <h3 align="center">Wrapped Monthly</h3>
 
   <p align="center">
-    Monthly Wrapped offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
+    Wrapped Monthly offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
     Some features include: playlist generation based on top listened songs, a monthly report of listening 
     statistics, a custom self-managing "current" playlist, and much more ...
     <br /><br />

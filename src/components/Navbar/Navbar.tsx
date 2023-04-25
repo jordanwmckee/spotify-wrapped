@@ -76,10 +76,10 @@ const Navbar = (props: NavBarProps) => {
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
                 <h3>{displayName ? displayName : 'User'}</h3>
               </div>
-              <div className={styles.options}>
+              {/* <div className={styles.options}>
                 <h4>Some Option</h4>
                 <h4>Another Option</h4>
-              </div>
+              </div> */}
               <div className={styles.logout}>
                 <h4 onClick={logoutActions}>Logout</h4>
               </div>

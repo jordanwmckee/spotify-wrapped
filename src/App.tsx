@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'context/store';
 import Player from 'components/Player/Player';
 import Discover from 'pages/Discover/Discover';
-import Create from 'pages/Create/Create';
 import LoadScreen, {
   clearLoadingScreen,
 } from 'components/LoadScreen/LoadScreen';
@@ -126,7 +125,6 @@ function App() {
                     />
                   }
                 />
-                <Route path="/create" element={<Create />} />
                 <Route
                   path="*"
                   element={
