@@ -82,7 +82,7 @@ function App() {
             pauseOnHover
             theme="dark"
           />
-          <Router>
+          <Router basename="/spotify-wrapped">
             <Navbar displayName={displayName} profilePic={profilePic} />
             <Sidebar />
             {recommendUris && playerUris && (
@@ -147,7 +147,7 @@ function App() {
         <>
           <LoadScreen />
           <div id="home-content">
-            <Router>
+            <Router basename="/spotify-wrapped">
               <HomeNavbar />
               <Routes>
                 <Route path="/" element={<Home />} />
