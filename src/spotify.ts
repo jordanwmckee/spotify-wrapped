@@ -5,6 +5,7 @@
 
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Buffer } from 'buffer';
+import secureLocalStorage from 'react-secure-storage';
 
 // Spotify App Config
 const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
@@ -54,13 +55,12 @@ const addTokensToStore = (
   token: string,
   timeCreated: number
 ) => {
-  const currentToken: Token = {
-    refresh_token: refToken,
-    access_token: token,
-    time_created: timeCreated,
-  };
   if (refToken)
-    localStorage.setItem('SpotifyTokens', JSON.stringify(currentToken));
+    secureLocalStorage.setItem('SpotifyTokens', {
+      refresh_token: refToken,
+      access_token: token,
+      time_created: timeCreated,
+    });
 };
 
 /**
@@ -69,7 +69,7 @@ const addTokensToStore = (
  * @returns {boolean} True if tokens are found in localStorage, false otherwise
  */
 const checkForTokens = (): boolean => {
-  const tokenStore = localStorage.getItem('SpotifyTokens');
+  const tokenStore = secureLocalStorage.getItem('SpotifyTokens');
   if (tokenStore) return true;
   else return false;
 };
@@ -80,9 +80,11 @@ const checkForTokens = (): boolean => {
  * @returns {Token | null} Token retrieved or null
  */
 const getTokensFromStore = (): Token | null => {
-  const auth: string = localStorage.getItem('SpotifyTokens')!;
-  if (!auth) return null;
-  else return JSON.parse(auth);
+  const auth = secureLocalStorage.getItem('SpotifyTokens');
+  if (auth && typeof auth === 'object') {
+    return auth;
+  }
+  return null;
 };
 
 /**
