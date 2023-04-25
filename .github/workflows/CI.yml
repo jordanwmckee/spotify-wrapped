@@ -26,10 +26,10 @@ jobs:
           sed -i '2d' node_modules/@svgr/core/dist/index.d.ts
           sed -i 's/svgoConfig?: OptimizeOptions/svgoConfig?: Options/g' node_modules/@svgr/core/dist/index.d.ts
           touch .env.local
-          echo "VITE_AUTH_ENDPOINT: "${{ secrets.VITE_AUTH_ENDPOINT }} >> .env.local
-          echo "VITE_REDIRECT_URI: "${{ secrets.VITE_REDIRECT_URI }} >> .env.local
-          echo "VITE_CLIENT_ID: "${{ secrets.VITE_CLIENT_ID }} >> .env.local
-          echo "VITE_CLIENT_SECRET: "${{ secrets.VITE_CLIENT_SECRET }} >> .env.local
+          echo 'VITE_AUTH_ENDPOINT="${{ secrets.VITE_AUTH_ENDPOINT }}"' >> .env.local
+          echo 'VITE_REDIRECT_URI="${{ secrets.VITE_REDIRECT_URI }}"' >> .env.local
+          echo 'VITE_CLIENT_ID="${{ secrets.VITE_CLIENT_ID }}"' >> .env.local
+          echo 'VITE_CLIENT_SECRET="${{ secrets.VITE_CLIENT_SECRET }}"' >> .env.local
           npm run build
 
       - name: Deploy
