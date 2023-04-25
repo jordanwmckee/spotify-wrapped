@@ -3,7 +3,6 @@
   padding: 120px 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
   /* border-top: 1px solid lightgray; */
 }
@@ -17,8 +16,20 @@
   width: 40%;
 }
 .footer h4 {
+  font-size: 20px;
   color: var(--gray400);
 }
-.footer p {
+.footer a {
+  margin: 5px 0;
+  font-size: 16px;
   color: var(--gray400);
+  display: block;
+  text-decoration: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .footerLeft,
+  .footerRight {
+    width: 30%;
+  }
 }
