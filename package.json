@@ -1,5 +1,5 @@
 {
-  "name": "spotify-wrapped",
+  "name": "wrapped-monthly",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
