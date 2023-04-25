@@ -8,10 +8,10 @@ import { Buffer } from 'buffer';
 import secureLocalStorage from 'react-secure-storage';
 
 // Spotify App Config
-const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
-const redirectUri: string = import.meta.env.VITE_REDIRECT_URI!;
-const clientId: string = import.meta.env.VITE_CLIENT_ID!;
-const clientSecret: string = import.meta.env.VITE_CLIENT_SECRET!;
+const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT;
+const redirectUri: string = import.meta.env.VITE_REDIRECT_URI;
+const clientId: string = import.meta.env.VITE_CLIENT_ID;
+const clientSecret: string = import.meta.env.VITE_CLIENT_SECRET;
 
 var spotifyApi = new SpotifyWebApi();
 
