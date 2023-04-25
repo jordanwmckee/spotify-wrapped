@@ -5,7 +5,7 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/wrappedmonthly/',
+  base: '/spotify-wrapped/',
   plugins: [react(), viteTsconfigPaths(), svgrPlugin()],
   define: {
     'process.env': {},
