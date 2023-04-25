@@ -8,6 +8,7 @@ import styles from './Navbar.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
 import { closeSidebar, toggleSidebar } from 'components/Sidebar/Sidebar';
+import secureLocalStorage from 'react-secure-storage';
 
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
@@ -39,12 +40,12 @@ const Navbar = (props: NavBarProps) => {
   };
 
   // clear state & sessionStorage before logout
-  const logoutActions = async () => {
+  const handleLogout = async () => {
     spotifyApi.setAccessToken(null);
     // reset redux state
     dispatch(RESET());
     // remove tokens from store
-    localStorage.removeItem('SpotifyTokens');
+    secureLocalStorage.clear();
     window.location.replace(window.location.origin);
   };
 
@@ -81,7 +82,7 @@ const Navbar = (props: NavBarProps) => {
                 <h4>Another Option</h4>
               </div> */}
               <div className={styles.logout}>
-                <h4 onClick={logoutActions}>Logout</h4>
+                <h4 onClick={handleLogout}>Logout</h4>
               </div>
             </div>
           )}
