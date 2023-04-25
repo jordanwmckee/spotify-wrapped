@@ -14,17 +14,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build
+        env:
+          VITE_AUTH_ENDPOINT: ${{ secrets.VITE_AUTH_ENDPOINT }}
+          VITE_REDIRECT_URI: ${{ secrets.VITE_REDIRECT_URI }}
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+          VITE_CLIENT_SECRET: ${{ secrets.VITE_CLIENT_SECRET }}
         run: |
           npm install
           mv node_modules/react-secure-storage/dist/types.d.ts node_modules/react-secure-storage/dist/types.ts
           sed -i '2d' node_modules/@svgr/core/dist/index.d.ts
           sed -i 's/svgoConfig?: OptimizeOptions/svgoConfig?: Options/g' node_modules/@svgr/core/dist/index.d.ts
           npm run build
-        env:
-          VITE_AUTH_ENDPOINT: ${{ secrets.VITE_AUTH_ENDPOINT }}
-          VITE_REDIRECT_URI: ${{ secrets.VITE_REDIRECT_URI }}
-          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
-          VITE_CLIENT_SECRET: ${{ secrets.VITE_CLIENT_SECRET }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
