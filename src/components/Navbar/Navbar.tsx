@@ -46,7 +46,7 @@ const Navbar = (props: NavBarProps) => {
     dispatch(RESET());
     // remove tokens from store
     secureLocalStorage.clear();
-    window.location.replace(window.location.origin);
+    window.location.replace(window.location.origin + '/spotify-wrapped');
   };
 
   return (
