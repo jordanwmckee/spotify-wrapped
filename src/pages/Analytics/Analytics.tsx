@@ -1,3 +1,4 @@
+
 import { PieChart, Pie, Sector, Cell } from 'recharts';
 import PageTitle from 'components/PageTitle/PageTitle';
 import styles from './Analytics.module.css';
@@ -39,6 +40,8 @@ const Analytics = (props: AnalyticsProps) => {
         <PageTitle title="Analytics" description="Find out your style" />
         <div className="content">
           <FloatingCard data={monthly_genre_stats} title="Top Monthly Genres" />
+          
+          
           <FloatingCard
             data={monthly_artist_stats}
             title="Top Monthly Artists"

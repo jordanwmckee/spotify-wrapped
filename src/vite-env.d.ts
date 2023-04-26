@@ -55,6 +55,14 @@ interface RecommendedItems {
   following?: boolean;
 }
 
+interface FloatingCardProps {
+  data: {
+    name: string;
+    count: number;
+  }[];
+  title: string;
+}
+
 //----------------------
 // PROPS INTERFACES
 
@@ -83,11 +91,6 @@ interface TitleCardProps extends PageTitleProps {}
 interface TopCardProps {
   title: string;
   list: TopItems[];
-}
-
-interface FloatingCardProps {
-  data: any;
-  title: any;
 }
 
 interface RecommendedCardProps {

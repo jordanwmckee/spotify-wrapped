@@ -85,5 +85,4 @@ const FloatingCard = (props: FloatingCardProps) => {
     </div>
   );
 };
-
 export default FloatingCard;

@@ -101,7 +101,6 @@ const topGenres: string[] = [
   'American Folk Music'
 ];
 
-
 function findTopGenre(genre: string): string | undefined {
   const genreRegex = new RegExp(topGenres.join('|'), 'i');
   const match = genre.match(genreRegex);
@@ -111,10 +110,6 @@ function findTopGenre(genre: string): string | undefined {
     return undefined;
   }
 }
-
-
-
-
 
 /* Test function, I edit this function as I need to test numbers, by default its basically just
  * a typedef- for console.log(), but I do change it to manipulate and display data as I need
@@ -244,10 +239,6 @@ function sort_genres_and_rank(GenresArg: any) {
 
   return rankedGenres;
 }
-
-
-
-
 
 function sort_artists_and_rank(artistArg: any) {
   let ranked: any = [];
