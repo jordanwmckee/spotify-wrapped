@@ -22,6 +22,8 @@
   top: 0;
   /* bottom: 148px; */
   z-index: -1;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 .popupOpen {
   top: -350px;
@@ -92,7 +94,7 @@
 @media only screen and (min-width: 768px) {
   .popup {
     width: 500px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 0;
   }
 }
 
