@@ -46,7 +46,7 @@
   border-top: 1px solid lightgray;
   cursor: pointer;
 }
-#player .popupButton img {
+#player .popupImg {
   height: 20px;
 }
 /* end popup button */
@@ -64,9 +64,9 @@
   border-bottom: 1px solid lightgray;
   width: 100%;
 }
-.popup .recommended,
-.playlists p {
+.popup p {
   cursor: pointer;
+  color: var(--gray500);
 }
 .popup .recommended p:hover,
 .playlists p:hover {

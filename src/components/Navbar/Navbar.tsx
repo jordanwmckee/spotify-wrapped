@@ -8,6 +8,7 @@ import styles from './Navbar.module.css';
 import { spotifyApi } from 'spotify';
 import useToggleState from 'hooks/useToggleState';
 import { closeSidebar, toggleSidebar } from 'components/Sidebar/Sidebar';
+import secureLocalStorage from 'react-secure-storage';
 
 const Navbar = (props: NavBarProps) => {
   const { displayName, profilePic } = props;
@@ -16,7 +17,9 @@ const Navbar = (props: NavBarProps) => {
 
   const toggleBar = () => {
     // modify hambuger icon
-    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    document
+      .querySelector(`.${styles.hamburger}`)!
+      .classList.toggle(styles.active);
     const overlay = document.getElementById(styles.bodyOverlay)!;
     if (toggleSidebar())
       overlay.setAttribute('style', 'width: 0; opacity: 0; left: 0');
@@ -26,7 +29,9 @@ const Navbar = (props: NavBarProps) => {
 
   const closeBar = () => {
     // toggle hambuger active
-    document.querySelector(`.${styles.hamburger}`)!.classList.toggle('active');
+    document
+      .querySelector(`.${styles.hamburger}`)!
+      .classList.toggle(styles.active);
     closeSidebar();
     // remove overlay
     document
@@ -35,13 +40,13 @@ const Navbar = (props: NavBarProps) => {
   };
 
   // clear state & sessionStorage before logout
-  const logoutActions = async () => {
+  const handleLogout = async () => {
     spotifyApi.setAccessToken(null);
     // reset redux state
     dispatch(RESET());
     // remove tokens from store
-    localStorage.removeItem('SpotifyTokens');
-    window.location.replace(window.location.origin);
+    secureLocalStorage.clear();
+    window.location.replace(window.location.origin + '/spotify-wrapped/');
   };
 
   return (
@@ -72,12 +77,12 @@ const Navbar = (props: NavBarProps) => {
                 <img src={profilePic ? profilePic : DefaultPFP} alt="" />
                 <h3>{displayName ? displayName : 'User'}</h3>
               </div>
-              <div className={styles.options}>
+              {/* <div className={styles.options}>
                 <h4>Some Option</h4>
                 <h4>Another Option</h4>
-              </div>
+              </div> */}
               <div className={styles.logout}>
-                <h4 onClick={logoutActions}>Logout</h4>
+                <h4 onClick={handleLogout}>Logout</h4>
               </div>
             </div>
           )}

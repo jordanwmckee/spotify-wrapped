@@ -5,12 +5,13 @@
 
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Buffer } from 'buffer';
+import secureLocalStorage from 'react-secure-storage';
 
 // Spotify App Config
-const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT!;
-const redirectUri: string = import.meta.env.VITE_REDIRECT_URI!;
-const clientId: string = import.meta.env.VITE_CLIENT_ID!;
-const clientSecret: string = import.meta.env.VITE_CLIENT_SECRET!;
+const authEndpoint: string = import.meta.env.VITE_AUTH_ENDPOINT;
+const redirectUri: string = import.meta.env.VITE_REDIRECT_URI;
+const clientId: string = import.meta.env.VITE_CLIENT_ID;
+const clientSecret: string = import.meta.env.VITE_CLIENT_SECRET;
 
 var spotifyApi = new SpotifyWebApi();
 
@@ -20,8 +21,23 @@ const auth_query_params = new URLSearchParams({
   response_type: 'code',
   grant_type: 'authorization_code',
   client_id: clientId,
-  scope:
-    'streaming user-read-email user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-recently-played playlist-read-collaborative playlist-read-private user-read-currently-playing playlist-modify-public user-top-read user-read-private playlist-modify-private user-follow-modify user-follow-read',
+  scope: `streaming 
+     user-read-email 
+     user-library-read 
+     user-library-modify 
+     user-read-playback-state 
+     user-modify-playback-state 
+     user-read-recently-played 
+     playlist-read-collaborative 
+     playlist-read-private 
+     user-read-currently-playing 
+     playlist-modify-public 
+     user-top-read 
+     user-read-private 
+     playlist-modify-private 
+     user-follow-modify 
+     user-follow-read
+     ugc-image-upload`,
   redirect_uri: redirectUri,
 });
 
@@ -39,13 +55,12 @@ const addTokensToStore = (
   token: string,
   timeCreated: number
 ) => {
-  const currentToken: Token = {
-    refresh_token: refToken,
-    access_token: token,
-    time_created: timeCreated,
-  };
   if (refToken)
-    localStorage.setItem('SpotifyTokens', JSON.stringify(currentToken));
+    secureLocalStorage.setItem('SpotifyTokens', {
+      refresh_token: refToken,
+      access_token: token,
+      time_created: timeCreated,
+    });
 };
 
 /**
@@ -54,20 +69,22 @@ const addTokensToStore = (
  * @returns {boolean} True if tokens are found in localStorage, false otherwise
  */
 const checkForTokens = (): boolean => {
-  const tokenStore = localStorage.getItem('SpotifyTokens');
+  const tokenStore = secureLocalStorage.getItem('SpotifyTokens');
   if (tokenStore) return true;
   else return false;
 };
 
 /**
- * Get currentToken object from loacl storage
+ * Get currentToken object from local storage
  *
- * @returns {Token | null}
+ * @returns {Token | null} Token retrieved or null
  */
 const getTokensFromStore = (): Token | null => {
-  const auth: string = localStorage.getItem('SpotifyTokens')!;
-  if (!auth) return null;
-  else return JSON.parse(auth);
+  const auth = secureLocalStorage.getItem('SpotifyTokens');
+  if (auth && typeof auth === 'object') {
+    return auth;
+  }
+  return null;
 };
 
 /**
@@ -84,6 +101,27 @@ const isValidAccessToken = (): boolean => {
 };
 
 /**
+ * Use a given fetch body, make the request and return the json result
+ *
+ * @param {BodyInit} body The body of the fetch request
+ * @returns {Promise<any>} The json result of the request
+ */
+const tokenFetch = async (body: BodyInit): Promise<any> => {
+  return fetch('https://accounts.spotify.com/api/token', {
+    method: 'post',
+    body: body,
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+    },
+  }).then((res) => {
+    return res.json();
+  });
+};
+
+/**
  * Assumes the code from Spotify's callback is in the url
  * Use code from url to request an access_token and refresh_token from web api
  */
@@ -93,25 +131,14 @@ const fetchTokensFromCode = async () => {
   const code = urlParams.get('code');
 
   // execute fetch to get tokens from code
-  if (typeof code === 'string') {
+  if (code) {
     const body = new URLSearchParams({
       code: code,
       redirect_uri: redirectUri,
       grant_type: 'authorization_code',
     });
 
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'post',
-      body: body,
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        Authorization:
-          'Basic ' +
-          Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-      },
-    });
-
-    const data = await response.json();
+    const data = await tokenFetch(body);
     // add response tokens to stores
     addTokensToStore(data.refresh_token, data.access_token, Date.now());
     spotifyApi.setAccessToken(data.access_token);
@@ -121,7 +148,7 @@ const fetchTokensFromCode = async () => {
 };
 
 /**
- * Get refresh token from firebase, and use it to generate a new access token
+ * Get refresh token from store, and use it to generate a new access token
  */
 const refreshAuthToken = async () => {
   // check if access token is still valid first
@@ -132,7 +159,6 @@ const refreshAuthToken = async () => {
   } else {
     console.log('No valid token detected.');
   }
-
   if (!auth?.refresh_token) return;
 
   var body = new URLSearchParams({
@@ -140,84 +166,63 @@ const refreshAuthToken = async () => {
     refresh_token: auth.refresh_token,
   });
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'post',
-    body: body,
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-      Authorization:
-        'Basic ' +
-        Buffer.from(clientId + ':' + clientSecret).toString('base64'),
-    },
-  });
-
-  const data = await response.json();
+  const data = await tokenFetch(body);
   console.log('New access token generated.');
   addTokensToStore(auth.refresh_token, data.access_token, Date.now());
   spotifyApi.setAccessToken(data.access_token);
-  // refreshCycle(user);
 };
 
-/**
- * Run refreshAuthToken every hour to generate new token
- *
- * @param {User} user Returned from useAuthState
- */
-// const refreshCycle = (user: User) => {
-//   setInterval(refreshAuthToken, 1000 * 59 * 59, user);
+// /**
+//  * Refresh user's access token every hour before expiration
+//  */
+// const setRefreshTimer = () => {
+//   refreshAuthToken();
+//   setInterval(setRefreshTimer, 1000 * 60 * 60);
 // };
 
 /**
  * Get array of URIs to use for Spotify Playback SDK
  *
- * @returns {string[], RecommendedItems[]} The URIS for the Player to use
+ * @returns {object} {urisArr: string[]; tracksArr: RecommendedItems[]} The URIS for the Player to use
  */
-const getRecommendedTracks = async (): Promise<{
+const getRecommendedTracks = async (
+  seedTracks: string
+): Promise<{
   urisArr: string[];
   tracksArr: RecommendedItems[];
 }> => {
-  var urisArr: string[] = [];
-  var tracksArr: RecommendedItems[] = [];
   try {
-    // Get seed tracks for recommendations
-    const top5Tracks = await spotifyApi.getMyTopTracks({
-      time_range: 'short_term',
-      limit: '5',
-    });
-    let seeds = '';
-    top5Tracks.items.forEach((track) => {
-      seeds += track.id + ',';
-    });
-    seeds = seeds.slice(0, -1);
-
     // Get recommendations using seeds
     const recommendations = await spotifyApi.getRecommendations({
-      seed_tracks: seeds,
-      limit: 100,
+      seed_tracks: seedTracks,
+      limit: 50,
     });
 
-    if (recommendations) {
-      // Use Promise.all() to wait for all of the promises inside the forEach loop to resolve
-      await Promise.all(
-        recommendations.tracks.map(async (track) => {
-          // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
-          let currentImage = (await spotifyApi.getTrack(track.id)).album
-            .images[0].url;
-          let data: RecommendedItems = {
-            name: track.name,
-            image: currentImage,
-            uri: track.uri,
-            id: track.id,
-          };
-          tracksArr.push(data);
-          urisArr.push(track.uri);
-        })
-      );
-    }
+    var urisArr: string[] = [];
+    var tracksArr: RecommendedItems[] = [];
+    // Use Promise.all() to wait for all of the promises inside the map function to resolve
+    await Promise.all(
+      recommendations.tracks.map(async (track) => {
+        // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
+        const album = (await spotifyApi.getTrack(track.id)).album;
+        const image = album.images[0].url;
+
+        const recommendedTrack: RecommendedItems = {
+          name: track.name,
+          image,
+          uri: track.uri,
+          id: track.id,
+        };
+
+        tracksArr.push(recommendedTrack);
+        urisArr.push(track.uri);
+      })
+    );
+    return { urisArr, tracksArr };
   } catch (err) {
     console.error(err);
+    return { urisArr: [], tracksArr: [] };
   }
-  return Promise.resolve({ urisArr, tracksArr });
 };
 
 /**
@@ -225,229 +230,94 @@ const getRecommendedTracks = async (): Promise<{
  *
  * @returns {RecommendedItems[]} Array of recommended artists for user
  */
-const getRecommendedArtists = async (): Promise<RecommendedItems[]> => {
-  var recommendedArtists: RecommendedItems[] = [];
+const getRecommendedArtists = async (
+  seedArtist: string
+): Promise<RecommendedItems[]> => {
   try {
-    // get seedArtist
-    const seedArtistRes = await spotifyApi.getMyTopArtists({
-      time_range: 'short_term',
-      limit: '1',
-    });
-    const seedArtist = seedArtistRes.items[0].id;
-    // get related artists
     const relatedArtistsRes = await spotifyApi.getArtistRelatedArtists(
-      seedArtist
-    );
-    if (relatedArtistsRes) {
-      // loop through related artists and add to return array
-      for (const artist of relatedArtistsRes.artists) {
-        let data: RecommendedItems = {
-          name: artist.name,
-          image: artist.images[0].url,
-          uri: artist.uri,
-          id: artist.id,
-          following: (await spotifyApi.isFollowingArtists([artist.id]))[0]
-            ? true
-            : false,
-        };
-        recommendedArtists.push(data);
+      seedArtist,
+      {
+        limit: 20,
       }
-    }
+    );
+
+    const artistIds = relatedArtistsRes.artists.map((artist) => artist.id);
+    const followingArtists = await spotifyApi.isFollowingArtists(artistIds);
+
+    const recommendedArtists = relatedArtistsRes.artists.map(
+      (artist, index) => ({
+        name: artist.name,
+        image: artist.images[0].url,
+        uri: artist.uri,
+        id: artist.id,
+        following: followingArtists[index],
+      })
+    );
+
+    return recommendedArtists;
   } catch (err) {
     console.error(err);
+    return [];
   }
-  return Promise.resolve(recommendedArtists);
 };
 
 /**
- * Make api call to get top songs and artists based on parameters passed
+ * Make api call to get top songs, artists, and genres based on parameter seeds
  *
  * @param {object} params The parameters to use in the api call
- * @returns {TopItems[], TopItems[]} Arrays for the top artists and songs based on given params
+ * @returns {object} {topTracks: TopItems[]; topArtists: TopItems[]; topGenres: string[][]}
+ * Arrays for the top artists and songs based on given params
  */
 const getTopItems = async (
   params: object
 ): Promise<{
   topTracks: TopItems[];
   topArtists: TopItems[];
+  topGenres: string[][];
 }> => {
-  var topTracksArr: TopItems[] = [];
-  var topArtistsArr: TopItems[] = [];
   try {
-    // get top items
-    const topTracksRes = await spotifyApi.getMyTopTracks(params);
-    const topArtistsRes = await spotifyApi.getMyTopArtists(params);
-    // convert requests into objects for TopCard component
-    if (topTracksRes) {
-      topTracksRes.items.forEach((track) => {
-        let data = {
-          name: track.name,
-          image: track.album.images[0].url,
-          uri: track.uri,
-        };
-        topTracksArr.push(data);
-      });
-    }
-    if (topArtistsRes) {
-      topArtistsRes.items.forEach((artist) => {
-        let data = {
-          name: artist.name,
-          image: artist.images[0].url,
-          id: artist.id,
-        };
-        topArtistsArr.push(data);
-      });
-    }
+    const [topTracksRes, topArtistsRes] = await Promise.all([
+      spotifyApi.getMyTopTracks(params),
+      spotifyApi.getMyTopArtists(params),
+    ]);
+
+    const topTracks: TopItems[] = topTracksRes.items.map((track) => ({
+      name: track.name,
+      image: track.album.images[0]?.url || '',
+      uri: track.uri,
+      id: track.id,
+      artist: track.artists,
+    }));
+
+    const topArtists: TopItems[] = topArtistsRes.items.map((artist) => ({
+      name: artist.name,
+      image: artist.images[0].url,
+      uri: artist.uri,
+      id: artist.id,
+    }));
+
+    // get genres for top artists
+    const artistIds = topTracksRes.items.flatMap((track) =>
+      track.artists.map((artist) => artist.id)
+    );
+    if (artistIds.length > 50) artistIds.length = 50; // trim down to 50 if longer
+    const topGenres = (await spotifyApi.getArtists(artistIds)).artists.map(
+      (artist) => artist.genres
+    );
+
+    return {
+      topTracks,
+      topArtists,
+      topGenres,
+    };
   } catch (err) {
     console.error(err);
+    return {
+      topTracks: [],
+      topArtists: [],
+      topGenres: [],
+    };
   }
-  return Promise.resolve({
-    topTracks: topTracksArr,
-    topArtists: topArtistsArr,
-  });
-};
-
-/**
- * make api call to get the last 50 listened to tracks and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getRecentListens = async (
-  params: object
-): Promise<{
-  listenHistory: Listens[];
-  genresArr: object[];
-}> => {
-  var listenHistoryArr: Listens[] = [];
-  var genresList: object[] = [];
-  var holder: string[] = [];
-  try {
-    // get last 50 listened tracks
-    const recentListensRes = await spotifyApi.getMyRecentlyPlayedTracks(params);
-    if (recentListensRes) {
-      recentListensRes.items.forEach((track) => {
-        let data = {
-          id: track.track.id,
-          name: track.track.name,
-          artist: track.track.artists,
-        };
-        listenHistoryArr.push(data);
-      });
-      listenHistoryArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        genresList.push(junkVar.genres);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  return Promise.resolve({
-    listenHistory: listenHistoryArr,
-    genresArr: genresList,
-  });
-};
-
-/**
- * make api call to get the top 50 listened to tracks in the last month
- * and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getMonthlyListens = async (
-  params: object
-): Promise<{
-  topMonthly: Listens[];
-  TopMonthGenres: object[];
-}> => {
-  var monthlyListensArr: Listens[] = [];
-  var monthlyGenresList: object[] = [];
-  var holder: string[] = [];
-  try {
-    // get last 50 listened tracks
-    const monthlyListensRes = await spotifyApi.getMyTopTracks(params);
-    if (monthlyListensRes) {
-      monthlyListensRes.items.forEach((track) => {
-        let data = {
-          id: track.id,
-          name: track.name,
-          artist: track.artists,
-        };
-        monthlyListensArr.push(data);
-      });
-      monthlyListensArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        monthlyGenresList.push(junkVar.genres);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  return Promise.resolve({
-    topMonthly: monthlyListensArr,
-    TopMonthGenres: monthlyGenresList,
-  });
-};
-
-/**
- * make api call to get the top 50 listened to tracks in the last several years
- * and associate genres
- *
- * @param {object} params
- * @returns {Listens[], object[]} Arrays for the recently listened and song data
- */
-const getAlltimeListens = async (
-  params: object
-): Promise<{
-  allTListens: Listens[];
-  allTGenres: object[];
-}> => {
-  var allTimeListensArr: Listens[] = [];
-  var allTimeGenresList: object[] = [];
-  var holder: string[] = [];
-  try {
-    // get last 50 listened tracks
-    const recentListensRes = await spotifyApi.getMyTopTracks(params);
-    if (recentListensRes) {
-      recentListensRes.items.forEach((track) => {
-        let data = {
-          id: track.id,
-          name: track.name,
-          artist: track.artists,
-        };
-        allTimeListensArr.push(data);
-      });
-      allTimeListensArr.forEach((object) => {
-        let junk = object.artist;
-        junk.forEach((artist) => {
-          holder.push(artist.id);
-        });
-      });
-      for (let index = 0; index < holder.length; index++) {
-        let junkVar = await spotifyApi.getArtist(holder[index]);
-        allTimeGenresList.push(junkVar.genres);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  return Promise.resolve({
-    allTListens: allTimeListensArr,
-    allTGenres: allTimeGenresList,
-  });
 };
 
 /**
@@ -455,24 +325,19 @@ const getAlltimeListens = async (
  *
  * @returns {Playlists[]} An array of objects for each user playlist
  */
-const getUserPlaylists = async (): Promise<Playlists[]> => {
-  var playlists: Playlists[] = [];
+const getUserPlaylists = async (): Promise<Playlist[]> => {
   try {
     const res = await spotifyApi.getUserPlaylists();
-    if (playlists) {
-      res.items.forEach((playlist) => {
-        let data = {
-          name: playlist.name,
-          uri: playlist.uri,
-          id: playlist.id,
-        };
-        playlists.push(data);
-      });
-    }
+    const playlists = res.items.map((playlist) => ({
+      name: playlist.name,
+      uri: playlist.uri,
+      id: playlist.id,
+    }));
+    return playlists;
   } catch (err) {
     console.error(err);
+    return []; // return an empty array on error
   }
-  return Promise.resolve(playlists);
 };
 
 export {
@@ -482,12 +347,9 @@ export {
   checkForTokens,
   getTokensFromStore,
   refreshAuthToken,
-  // refreshCycle,
+  // setRefreshTimer,
   getRecommendedTracks,
   getRecommendedArtists,
   getTopItems,
-  getRecentListens,
-  getMonthlyListens,
-  getAlltimeListens,
   getUserPlaylists,
 };

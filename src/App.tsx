@@ -13,12 +13,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'context/store';
 import Player from 'components/Player/Player';
 import Discover from 'pages/Discover/Discover';
-import Create from 'pages/Create/Create';
 import LoadScreen, {
   clearLoadingScreen,
 } from 'components/LoadScreen/LoadScreen';
 import useFetchData from 'hooks/useFetchData';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // used for auth
@@ -31,15 +32,12 @@ function App() {
   const {
     displayName,
     profilePic,
+    userId,
     monthlyArtists,
     monthlySongs,
     allTimeArtists,
     allTimeSongs,
-    recentListens,
-    recentGenres,
-    monthlyListens,
     monthlyGenres,
-    allTimeListens,
     allTimeGenres,
     userPlaylists,
     recommendedArtists,
@@ -47,38 +45,22 @@ function App() {
     getData,
   } = useFetchData();
 
+  const handleAuth = async () => {
+    // validate token
+    let isLinked = checkForTokens();
+    if (isLinked === false && window.location.search.includes('code')) {
+      await fetchTokensFromCode();
+      isLinked = true;
+    }
+    setLinked(isLinked);
+
+    // fetch data from web api if valid token
+    if (isLinked) await getData();
+    clearLoadingScreen();
+  };
+
   useEffect(() => {
-    // create a variable to store a cleanup function
-    let unmounted = false;
-    let tokenDetected: boolean = false;
-
-    // try to fetch data from web api
-    const tryFetchData = async () => {
-      if (!unmounted) await getData();
-      clearLoadingScreen();
-    };
-
-    // check for valid Spotify tokens
-    const checkToken = async () => {
-      let isLinked = checkForTokens();
-      if (isLinked === false && window.location.search.includes('code')) {
-        await fetchTokensFromCode();
-        isLinked = true;
-      }
-      if (isLinked) tokenDetected = true;
-      if (!unmounted) {
-        setLinked(isLinked);
-      }
-    };
-
-    checkToken();
-    if (tokenDetected) tryFetchData();
-    else clearLoadingScreen();
-
-    // cleanup function to set unmounted flag
-    return () => {
-      unmounted = true;
-    };
+    handleAuth();
   }, []);
 
   return (
@@ -87,7 +69,20 @@ function App() {
         // Routes rendered if user account detected
         <>
           <LoadScreen />
-          <Router>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            limit={2}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+          <Router basename="/spotify-wrapped">
             <Navbar displayName={displayName} profilePic={profilePic} />
             <Sidebar />
             {recommendUris && playerUris && (
@@ -104,6 +99,8 @@ function App() {
                       monthlySongs={monthlySongs}
                       allTimeArtists={allTimeArtists}
                       allTimeSongs={allTimeSongs}
+                      userId={userId}
+                      playlists={userPlaylists}
                     />
                   }
                 />
@@ -111,11 +108,9 @@ function App() {
                   path="/analytics"
                   element={
                     <Analytics
-                      recentListens={recentListens}
-                      recentGenres={recentGenres}
-                      monthlyListens={monthlyListens}
+                      monthlySongs={monthlySongs}
                       monthlyGenres={monthlyGenres}
-                      allTimeListens={allTimeListens}
+                      allTimeSongs={allTimeSongs}
                       allTimeGenres={allTimeGenres}
                     />
                   }
@@ -130,7 +125,6 @@ function App() {
                     />
                   }
                 />
-                <Route path="/create" element={<Create />} />
                 <Route
                   path="*"
                   element={
@@ -153,7 +147,7 @@ function App() {
         <>
           <LoadScreen />
           <div id="home-content">
-            <Router>
+            <Router basename="/spotify-wrapped">
               <HomeNavbar />
               <Routes>
                 <Route path="/" element={<Home />} />

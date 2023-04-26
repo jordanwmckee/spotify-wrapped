@@ -16,10 +16,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     SET_RECOMMEND_URIS: (state, action: PayloadAction<string[]>) => {
-      state.recommendUris = [...action.payload];
+      state.recommendUris = action.payload;
     },
     SET_PLAYER_URIS: (state, action: PayloadAction<string[]>) => {
-      state.playerUris = [...action.payload];
+      state.playerUris = action.payload;
     },
     RESET: () => {
       return { ...initialState };
