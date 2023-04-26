@@ -64,6 +64,8 @@ Some features include:
 - Listen while you browse - you can listen to recommended songs, your top songs, or even from your playlists!
 - Add recommended songs to your playlists or follow recommended artists
 
+*NOTE: the app is still in development mode and only authorized users are permitted to use the Spotify Web Api and Playback SDK at the moment*
+
 ### Built With
 
 <p align="center">
