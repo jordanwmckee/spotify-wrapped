@@ -6,6 +6,8 @@
 *** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
 *** See the bottom of this document for the declaration of the reference variables
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
+
+*** Framework Icons from https://github.com/tandpfun/skill-icons
 -->
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -58,8 +60,11 @@
 
 ### Built With
 
-- [![React][react.js]][react-url]
-- [![Bootstrap][bootstrap.com]][bootstrap-url]
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,vite,ts,redux,css,firebase" />
+  </a>
+</p>
 
 <!-- CONTRIBUTING -->
 
