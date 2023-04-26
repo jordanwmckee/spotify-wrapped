@@ -12,7 +12,6 @@
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -24,9 +23,7 @@
 <h3 align="center">Wrapped Monthly</h3>
 
   <p align="center">
-    Wrapped Monthly offers its users a comprehensive overview of their Spotify analytics on a monthly basis. 
-    Some features include: playlist generation based on top listened songs, a monthly report of listening 
-    statistics, a custom self-managing "current" playlist, and much more ...
+    Your top Spotify analytics every month.
     <br /><br />
     <a href="https://github.com/jordanwmckee/spotify-wrapped"><strong>Explore the docs »</strong></a>
     <br />
@@ -47,7 +44,6 @@
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -56,9 +52,23 @@
 
 ## About The Project
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[![Wrapped Monthly Screen Shot][product-screenshot]](https://jordanwmckee.github.io/spotify-wrapped)
+
+Wrapped Monthly offers its users a comprehensive overview of their Spotify analytics on a monthly basis.
+
+Some features include:
+
+- View your top songs and artists for each month and of all time
+- View a breakdown of your top genres in a pie chart
+- Export your top songs from a given time-range into a playlist
+- Listen while you browse - you can listen to recommended songs, your top songs, or even from your playlists!
+- Add recommended songs to your playlists or follow recommended artists
 
 ### Built With
+
+<p align="center">
+  <i>In addition to the Spotify Web Api and Playback SDK</i>
+</p>
 
 <p align="center">
   <a href="https://skillicons.dev">
@@ -92,14 +102,6 @@ All actions must pass in order for a PR to be merged, and code must be reviewed 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- CONTACT -->
 
 ## Contact
@@ -117,10 +119,4 @@ Project Link: [https://github.com/jordanwmckee/spotify-wrapped](https://github.c
 [contributors-url]: https://github.com/jordanwmckee/spotify-wrapped/graphs/contributors
 [issues-shield]: https://img.shields.io/github/issues/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
 [issues-url]: https://github.com/jordanwmckee/spotify-wrapped/issues
-[license-shield]: https://img.shields.io/github/license/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
-[license-url]: https://github.com/jordanwmckee/spotify-wrapped/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
-[react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[react-url]: https://reactjs.org/
-[bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[bootstrap-url]: https://getbootstrap.com
