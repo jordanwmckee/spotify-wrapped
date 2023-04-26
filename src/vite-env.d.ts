@@ -51,6 +51,14 @@ interface RecommendedItems {
   following?: boolean;
 }
 
+interface FloatingCardProps {
+  data: {
+    name: string;
+    count: number;
+  }[];
+  title: string;
+}
+
 //----------------------
 // PROPS INTERFACES
 
@@ -82,11 +90,6 @@ interface TopCardProps {
   userId?: string;
   playlists?: Playlist[];
   timeFrame: 'month' | 'all-time' | 'recommended';
-}
-
-interface FloatingCardProps {
-  data: any;
-  title: any;
 }
 
 interface RecommendedCardProps {
