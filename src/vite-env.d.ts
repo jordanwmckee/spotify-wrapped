@@ -81,7 +81,7 @@ interface TopCardProps {
   list: TopItems[];
   userId?: string;
   playlists?: Playlist[];
-  timeFrame?: 'month' | 'all-time';
+  timeFrame: 'month' | 'all-time' | 'recommended';
 }
 
 interface FloatingCardProps {
@@ -95,11 +95,19 @@ interface RecommendedCardProps {
   userPlaylists: Playlist[];
   type: 'artists' | 'tracks';
   length: number;
+  userId?: string;
 }
 
 interface AddSongDropdownProps extends PlayerProps {
   uri: string;
   id: string;
+}
+
+interface CreatePlaylistButtonProps {
+  list?: TopItems[];
+  playlists?: Playlist[];
+  userId?: string;
+  type: 'month' | 'all-time' | 'recommended';
 }
 
 // Pages
@@ -124,4 +132,5 @@ interface DiscoverProps {
   recommendedArtists?: RecommendedItems[];
   recommendedSongs?: RecommendedItems[];
   userPlaylists?: Playlist[];
+  userId?: string;
 }

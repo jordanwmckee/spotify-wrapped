@@ -7,9 +7,10 @@ import { SET_PLAYER_URIS } from 'context/user';
 import { spotifyApi } from 'spotify';
 import AddSongDropdown from 'components/AddSongDropdown/AddSongDropdown';
 import { toast } from 'react-toastify';
+import CreatePlaylistButton from 'components/CreatePlaylistButton/CreatePlaylistButton';
 
 const RecommendedCard = (props: RecommendedCardProps) => {
-  const { title, list, userPlaylists, type, length } = props;
+  const { title, list, userPlaylists, type, length, userId } = props;
   const dispatch = useDispatch();
 
   // follow/unfollow artist based on following status
@@ -34,6 +35,14 @@ const RecommendedCard = (props: RecommendedCardProps) => {
     <div className={styles.recommendedCard}>
       <div className={styles.recommendedCardTitle}>
         <h2>{title}</h2>
+        {type === 'tracks' && (
+          <CreatePlaylistButton
+            list={list}
+            playlists={userPlaylists}
+            userId={userId}
+            type="recommended"
+          />
+        )}
       </div>
       <div className={styles.recommendedCardList}>
         {list.slice(0, length).map((data) => (

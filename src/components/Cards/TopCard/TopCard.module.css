@@ -20,14 +20,6 @@
   font-size: 20px;
   color: var(--gray800);
 }
-.topCardTitle img {
-  height: 25px;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  cursor: pointer;
-  padding: 5px;
-}
 .topCardList {
   padding: 10px;
   width: calc(100% - 20px);

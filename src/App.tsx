@@ -122,6 +122,7 @@ function App() {
                       recommendedArtists={recommendedArtists}
                       recommendedSongs={recommendedSongs}
                       userPlaylists={userPlaylists}
+                      userId={userId}
                     />
                   }
                 />

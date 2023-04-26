@@ -12,6 +12,7 @@
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   height: 40px;
+  position: relative;
 }
 .recommendedCardTitle h2 {
   font-size: 20px;
