@@ -22,7 +22,11 @@ const Dashboard = (props: DashboardProps) => {
       <div className={styles.dashboard}>
         {monthlyArtists && monthlySongs && (
           <>
-            <TopCard list={monthlyArtists} title="Top Artists this Month" />
+            <TopCard
+              list={monthlyArtists}
+              title="Top Artists this Month"
+              timeFrame="month"
+            />
             <TopCard
               list={monthlySongs}
               title="Top Tracks this Month"
@@ -34,7 +38,11 @@ const Dashboard = (props: DashboardProps) => {
         )}
         {allTimeArtists && allTimeSongs && (
           <>
-            <TopCard list={allTimeArtists} title="Top Artists All Time" />
+            <TopCard
+              list={allTimeArtists}
+              title="Top Artists All Time"
+              timeFrame="all-time"
+            />
             <TopCard
               list={allTimeSongs}
               title="Top Tracks All Time"
