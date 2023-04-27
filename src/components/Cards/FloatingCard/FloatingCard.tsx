@@ -1,5 +1,4 @@
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts';
-import { Card, Title, DonutChart } from "@tremor/react";
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import styles from './FloatingCard.module.css';
 
@@ -20,7 +19,7 @@ const FloatingCard = (props: FloatingCardProps) => {
       <div className={styles.floatingCardTitle}>
         <h2>{title}</h2>
       </div>
-      <div className={styles.floatingCardGraph}>  
+      <div className={styles.floatingCardGraph}>
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie
@@ -38,13 +37,13 @@ const FloatingCard = (props: FloatingCardProps) => {
                 innerRadius,
                 outerRadius,
                 value,
-                index
+                index,
               }) => {
                 const RADIAN = Math.PI / 180;
                 const radius = 25 + innerRadius + (outerRadius - innerRadius);
                 const x = cx + radius * Math.cos(-midAngle * RADIAN);
                 const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                return (value > 5) ? (
+                return value > 5 ? (
                   <text
                     x={x}
                     y={y}
@@ -58,7 +57,10 @@ const FloatingCard = (props: FloatingCardProps) => {
               }}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={schemeCategory10[index % schemeCategory10.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={schemeCategory10[index % schemeCategory10.length]}
+                />
               ))}
             </Pie>
           </PieChart>

@@ -98,7 +98,7 @@ const topGenres: string[] = [
   'Irish Music',
   'Scottish Music',
   'English Folk Music',
-  'American Folk Music'
+  'American Folk Music',
 ];
 
 function findTopGenre(genre: string): string | undefined {
@@ -164,7 +164,6 @@ function get_percentages(objArr: any, total: any) {
 }
 
 function prune(array: any, total: any) {
-  let indexes = [];
   var oth_obj = {
     name: 'other',
     count: 0,
@@ -203,10 +202,9 @@ function sort_genres_and_rank(GenresArg: any) {
     return [];
   }
 
-  const genreCounts: {[key: string]: number} = {};
+  const genreCounts: { [key: string]: number } = {};
 
   GenresArg.forEach((song: any) => {
-    console.log(song);
     if (typeof song === 'string') {
       const cleanedGenre = findTopGenre(song) || 'other';
       if (!genreCounts[cleanedGenre]) {

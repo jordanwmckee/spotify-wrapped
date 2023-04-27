@@ -1,20 +1,17 @@
-import { PieChart, Pie, Sector, Cell } from 'recharts';
 import PageTitle from 'components/PageTitle/PageTitle';
-import styles from './Analytics.module.css';
 import {
   sort_artists_and_rank,
   sort_genres_and_rank,
-  test,
 } from 'pages/Analytics/Calculations';
 import FloatingCard from 'components/Cards/FloatingCard/FloatingCard.js';
 import { useEffect, useState } from 'react';
 
 const Analytics = (props: AnalyticsProps) => {
   const { monthlySongs, monthlyGenres, allTimeSongs, allTimeGenres } = props;
-  const [monthlyGenreStats, setMonthlyGenreStats] = useState<string[][]>();
-  const [monthlyArtistStats, setMonthlyArtistStats] = useState<TopItems[]>();
-  const [allTimeGenreStats, setAllTimeGenreStats] = useState<string[][]>();
-  const [allTimeArtistStats, setAllTimeArtistStats] = useState<TopItems[]>();
+  const [monthlyGenreStats, setMonthlyGenreStats] = useState<any>();
+  const [monthlyArtistStats, setMonthlyArtistStats] = useState<any>();
+  const [allTimeGenreStats, setAllTimeGenreStats] = useState<any>();
+  const [allTimeArtistStats, setAllTimeArtistStats] = useState<any>();
 
   useEffect(() => {
     monthlyGenres && setMonthlyGenreStats(sort_genres_and_rank(monthlyGenres));
