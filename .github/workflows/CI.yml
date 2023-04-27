@@ -34,11 +34,7 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install dependencies
-        run: |
-          npm install
-          mv node_modules/react-secure-storage/dist/types.d.ts node_modules/react-secure-storage/dist/types.ts
-          sed -i '2d' node_modules/@svgr/core/dist/index.d.ts
-          sed -i 's/svgoConfig?: OptimizeOptions/svgoConfig?: Options/g' node_modules/@svgr/core/dist/index.d.ts
+        run: npm install
       - name: Build
         run: npm run build
         env:
