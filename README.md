@@ -10,7 +10,6 @@
 *** Framework Icons from https://github.com/tandpfun/skill-icons
 -->
 
-[![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
 
 <!-- PROJECT LOGO -->
@@ -117,8 +116,6 @@ Project Link: [https://github.com/jordanwmckee/spotify-wrapped](https://github.c
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
-[contributors-url]: https://github.com/jordanwmckee/spotify-wrapped/graphs/contributors
 [issues-shield]: https://img.shields.io/github/issues/jordanwmckee/spotify-wrapped.svg?style=for-the-badge
 [issues-url]: https://github.com/jordanwmckee/spotify-wrapped/issues
 [product-screenshot]: images/screenshot.png
