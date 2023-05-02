@@ -205,7 +205,7 @@ const getRecommendedTracks = async (
       recommendations.tracks.map(async (track) => {
         // get album image for track (RecommendationsFromSeedsResponse does not contain all required info)
         const album = (await spotifyApi.getTrack(track.id)).album;
-        const image = album.images[0].url;
+        const image = album.images[0]?.url || '';
 
         const recommendedTrack: RecommendedItems = {
           name: track.name,
@@ -247,7 +247,7 @@ const getRecommendedArtists = async (
     const recommendedArtists = relatedArtistsRes.artists.map(
       (artist, index) => ({
         name: artist.name,
-        image: artist.images[0].url,
+        image: artist.images[0]?.url || '',
         uri: artist.uri,
         id: artist.id,
         following: followingArtists[index],
@@ -291,7 +291,7 @@ const getTopItems = async (
 
     const topArtists: TopItems[] = topArtistsRes.items.map((artist) => ({
       name: artist.name,
-      image: artist.images[0].url,
+      image: artist.images[0]?.url || '',
       uri: artist.uri,
       id: artist.id,
     }));
