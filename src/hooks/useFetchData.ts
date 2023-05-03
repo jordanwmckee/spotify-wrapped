@@ -68,7 +68,7 @@ const useFetchData = (): FetchDataResult => {
       // handle errors and update state with the results
       if (userAccountResult.status === 'fulfilled') {
         setDisplayName(userAccountResult.value.display_name || '');
-        setProfilePic(userAccountResult.value.images![0].url || '');
+        setProfilePic(userAccountResult.value.images[0]?.url || '');
         setUserId(userAccountResult.value.id || '');
       }
 
